@@ -1,11 +1,11 @@
 package grupp6.djurspelet.animal;
 
-class Horse extends Animal{
+public class Horse extends Animal{
 
 
 
-    public Horse(String name, Gender gender){
-        super(name, gender, 30);
+    public Horse(String name, int gender){
+        super(name, gender, 30, 1000); // added price
     }
 
 

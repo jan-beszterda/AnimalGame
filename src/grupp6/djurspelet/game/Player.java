@@ -1,7 +1,9 @@
 package grupp6.djurspelet.game;
 
+import com.sun.jdi.VMOutOfMemoryException;
 import grupp6.djurspelet.animal.Animal;
 import grupp6.djurspelet.food.Food;
+import grupp6.djurspelet.utilities.Dialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,11 +23,16 @@ public class Player {
     }
 
     public void buyAnimal(Store store) {
-
+        int choice = Dialog.showDialog("Animals in stock", store.getProductNames("animal"));
+        String name = Dialog.readStringInput("What do you want to name this animal to: ");
+        int gender = Dialog.showDialog("What gender should the animal have: ", "MALE", "FEMALE");
+        Animal a = store.sellAnimal(choice, name, gender);
+        //money -= a.getPrice();
+        animalsOwned.add(a);
     }
 
     public void buyFodder(Store store) {
-
+        Dialog.showDialog("Fodder in stock", store.getProductNames("fodder"));
     }
 
     public void sellAnimal() {
