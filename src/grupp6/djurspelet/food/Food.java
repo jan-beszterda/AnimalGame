@@ -2,9 +2,13 @@ package grupp6.djurspelet.food;
 
 public abstract class Food {
 
-    public String name;
-    public int pricePerKilo;
+    private String name;
 
-    public abstract String getName();
-    public abstract int getPricePerKilo();
+    public Food(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
