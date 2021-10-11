@@ -18,7 +18,7 @@ class Horse extends Animal{
     public void mate(Animal animalToMateWith) {
         if(this.getClass() == animalToMateWith.getClass() && !this.getGender().equals(animalToMateWith.getGender())){
             //Horse horse = new Horse(); // 50% chance
-
+            //if mating success return something for example 1/true
         }
 
     }

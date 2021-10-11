@@ -33,7 +33,9 @@ public class Player {
     }
 
     public void attemptToMateAnAnimal() {
-
+        // if animal.mate(other animal) returned 1
+        // create a new animal here new animal() and add it to the list
+        // else print unsuccessful mating attempt
     }
 
     public void feedAnAnimal() {
