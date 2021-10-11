@@ -4,11 +4,8 @@ class Horse extends Animal{
 
 
 
-    public Horse(String name, Gender gender, int health, int age ){
-        this.name = name;
-        this.gender = gender;
-        this.health = super.health;
-        this.age = 30;
+    public Horse(String name, Gender gender){
+        super(name, gender, 30);
     }
 
 
@@ -19,9 +16,9 @@ class Horse extends Animal{
 
 
     public void mate(Animal animalToMateWith) {
-        if(this.getClass() == animalToMateWith.getClass() && !this.gender.equals(animalToMateWith.gender)){
-            Horse horse = new Horse(); // 50% chance
-            Horse.super.setName();
+        if(this.getClass() == animalToMateWith.getClass() && !this.getGender().equals(animalToMateWith.getGender())){
+            //Horse horse = new Horse(); // 50% chance
+
         }
 
     }

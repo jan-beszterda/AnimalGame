@@ -8,16 +8,20 @@ public abstract class Animal {
     enum Gender {
         MALE, FEMALE
     }
-    Random random = new Random();
+    private Random random = new Random();
 
-    public String name;
-    public Gender gender;
-    public int age;
-    public int health = 100;
-    public int randomNumber = (random.nextInt(3)+1)*10; // random number between 10 and 30
+    private String name;
+    private Gender gender;
+    private int age; // varje djur börjar på ålder 0
+    private int maxAge; // varje djurtyp har separat max ålder till exempel 30
+    private int health = 100;
 
 
-
+    public Animal(String name, Gender gender, int maxAge) {
+        this.name = name;
+        this.gender = gender;
+        this.maxAge = maxAge;
+    }
 
     public abstract void eat();
     public abstract void mate(Animal animal);
@@ -25,23 +29,32 @@ public abstract class Animal {
 
 
 
-    public int getOlder() {
-        health = health - randomNumber;
-        if (health > 0) {
-            return health;
-        } else {
-            //Ta bort djuret från players list!!!
-            printDeath();
+    public void getOlder() {
+        age += 1;
+        if (age > maxAge) {
+            die();
         }
+    }
+
+    public void diminishHealth() {
+        int randomNumber = (random.nextInt(3)+1)*10; // random number between 10 and 30
+        health = health - randomNumber;
+        if (health <= 0) {
+            die();
+        }
+    }
+
+    private void die() {
+        // See later how to do this
     }
 
     public String getName(){
         return name;
     }
 
-    public void setName() {
-        this.name = name;
-    }
 
+    public Gender getGender() {
+        return this.gender;
+    }
 
 }
