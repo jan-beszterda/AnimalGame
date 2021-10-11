@@ -24,10 +24,10 @@ public abstract class Animal {
     }
 
     public abstract void eat();
-    public abstract void mate(Animal animal);
+    public abstract void mate(Animal animal); // check if it's possible to develop this method here, think how new animal is created
     public abstract void printDeath();
 
-
+    //method for increasing health when animal eats health increases by 10%
 
     public void getOlder() {
         age += 1;
