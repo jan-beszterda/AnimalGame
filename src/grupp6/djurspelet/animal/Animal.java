@@ -1,5 +1,7 @@
 package grupp6.djurspelet.animal;
 
+import grupp6.djurspelet.food.Food;
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -8,25 +10,33 @@ public abstract class Animal {
     enum Gender {
         MALE, FEMALE
     }
+    private Food[] acceptedFood;
     private Random random = new Random();
     private String name;
     private Gender gender;
-    private int age; // varje djur börjar på ålder 0
+    private int age = 0;
     private int maxAge; // varje djurtyp har separat max ålder till exempel 30
     private int health = 100;
-    private int price; // added price because I couldn't make the store work otherwise, this will require a simple getter
+    private int price;
 
 
-    public Animal(String name, int gender, int maxAge, int price) { // change gender to be taken as int and then selected from enum
+    public Animal(String name, int gender, int maxAge, int price, Food acceptedFood) { // change gender to be taken as int and then selected from enum
         this.name = name;
         this.gender = Gender.values()[gender];
         this.maxAge = maxAge;
         this.price = price;
+        this.acceptedFood = this.acceptedFood.addAll(Arrays.asList(acceptedFood));
     }
 
-    public abstract void eat();
-    public abstract void mate(Animal animal); // check if it's possible to develop this method here, think how new animal is created
+
+    public abstract boolean mate(Animal animal); // check if it's possible to develop this method here, think how new animal is created
     public abstract void printDeath();
+
+    public boolean eat(Food food){
+        if(Food.class.)
+
+    }
+
 
     //method for increasing health when animal eats health increases by 10%
 
@@ -56,6 +66,10 @@ public abstract class Animal {
 
     public Gender getGender() {
         return this.gender;
+    }
+
+    public int getPrice(){
+        return price;
     }
 
 }

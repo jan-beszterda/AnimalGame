@@ -1,8 +1,7 @@
 package grupp6.djurspelet.game;
 
 
-import grupp6.djurspelet.animal.Animal;
-import grupp6.djurspelet.animal.Horse;
+import grupp6.djurspelet.animal.*;
 import grupp6.djurspelet.food.Food;
 
 import java.awt.image.PixelGrabber;
