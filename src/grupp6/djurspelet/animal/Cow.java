@@ -1,4 +1,20 @@
 package grupp6.djurspelet.animal;
 
-public class Cow {
+import grupp6.djurspelet.food.*;
+
+public class Cow extends Animal{
+
+    public Cow(String name, int gender){
+        super(name, gender, 20, new Grass());
+    }
+
+    @Override
+    public void mate(Animal animal) {
+
+    }
+
+    @Override
+    public void printDeath() {
+
+    }
 }

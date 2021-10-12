@@ -18,7 +18,10 @@ public class Dialog {
 
     public static int readIntInput(int min, int max) {
         System.out.println("-".repeat(20));
-        System.out.print("Choose one: ");
+        if (max == 0) {
+            max = Integer.MAX_VALUE;
+        }
+        System.out.print("Your answer: ");
         int answer = -1;
         try {
             answer = Integer.parseInt(scanner.nextLine());
