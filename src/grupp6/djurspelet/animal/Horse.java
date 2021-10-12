@@ -5,7 +5,7 @@ public class Horse extends Animal{
 
 
     public Horse(String name, int gender){
-        super(name, gender, 30, 1000); // added price
+        super(name, gender, 30);
     }
 
 

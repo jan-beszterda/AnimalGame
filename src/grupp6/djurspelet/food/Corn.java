@@ -1,12 +1,12 @@
 package grupp6.djurspelet.food;
 
 
-class Korn extends Food{
+class Corn extends Food{
 
     private int pricePerKilo;
     private String name;
 
-    public Korn (String name, int pricePerKilo){
+    public Corn(String name, int pricePerKilo){
         this.name = "Korn";
         pricePerKilo = 50;
     }

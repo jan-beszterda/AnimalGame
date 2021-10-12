@@ -14,14 +14,11 @@ public abstract class Animal {
     private int age; // varje djur börjar på ålder 0
     private int maxAge; // varje djurtyp har separat max ålder till exempel 30
     private int health = 100;
-    private int price; // added price because I couldn't make the store work otherwise, this will require a simple getter
 
-
-    public Animal(String name, int gender, int maxAge, int price) { // change gender to be taken as int and then selected from enum
+    public Animal(String name, int gender, int maxAge) { // change gender to be taken as int and then selected from enum
         this.name = name;
         this.gender = Gender.values()[gender];
         this.maxAge = maxAge;
-        this.price = price;
     }
 
     public abstract void eat();

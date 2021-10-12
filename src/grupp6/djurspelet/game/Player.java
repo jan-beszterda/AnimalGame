@@ -1,38 +1,43 @@
 package grupp6.djurspelet.game;
 
-import com.sun.jdi.VMOutOfMemoryException;
 import grupp6.djurspelet.animal.Animal;
 import grupp6.djurspelet.food.Food;
 import grupp6.djurspelet.utilities.Dialog;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class Player {
 
     private int money;
     private String name;
     private ArrayList<Animal> animalsOwned;
-    private HashMap<Food, Integer> fodderOwned;
+    private LinkedHashMap<Food, Integer> fodderOwned;
 
     public Player(String name) {
         this.money = 10000;
         this.name = name;
         this.animalsOwned = new ArrayList<>();
-        this.fodderOwned = new HashMap<>();
+        this.fodderOwned = new LinkedHashMap<>();
     }
 
     public void buyAnimal(Store store) {
-        int choice = Dialog.showDialog("Animals in stock", store.getProductNames("animal"));
+        String[] options = store.getAnimalsInStock().keySet().toArray(new String[store.getAnimalsInStock().keySet().size()]);
+        int choice = Dialog.showDialog("Animals in stock", options);
         String name = Dialog.readStringInput("What do you want to name this animal to: ");
         int gender = Dialog.showDialog("What gender should the animal have: ", "MALE", "FEMALE");
-        Animal a = store.sellAnimal(choice, name, gender);
-        //money -= a.getPrice();
+        Animal a = store.sellAnimal(options[choice], name, gender);
+        money -= store.getPrice(options[choice]);
         animalsOwned.add(a);
     }
 
     public void buyFodder(Store store) {
-        Dialog.showDialog("Fodder in stock", store.getProductNames("fodder"));
+        String[] options = store.getFodderInStock().keySet().toArray(new String[store.getFodderInStock().keySet().size()]);
+        int choice = Dialog.showDialog("Fodder in stock", options);
+        int amount = Dialog.showDialog("How much kg do you want to buy: ");
+        Food f = store.sellFodder(options[choice]);
+        money = money - (store.getPrice(options[choice]) * amount);
+        fodderOwned.put(f, amount);
     }
 
     public void sellAnimal() {
@@ -61,7 +66,7 @@ public class Player {
         return animalsOwned;
     }
 
-    public HashMap<Food, Integer> getFodderOwned() {
+    public LinkedHashMap<Food, Integer> getFodderOwned() {
         return fodderOwned;
     }
 }
