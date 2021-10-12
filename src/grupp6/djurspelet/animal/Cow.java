@@ -9,11 +9,6 @@ public class Cow extends Animal{
     }
 
     @Override
-    public void mate(Animal animal) {
-
-    }
-
-    @Override
     public void printDeath() {
 
     }

@@ -1,6 +1,8 @@
 package grupp6.djurspelet.animal;
 
 import grupp6.djurspelet.food.Food;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -10,7 +12,7 @@ public abstract class Animal {
     enum Gender {
         MALE, FEMALE
     }
-    private Food[] acceptedFood;
+    private ArrayList<Food> acceptedFood;
     private Random random = new Random();
     private String name;
     private Gender gender;
@@ -20,21 +22,44 @@ public abstract class Animal {
     private int price;
 
 
-    public Animal(String name, int gender, int maxAge, int price, Food acceptedFood) { // change gender to be taken as int and then selected from enum
+    public Animal(String name, int gender, int maxAge, int price, Food... acceptedFood) { // change gender to be taken as int and then selected from enum
         this.name = name;
         this.gender = Gender.values()[gender];
         this.maxAge = maxAge;
         this.price = price;
-        this.acceptedFood = this.acceptedFood.addAll(Arrays.asList(acceptedFood));
+        this.acceptedFood.addAll(Arrays.asList(acceptedFood));
     }
 
 
-    public abstract boolean mate(Animal animal); // check if it's possible to develop this method here, think how new animal is created
     public abstract void printDeath();
 
-    public boolean eat(Food food){
-        if(acceptedFood.equals())
 
+    public boolean eat(Food food) {
+        if (acceptedFood.contains(food.getName())) {
+            return true;
+        }
+            else {
+                System.out.println("I can't eat this!");
+                return false;
+            }
+
+        }
+
+    public boolean mate(Animal animalToMateWith) {
+        if (this.getClass() == animalToMateWith.getClass() && !this.getGender().equals(animalToMateWith.getGender())) {
+            int randomNumber = random.nextInt(2);
+            if (randomNumber == 1) {
+                //Horse horse = new Horse(); // 50% chance
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            System.out.println("Those animals can not mate!");
+        }
+        return false;
     }
 
 

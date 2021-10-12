@@ -1,9 +1,4 @@
 package grupp6.djurspelet.animal;
-
-
-import grupp6.djurspelet.food.Food;
-
-import java.lang.reflect.Array;
 import java.util.Random;
 
 
@@ -13,28 +8,13 @@ public class Horse extends Animal{
 
 
     public Horse(String name, int gender){
-        super(name, gender, 30, 1000, ); // added price
+        super(name, gender, 30, 1000); // added price
     }
 
 
 
 
-    public boolean mate(Animal animalToMateWith) {
-        if (this.getClass() == animalToMateWith.getClass() && !this.getGender().equals(animalToMateWith.getGender())) {
-            int randomNumber = random.nextInt(2);
-            if (randomNumber == 1) {
-                //Horse horse = new Horse(); // 50% chance
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-        else {
-            System.out.println("Those animals can not mate!");
-        }
-        return false;
-    }
+
 
     public void printDeath(){
         System.out.println("The horse died.");
