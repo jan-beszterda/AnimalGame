@@ -89,6 +89,16 @@ public class Store {
         }
     }
 
+    public int buyAnimal(Animal animal) {
+        String productName = animal.getClass().getSimpleName();
+        for (String s : priceList.keySet()) {
+            if (s.equalsIgnoreCase(productName)) {
+                int pay = getPrice(productName) * animal.getHealth();
+                return pay;
+            }
+        }
+        return 0;
+    }
 
     public LinkedHashMap<String, Animal> getAnimalsInStock() {
         return animalsInStock;
