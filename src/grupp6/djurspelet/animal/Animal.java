@@ -88,12 +88,12 @@ Scanner scanner = new Scanner(System.in);
         }
     }
 
-    public void increaseHealth() {
+    public void increaseHealth() {              //ÄNDRA till 10 procentenheter!
         if (health <= (health / 1.1)){
         health = (health * 1.1);
         }
         else {
-            health = health + (100 - health); // if health is between 91% and 100%
+            health = health + (100 - health); // if health is between 91% and 100% FEL
         }
 
     }
