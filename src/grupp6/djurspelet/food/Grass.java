@@ -1,23 +1,10 @@
 package grupp6.djurspelet.food;
 
 
-class Grass extends Food{
+public class Grass extends Food {
 
-    private int pricePerKilo; //price will be in the Store class
-    private String name;
 
-    public Grass (String name, int pricePerKilo){ //since price is in the Store class only one parameter (String name) is needed
-        this.name = "Grass";
-        pricePerKilo = 35; //with price in the Store class this line is no longer needed
+    public Grass() {
+        super("Grass");
     }
-
-    public String getName() { //this is inherited from Food class so no need to write it again here
-        return name;
-    }
-
-    public int getPricePerKilo() { //with price in the Store class this method is no longer needed
-        return pricePerKilo;
-    }
-
-
 }
