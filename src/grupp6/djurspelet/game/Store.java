@@ -54,22 +54,16 @@ public class Store {
         switch (choice) {
             case "Horse":
                 return new Horse(name, gender);
-                break;
             case "Cow":
                 return new Cow(name, gender);
-                break;
             case "Cat":
                 return new Cat(name, gender);
-                break;
             case "Dog":
                 return new Dog(name, gender);
-                break;
             case "Pig":
                 return new Pig(name, gender);
-                break;
             default:
                 return null;
-                break;
         }
     }
     public Food sellFodder(String choice) {
