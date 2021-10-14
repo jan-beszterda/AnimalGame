@@ -1,6 +1,7 @@
 package grupp6.djurspelet.animal;
 
 import grupp6.djurspelet.food.Food;
+import grupp6.djurspelet.game.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +9,8 @@ import java.util.Random;
 
 
 public abstract class Animal {
+
+
 
     enum Gender {
         MALE, FEMALE
@@ -19,22 +22,18 @@ public abstract class Animal {
     private int age = 0;
     private int maxAge;
     private int health = 100;
-    private int price; //I updated the store class to include a map of product - price pairs so this variable will no longer be needed
-    //a variable for the owner of the animal might be needed -> private Player owner;
+    private Player owner;
 
 
-    public Animal(String name, int gender, int maxAge, int price, Food... acceptedFood) {   //if we add the owner variable it needs to be added to the constructor
-                                                                                            //example: Player owner placed before the Food... acceptedFood parameter
+    public Animal(String name, int gender, int maxAge, Player owner, Food... acceptedFood) {
         this.name = name;
         this.gender = Gender.values()[gender];
         this.maxAge = maxAge;
-        this.price = price;
+        this.owner = null;
         this.acceptedFood.addAll(Arrays.asList(acceptedFood));
-        //and here we would set the owner -> this.owner = null;
     }
 
 
-    public abstract void printDeath(); //most likely printing of this information will be done in the Game class
 
 
     public boolean eat(Food food) {
@@ -50,22 +49,21 @@ public abstract class Animal {
         }
     }
 
-    public boolean mate(Animal animalToMateWith) { //I think we need to make this method return Animal instead of boolean
-        if (this.getClass() == animalToMateWith.getClass() && !this.getGender().equals(animalToMateWith.getGender())) {
+    public Animal mate(Animal animalToMateWith) { //I think we need to make this method return Animal instead of boolean
+        if (this.getClass() == animalToMateWith.getClass() && !this.gender.equals(animalToMateWith.gender)) {
             int randomNumber = random.nextInt(2);
             if (randomNumber == 1) {
-                //Horse horse = new Horse(); // 50% chance
-                return true;
+
+                return Animal;
             }
             else {
-                return false;
+                return null;
             }
         }
         else {
             System.out.println("Those animals can not mate!");
+            return null;
         }
-        return false;
-    }
 
     //To make mate() method work we might need an abstract method for creating the child -> private abstract Animal createChild();
     //this method would be called if in mate() if mating succeeded it would need to be overridden in each subclass of animal
@@ -95,6 +93,14 @@ public abstract class Animal {
     public String getName(){
         return name;
     }
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setOwner(Player owner) {
+            this.owner = owner;
+        }
+
 
     //to solve some issues and to make some operations simpler we might need to add public void setName(String name) method
 
