@@ -83,15 +83,15 @@ public class Player {
         Animal a = animalsOwned.get(choice);
         options.remove(choice);
         choice = Dialog.showDialog("Chose other animal to mate:", options.toArray(new String[0]));
-
-        if (a.mate(animalsOwned.get(choice))) {
+        Animal child = a.mate(animalsOwned.get(choice))
+        if (child != null) {
             String name = Dialog.readStringInput("What do you want to name this animal to: ");
+            child.setName(name);
+            child.setOwner(this);
+            animalsOwned.add(child);
         } else {
             System.out.println("Unsuccessful mating attempt.");
         }
-        // if animal.mate(other animal) returned 1
-        // create a new animal here new animal() and add it to the list
-        // else print unsuccessful mating attempt
     }
 
     public void feedAnAnimal() {
@@ -106,8 +106,15 @@ public class Player {
             options.add(f.getName());
         }
         choice = Dialog.showDialog("Chose food to give:", options.toArray(new String[0]));
-        if (a.eat(fodderOwned.keySet().toArray(new Food[0])[choice])) {
+        Food f = fodderOwned.keySet().toArray(new Food[0])[choice];
+        if (a.eat(f)) {
             System.out.println("Animal is eating.");
+            int amount = fodderOwned.get(f);
+            if (amount > 1) {
+                fodderOwned.replace(f, amount-1);
+            } else {
+                fodderOwned.remove(f);
+            }
         } else {
             System.out.println("Animal didn't like that food.");
         }

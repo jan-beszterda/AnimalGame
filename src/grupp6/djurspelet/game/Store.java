@@ -76,28 +76,25 @@ public class Store {
         switch (choice) {
             case "Meat":
                 return new Meat();
-                break;
             case "Grass":
                 return new Grass();
-                break;
             case "Corn":
                 return new Corn();
-                break;
             default:
                 return null;
-                break;
         }
     }
 
     public int buyAnimal(Animal animal) {
         String productName = animal.getClass().getSimpleName();
+        int pay = 0;
         for (String s : priceList.keySet()) {
             if (s.equalsIgnoreCase(productName)) {
-                int pay = getPrice(productName) * animal.getHealth();
-                return pay;
+                pay = getPrice(productName) - (100 - animal.getHealth());
+                break;
             }
         }
-        return 0;
+        return pay;
     }
 
     public LinkedHashMap<String, Animal> getAnimalsInStock() {

@@ -23,7 +23,7 @@ Scanner scanner = new Scanner(System.in);
     private Gender gender;
     private int age = 0;
     private int maxAge;
-    private int health = 100;
+    private double health = 100.00;
     private Player owner;
 
 
@@ -39,16 +39,15 @@ Scanner scanner = new Scanner(System.in);
 
 
     public boolean eat(Food food) {
-        if (acceptedFood.contains(food.getName())) {    //this will need to be a for loop that goes through each Food object in acceptedFood ArrayList
-                                                        //and then compares the name of the Food object in the current iteration
-                                                        //with the name of the Food object in the method argument
-                                                        //if there's a match health should increase and method returns true
-                                                        //otherwise method returns false
-            return true;
-        } else {
-                System.out.println("I can't eat this!");
-                return false;
+        for (int i = 0; i < acceptedFood.size(); i++) {
+            if (food.getName().equalsIgnoreCase(acceptedFood.get(i).getName())) {
+                this.increaseHealth(); // OK ???
+                return true;
+            }else {
+            }
+            System.out.println("I can't eat this!");
         }
+        return false;
     }
 
 
@@ -61,20 +60,18 @@ Scanner scanner = new Scanner(System.in);
                 createChild(randomGender);
             }
             else {
+                System.out.println("No new animal this time.");
                 return null;
             }
         }
         else {
-            System.out.println("Those animals can not mate!");
-            return null;
-
+            System.out.println("Those animals can't mate!");
         }
+        return null;
     }
 
     public abstract Animal createChild(int randomGender);
 
-    //To make mate() method work we might need an abstract method for creating the child -> private abstract Animal createChild();
-    //this method would be called if in mate() if mating succeeded it would need to be overridden in each subclass of animal
 
 
 
@@ -91,10 +88,20 @@ Scanner scanner = new Scanner(System.in);
         }
     }
 
+    public void increaseHealth() {
+        if (health <= (health / 1.1)){
+        health = (health * 1.1);
+        }
+        else {
+            health = health + (100 - health); // if health is between 91% and 100%
+        }
+
+    }
+
     public void diminishHealth() {
         double randomNumber = (random.nextDouble()*20)+10;
 
-        health = health - (int)randomNumber;
+        health = health - randomNumber;
         if (health <= 0) {
             die();
         }
@@ -129,7 +136,7 @@ Scanner scanner = new Scanner(System.in);
         return age;
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
