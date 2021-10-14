@@ -106,8 +106,15 @@ public class Player {
             options.add(f.getName());
         }
         choice = Dialog.showDialog("Chose food to give:", options.toArray(new String[0]));
-        if (a.eat(fodderOwned.keySet().toArray(new Food[0])[choice])) {
+        Food f = fodderOwned.keySet().toArray(new Food[0])[choice];
+        if (a.eat(f)) {
             System.out.println("Animal is eating.");
+            int amount = fodderOwned.get(f);
+            if (amount > 1) {
+                fodderOwned.replace(f, amount-1);
+            } else {
+                fodderOwned.remove(f);
+            }
         } else {
             System.out.println("Animal didn't like that food.");
         }
