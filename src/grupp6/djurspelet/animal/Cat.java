@@ -1,4 +1,19 @@
 package grupp6.djurspelet.animal;
 
-public class Cat {
+import grupp6.djurspelet.food.*;
+
+public class Cat extends Animal{
+
+
+        private String name;
+
+
+        public Cat(String name, int gender) {
+            super(name, gender, 12, null, new Meat());
+
+        }
+    public Cat createChild(int randomGender) {
+        Cat cat = new Cat ("", randomGender);
+        return cat;
+    }
 }

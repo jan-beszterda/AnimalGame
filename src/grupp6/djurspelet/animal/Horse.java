@@ -1,19 +1,19 @@
 package grupp6.djurspelet.animal;
 
-
-import grupp6.djurspelet.food.Grass;
+import grupp6.djurspelet.food.*;
 
 public class Horse extends Animal{
 
 
-        private String name;
-
-
 
         public Horse(String name, int gender) {
-            super(name, gender, 15, null, new Grass());
+            super(name, gender, 30, null, new Grass() , new Corn());
 
         }
+    public Horse createChild(int randomGender) {
+        Horse horse = new Horse("", randomGender);
+        return horse;
+    }
     }
 
 

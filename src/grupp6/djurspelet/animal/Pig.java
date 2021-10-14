@@ -1,8 +1,18 @@
 package grupp6.djurspelet.animal;
 
-public class Pig {
+import grupp6.djurspelet.food.*;
 
-    //a constructor can already be added here
-    //it should take in String name and int gender
-    //then call super() passing name, gender, maxAge (a number), owner (nul) and accepted foods as Food objects
-}
+public class Pig extends Animal{
+
+
+        public Pig(String name, int gender) {
+            super(name, gender, 20, null, new Corn());
+
+        }
+
+    public Pig createChild(int randomGender) {
+        Pig pig = new Pig("", randomGender);
+        return pig;
+    }
+    }
+
