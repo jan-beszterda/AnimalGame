@@ -43,9 +43,9 @@ Scanner scanner = new Scanner(System.in);
             if (food.getName().equalsIgnoreCase(acceptedFood.get(i).getName())) {
                 this.increaseHealth(); // OK ???
                 return true;
-            }else {
+            }else { //else is not needed here
             }
-            System.out.println("I can't eat this!");
+            System.out.println("I can't eat this!"); //this can be moved before return false
         }
         return false;
     }
@@ -79,7 +79,7 @@ Scanner scanner = new Scanner(System.in);
 
 
 
-    //method for increasing health when animal eats health increases by 10%
+
 
     public void getOlder() {
         age += 1;
@@ -88,6 +88,7 @@ Scanner scanner = new Scanner(System.in);
         }
     }
 
+    //method for increasing health when animal eats health increases by 10%
     public void increaseHealth() {              //ÄNDRA till 10 procentenheter!
         if (health <= (health / 1.1)){
         health = (health * 1.1);
@@ -101,7 +102,7 @@ Scanner scanner = new Scanner(System.in);
     public void diminishHealth() {
         double randomNumber = (random.nextDouble()*20)+10;
 
-        health = health - randomNumber;
+        health = health - randomNumber; // cast randomNumber to int
         if (health <= 0) {
             die();
         }
@@ -112,7 +113,9 @@ Scanner scanner = new Scanner(System.in);
 
 
     private void die() {
-        //we'll see later how to do this
+        //remove this animal from owners animalsOwned ArrayList
+        //remove owner by setting it to null
+        //print a message
     }
 
     public String getName(){
@@ -141,10 +144,12 @@ Scanner scanner = new Scanner(System.in);
     }
 
     public String toString() {
-
+        //returned string should include name, class name, age, gender and health
+        //build a string "[name] a [age] years old [gender] [animal] at [health]% health"
+        //[xyz] means a variable, [animal] -> this you can get with: this.getClass().getSimpleName()
         return null;
     }
-//toString() method will be needed to display full information about the animal to the player
+
     //returned string should include name, class name, age, gender and health
 
 
