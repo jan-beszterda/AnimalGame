@@ -8,8 +8,4 @@ public class Cow extends Animal{
         super(name, gender, 20, null, new Grass());
     }
 
-    @Override
-    public void printDeath() {
-
-    }
 }

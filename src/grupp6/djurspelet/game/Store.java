@@ -76,16 +76,12 @@ public class Store {
         switch (choice) {
             case "Meat":
                 return new Meat();
-                break;
             case "Grass":
                 return new Grass();
-                break;
             case "Corn":
                 return new Corn();
-                break;
             default:
                 return null;
-                break;
         }
     }
 
