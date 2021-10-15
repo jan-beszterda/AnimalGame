@@ -2,7 +2,6 @@ package grupp6.djurspelet.animal;
 
 import grupp6.djurspelet.food.Food;
 import grupp6.djurspelet.game.Player;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -23,7 +22,7 @@ Scanner scanner = new Scanner(System.in);
     private Gender gender;
     private int age = 0;
     private int maxAge;
-    private double health = 100.00;
+    private int health = 100;
     private Player owner;
 
 
@@ -36,6 +35,7 @@ Scanner scanner = new Scanner(System.in);
     }
 
 
+    public abstract Animal createChild(int randomGender);
 
 
     public boolean eat(Food food) {
@@ -70,15 +70,6 @@ Scanner scanner = new Scanner(System.in);
         return null;
     }
 
-    public abstract Animal createChild(int randomGender);
-
-
-
-
-
-
-
-
 
 
     public void getOlder() {
@@ -89,7 +80,7 @@ Scanner scanner = new Scanner(System.in);
     }
 
     //method for increasing health when animal eats health increases by 10%
-    public void increaseHealth() {              //ÄNDRA till 10 procentenheter!
+    public void increaseHealth() {
         if (health <= (health / 1.1)){
         health = (health * 1.1);
         }
@@ -100,23 +91,32 @@ Scanner scanner = new Scanner(System.in);
     }
 
     public void diminishHealth() {
-        double randomNumber = (random.nextDouble()*20)+10;
+        double randomNumber = (random.nextDouble() * 20) + 10;
 
-        health = health - randomNumber; // cast randomNumber to int
+        health = health - (int) randomNumber;
         if (health <= 0) {
             die();
         }
     }
 
 
-
-
-
     private void die() {
-        //remove this animal from owners animalsOwned ArrayList
-        //remove owner by setting it to null
-        //print a message
+
+        owner.getAnimalsOwned().remove(this);
+                this.owner = null;
+        System.out.println("Animal is dead.");
+
     }
+
+
+    public String toString() {
+
+        String animalInfo = (this.name + " a " + this.age + " years old " + this.gender + " " + this.getClass().getSimpleName() + " at " + this.health + "% health.");
+        return animalInfo;
+    }
+
+
+
 
     public String getName(){
         return name;
@@ -129,8 +129,6 @@ Scanner scanner = new Scanner(System.in);
         }
 
 
-
-
     public Gender getGender() {
         return this.gender;
     }
@@ -139,18 +137,11 @@ Scanner scanner = new Scanner(System.in);
         return age;
     }
 
-    public double getHealth() {
+    public int getHealth() {
         return health;
     }
 
-    public String toString() {
-        //returned string should include name, class name, age, gender and health
-        //build a string "[name] a [age] years old [gender] [animal] at [health]% health"
-        //[xyz] means a variable, [animal] -> this you can get with: this.getClass().getSimpleName()
-        return null;
-    }
 
-    //returned string should include name, class name, age, gender and health
 
 
 }
