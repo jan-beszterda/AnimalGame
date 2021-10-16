@@ -44,11 +44,11 @@ Scanner scanner = new Scanner(System.in);
     public boolean eat(Food food) {
         for (int i = 0; i < acceptedFood.size(); i++) {
             if (food.getName().equalsIgnoreCase(acceptedFood.get(i).getName())) {
-                this.increaseHealth(); // OK ???
+                this.increaseHealth();
                 return true;
             }
-            System.out.println("I can't eat this!"); //this can be moved before return false
         }
+        System.out.println("I can't eat this!");
         return false;
     }
 
@@ -88,14 +88,12 @@ Scanner scanner = new Scanner(System.in);
         health = (health * 1.1);
         }
         else {
-            health = health + (100 - health); // if health is between 91% and 100% FEL
+            health = health + (100 - health); // if health is between 91% and 100%
         }
-
     }
 
     public void diminishHealth() {
         double randomNumber = (random.nextDouble() * 20) + 10;
-
         health = health - (int) randomNumber;
         if (health <= 0) {
             die();
@@ -104,33 +102,29 @@ Scanner scanner = new Scanner(System.in);
 
 
     private void die() {
-
         owner.getAnimalsOwned().remove(this);
                 this.owner = null;
         System.out.println("Animal is dead.");
-
     }
 
 
     public String toString() {
-
         String animalInfo = (this.name + " a " + this.age + " years old " + this.gender + " " + this.getClass().getSimpleName() + " at " + this.health + "% health.");
         return animalInfo;
     }
 
 
-
-
     public String getName(){
         return name;
     }
+
     public void setName(String name) {
             this.name = name;
         }
+
         public void setOwner(Player owner) {
             this.owner = owner;
         }
-
 
     public Gender getGender() {
         return this.gender;
@@ -143,8 +137,5 @@ Scanner scanner = new Scanner(System.in);
     public int getHealth() {
         return health;
     }
-
-
-
 
 }
