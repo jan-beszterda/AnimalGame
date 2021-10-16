@@ -24,13 +24,16 @@ Scanner scanner = new Scanner(System.in);
     private int maxAge;
     private int health = 100;
     private Player owner;
+    private int maxOffspringNumber;
 
 
-    public Animal(String name, int gender, int maxAge, Player owner, Food... acceptedFood) {
+    public Animal(String name, int gender, int maxAge, Player owner, int maxOffspringNumber, Food... acceptedFood) {
         this.name = name;
         this.gender = Gender.values()[gender];
         this.maxAge = maxAge;
+        this.maxOffspringNumber = maxOffspringNumber;
         this.owner = null;
+        this.acceptedFood = new ArrayList<>();
         this.acceptedFood.addAll(Arrays.asList(acceptedFood));
     }
 
@@ -43,7 +46,6 @@ Scanner scanner = new Scanner(System.in);
             if (food.getName().equalsIgnoreCase(acceptedFood.get(i).getName())) {
                 this.increaseHealth(); // OK ???
                 return true;
-            }else { //else is not needed here
             }
             System.out.println("I can't eat this!"); //this can be moved before return false
         }
@@ -56,17 +58,18 @@ Scanner scanner = new Scanner(System.in);
         if (this.getClass() == animalToMateWith.getClass() && !this.gender.equals(animalToMateWith.gender)) {
             int randomNumber = random.nextInt(2);
             if (randomNumber == 1) {
-                int randomGender = random.nextInt(2);
-                createChild(randomGender);
-            }
-            else {
+
+                int randomNrOfOffsprings = random.nextInt((this.maxOffspringNumber) + 1);
+                for (int i = 0; i < randomNrOfOffsprings; i++) {
+                    int randomGender = random.nextInt(2);
+                    createChild(randomGender);
+                }
+            } else {
                 System.out.println("No new animal this time.");
                 return null;
             }
         }
-        else {
-            System.out.println("Those animals can't mate!");
-        }
+        System.out.println("Those animals can't mate!");
         return null;
     }
 

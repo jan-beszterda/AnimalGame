@@ -6,7 +6,7 @@ public class Pig extends Animal{
 
 
         public Pig(String name, int gender) {
-            super(name, gender, 20, null, new Corn());
+            super(name, gender, 20, null,10, new Corn());
 
         }
 

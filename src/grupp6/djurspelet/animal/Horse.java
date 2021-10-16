@@ -7,7 +7,7 @@ public class Horse extends Animal{
 
 
         public Horse(String name, int gender) {
-            super(name, gender, 30, null, new Grass() , new Corn());
+            super(name, gender, 30, null,1, new Grass(), new Corn());
 
         }
     public Horse createChild(int randomGender) {
