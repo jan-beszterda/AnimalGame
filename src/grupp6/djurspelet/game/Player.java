@@ -120,7 +120,7 @@ public class Player {
             options[i] = animalsOwned.get(i).toString();
         }
         int choice = Dialog.showDialog("Chose animal to feed:", options);
-        Animal a = animalsOwned.get(choice);
+        Animal a = animalsOwned.get(choice-1);
         options = new String[fodderOwned.keySet().size()];
         int i = 0;
         for (Food f : fodderOwned.keySet()) {
@@ -128,7 +128,7 @@ public class Player {
             i++;
         }
         choice = Dialog.showDialog("Chose food to give:", options);
-        Food f = fodderOwned.keySet().toArray(new Food[0])[choice];
+        Food f = fodderOwned.keySet().toArray(new Food[0])[choice-1];
         if (a.eat(f)) {
             System.out.println("Animal is eating.");
             int amount = fodderOwned.get(f);

@@ -7,7 +7,7 @@ public class Dialog {
     private static Scanner scanner = new Scanner(System.in);
 
     public static int showDialog(String text, String... options) {
-        //clear();
+        clear();
         System.out.println("-".repeat(20));
         System.out.println(text);
         for (int i = 0; i < options.length; i++) {
@@ -46,6 +46,6 @@ public class Dialog {
     }
 
     private static void clear() {
-        System.out.println("\n".repeat(50));
+        System.out.println("\n".repeat(5));
     }
 }
