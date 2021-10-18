@@ -37,7 +37,7 @@ public class Game implements Serializable {
             nextPlayerRound();
         } else {
             showPlayerStatus();
-            System.out.println("\n".repeat(5));
+            //System.out.println("\n".repeat(5));
             System.out.println("-".repeat(30));
             System.out.println(currentPlayer.getName() + " - your turn begins!");
             playPlayerRound();

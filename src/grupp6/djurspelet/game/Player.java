@@ -69,7 +69,7 @@ public class Player {
             options[i] = animalsOwned.get(i).toString();
         }
         int choice = Dialog.showDialog("Chose animal to sell:", options);
-        int pay = store.buyAnimal(animalsOwned.get(choice));
+        int pay = store.buyAnimal(animalsOwned.get(choice-1));
         if (pay > 0) {
             money += pay;
             System.out.println("Animal sold. You earned " + pay);
