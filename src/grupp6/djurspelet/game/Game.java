@@ -1,31 +1,14 @@
 package grupp6.djurspelet.game;
 
-import java.util.ArrayList;
-
 public class Game {
 
-    ArrayList<Player> playersList = new ArrayList<>(4);
-    Player currentPlayer = new Player("");
-    int maxNumberOfRounds;
-    int currentRoundNumber;
-
-    public Game (){
-    }
-
-    public void nextPlayerRound() {
-        int i = playersList.indexOf(currentPlayer);
-        if (i < playersList.size() - 1) {
-            currentPlayer = playersList.get(i + 1);
-        } else {
-            currentPlayer = playersList.get(0);
-            currentRoundNumber ++;
-        }
-    }
-
-
     /*
+    We will need a variable to hold all players in the game, example ArrayList
+    We will need a variable to hold current player that makes choices
+    We will need a variable to hold the total number of rounds players will play
+    We will need a variable to hold the number of current round
 
-
+    We will need method to move the round to next player
     We will need method to start the game
     We will need method to save game
     We will need method to load game
