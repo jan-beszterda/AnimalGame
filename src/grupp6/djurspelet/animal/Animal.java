@@ -2,8 +2,6 @@ package grupp6.djurspelet.animal;
 
 import grupp6.djurspelet.food.Food;
 import grupp6.djurspelet.game.Player;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;

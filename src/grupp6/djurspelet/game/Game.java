@@ -31,6 +31,16 @@ public class Game implements Serializable {
                 currentPlayer = playersList.get(0);
                 currentRoundNumber ++;
             }
+            updatePlayersAnimals();
+
+            if (checkIfPlayerLost()){
+                removePlayer();
+                nextPlayerRound();
+            }
+            else {
+                showPlayerStatus();
+                playPlayerRound();
+            }
         }
 
         public void startGame(){
