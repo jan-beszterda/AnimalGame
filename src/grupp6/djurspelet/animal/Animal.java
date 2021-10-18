@@ -54,16 +54,17 @@ Scanner scanner = new Scanner(System.in);
 
 
 
-    public Animal mate(Animal animalToMateWith) {
+    public Animal mate(Animal animalToMateWith) { //return type should be Animal[]
         if (this.getClass() == animalToMateWith.getClass() && !this.gender.equals(animalToMateWith.gender)) {
             int randomNumber = random.nextInt(2);
             if (randomNumber == 1) {
-
                 int randomNrOfOffsprings = random.nextInt((this.maxOffspringNumber) + 1);
+                //here we create an array Animal[] offspring = new Animal[randomNrOfOffsprings];
                 for (int i = 0; i < randomNrOfOffsprings; i++) {
                     int randomGender = random.nextInt(2);
-                    createChild(randomGender);
+                    createChild(randomGender); //offspring[i] = createChild(randomGender);
                 }
+                //return offspring;
             } else {
                 System.out.println("No new animal this time.");
                 return null;
