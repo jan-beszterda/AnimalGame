@@ -13,12 +13,12 @@ public class Dialog {
         for (int i = 0; i < options.length; i++) {
             System.out.println(i+1 + ". " + options[i]);
         }
-        return readIntInput(1, options.length) + 1;
+        return readIntInput(1, options.length);
     }
 
     public static int readIntInput(int min, int max) {
         System.out.println("-".repeat(20));
-        if (max <= 0) {
+        if (max == 0) {
             max = Integer.MAX_VALUE;
         }
         System.out.print("Your answer: ");
