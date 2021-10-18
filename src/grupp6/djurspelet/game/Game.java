@@ -80,6 +80,23 @@ public class Game {
         System.out.println("Game file " + inp + " has been loaded!");
     }
 
+    private void quitGame(){
+        if (this.playersList != null){
+            int answer = Dialog.showDialog("Do you really want to quit? Your progress will be lost.",
+                    "Yes", "No");
+            switch (answer){
+                case 1 -> System.exit(0);
+                case 2 -> {
+                    saveGame();
+                    System.out.println("Quitting game...");
+                    System.exit(0);
+                }
+            }
+        }
+        System.out.println("Quitting game...");
+        System.exit(0);
+    }
+
     private void updatePlayersAnimals() {
         for (Animal a : currentPlayer.getAnimalsOwned()) {
             a.getOlder();
