@@ -28,6 +28,8 @@ Scanner scanner = new Scanner(System.in);
     private Player owner;
     private int maxOffspringNumber;
 
+    private boolean alive = true;
+
 
     public Animal(String name, int gender, int maxAge, Player owner, int maxOffspringNumber, Food... acceptedFood) {
         this.name = name;
@@ -86,11 +88,10 @@ Scanner scanner = new Scanner(System.in);
     }
 
     public void increaseHealth() {
-            health = health + 10;
-            if(health > 100){
-                health = 100;
-            }
-
+        health = health + 10;
+        if(health > 100){
+            health = 100;
+        }
     }
 
     public void diminishHealth() {
@@ -104,7 +105,8 @@ Scanner scanner = new Scanner(System.in);
 
     private void die() {
         owner.getAnimalsOwned().remove(this);
-                this.owner = null;
+        this.owner = null;
+        alive = false;
         System.out.println("Animal is dead.");
     }
 
@@ -133,6 +135,10 @@ Scanner scanner = new Scanner(System.in);
 
     public int getAge() {
         return age;
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 
     public int getHealth() {

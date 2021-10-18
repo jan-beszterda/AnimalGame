@@ -1,12 +1,16 @@
 package grupp6.djurspelet.game;
 
 
+import grupp6.djurspelet.animal.Animal;
+import grupp6.djurspelet.food.Food;
 import grupp6.djurspelet.utilities.Dialog;
 import grupp6.djurspelet.utilities.FileUtilities;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
-    public class Game {
+public class Game {
 
         ArrayList<Player> playersList = new ArrayList<>(4);
         Player currentPlayer = new Player("");
@@ -47,6 +51,40 @@ import java.util.ArrayList;
             FileUtilities.saveGameToFile(inp, this);
             System.out.println("Game has been saved!");
         }
+
+    private void updatePlayersAnimals() {
+        for (Animal a : currentPlayer.getAnimalsOwned()) {
+            a.getOlder();
+            if (a.isAlive()) {
+                a.diminishHealth();
+            }
+        }
+    }
+
+    private boolean checkIfPlayerLost() {
+        if (currentPlayer.getMoney() <= 0 && currentPlayer.getAnimalsOwned().size() <= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private void showPlayerStatus() {
+        System.out.println("-".repeat(50));
+        System.out.println("Your animals:");
+        for (Animal a : currentPlayer.getAnimalsOwned()) {
+            System.out.println(a.toString());
+        }
+        System.out.println("-".repeat(50));
+        System.out.println("Your fodder:");
+        Set<Map.Entry<Food, Integer>> entries = currentPlayer.getFodderOwned().entrySet();
+        for (Map.Entry<Food, Integer> e : entries
+        ) {
+            System.out.println(e.getKey().getClass().getSimpleName() + " - " + e.getValue().toString() + " kg.");
+        }
+        System.out.println("-".repeat(50));
+        System.out.println("Your money: " + currentPlayer.getMoney());
+        System.out.println("-".repeat(50));
+    }
     }
 
 
