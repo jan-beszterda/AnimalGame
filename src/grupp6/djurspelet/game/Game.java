@@ -42,8 +42,6 @@ public class Game {
     We will need method to move the round to next player
 
     We will need method to start the game
-    We will need method to save game
-    We will need method to load game
     We will need method to quit game
     We will need method to finalise the game
     */
@@ -74,8 +72,6 @@ public class Game {
         }
     }
 
-
-
     private boolean checkIfPlayerLost() {
         if (currentPlayer.getMoney() <= 0 && currentPlayer.getAnimalsOwned().size() <= 0) {
             return true;
@@ -84,7 +80,9 @@ public class Game {
     }
 
     private void removePlayer() {
-            playersList.remove(currentPlayer);
+        System.out.println(currentPlayer.getName() + ", you have no money and no animals...");
+        System.out.println("You lost the game!");
+        playersList.remove(currentPlayer);
     }
 
     private void showPlayerStatus() {
