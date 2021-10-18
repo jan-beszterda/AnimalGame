@@ -84,11 +84,30 @@ public class Store {
         int pay = 0;
         for (String s : priceList.keySet()) {
             if (s.equalsIgnoreCase(productName)) {
-                pay = getPrice(productName) - (100 - animal.getHealth());
+                pay = getPrice(productName) * (animal.getHealth() / 100);
                 break;
             }
         }
         return pay;
+    }
+    public int getCheapestAnimal() {
+        int price = 0;
+        for (String s : animalsInStock.keySet()) {
+            if (price > priceList.get(s)) {
+                price = priceList.get(s);
+            }
+        }
+        return price;
+    }
+
+    public int getCheapestFodder() {
+        int price = 0;
+        for (String s : fodderInStock.keySet()) {
+            if (price > priceList.get(s)) {
+                price = priceList.get(s);
+            }
+        }
+        return price;
     }
 
     public LinkedHashMap<String, Animal> getAnimalsInStock() {

@@ -36,16 +36,15 @@ public class Game {
             int answer = Dialog.showDialog("** ANIMAL GAME **", "Start New Game", "Load Game", "Quit Game");
             switch (answer){
                 case 1:
-
-                break;
+                    startNewGame();
+                    break;
                 case 2:
-
-                break;
+                    loadGame();
+                    break;
                 case 3:
-                System.exit(0);
-                break;
-       }
-
+                    System.exit(0);
+                    break;
+            }
         }
 
         private void playRound() {
@@ -183,6 +182,22 @@ public class Game {
         System.out.println("-".repeat(50));
         System.out.println("Your money: " + currentPlayer.getMoney());
         System.out.println("-".repeat(50));
+    }
+
+    private void startNewGame() {
+        int numberOfPlayers = Dialog.showDialog("Number of players in the game?");
+        for (int i = 0; i < numberOfPlayers; i++) {
+            String name = Dialog.readStringInput("What is your name player " + (i + 1) + " ?");
+            Player player = new Player(name);
+            playersList.add(player);
+        }
+        maxNumberOfRounds = Dialog.showDialog("Input number of rounds you want to play (MAX 30): ");
+        while (maxNumberOfRounds <= 0 || maxNumberOfRounds > 30) {
+            maxNumberOfRounds = Dialog.showDialog("Input number of rounds you want to play (MAX 30): ");
+        }
+        currentPlayer = playersList.get(0);
+        currentRoundNumber = 1;
+        // play Round();
     }
 
     private void finalizeGame(){
