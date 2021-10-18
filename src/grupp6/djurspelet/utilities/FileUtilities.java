@@ -13,7 +13,7 @@ public class FileUtilities {
         ObjectOutputStream objectOutputStream = null;
         FileOutputStream fileOutputStream = null;
         try{
-            fileOutputStream = new FileOutputStream(fileName, false);
+            fileOutputStream = new FileOutputStream(fileName + ".ser", false);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(game);
             objectOutputStream.close();

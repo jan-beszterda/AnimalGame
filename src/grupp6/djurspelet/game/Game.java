@@ -6,11 +6,12 @@ import grupp6.djurspelet.food.Food;
 import grupp6.djurspelet.utilities.Dialog;
 import grupp6.djurspelet.utilities.FileUtilities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-public class Game {
+public class Game implements Serializable {
 
         private ArrayList<Player> playersList = new ArrayList<>(4);
         private Player currentPlayer = null;
