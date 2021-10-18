@@ -24,23 +24,25 @@ public class Game implements Serializable {
         startGame();
     }
 
-        public void nextPlayerRound() {
-            currentPlayerIndex++;
-            if (currentPlayerIndex > playersList.size()-1) {
-                currentPlayerIndex = 0;
-                currentRoundNumber++;
-            }
-            currentPlayer = playersList.get(currentPlayerIndex);
-            updatePlayersAnimals();
-            if (checkIfPlayerLost()){
-                removePlayer();
-                nextPlayerRound();
-            }
-            else {
-                showPlayerStatus();
-                playPlayerRound();
-            }
+    public void nextPlayerRound() {
+        currentPlayerIndex++;
+        if (currentPlayerIndex > playersList.size() - 1) {
+            currentPlayerIndex = 0;
+            currentRoundNumber++;
         }
+        currentPlayer = playersList.get(currentPlayerIndex);
+        updatePlayersAnimals();
+        if (checkIfPlayerLost()) {
+            removePlayer();
+            nextPlayerRound();
+        } else {
+            showPlayerStatus();
+            System.out.println("\n".repeat(5));
+            System.out.println("-".repeat(30));
+            System.out.println(currentPlayer.getName() + " - your turn begins!");
+            playPlayerRound();
+        }
+    }
 
     public void startGame() {
         int answer = Dialog.showDialog("** ANIMAL GAME **", "Start New Game", "Load Game", "Quit Game");
