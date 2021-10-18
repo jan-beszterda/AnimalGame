@@ -12,12 +12,14 @@ import java.util.Set;
 
 public class Game {
 
-        ArrayList<Player> playersList = new ArrayList<>(4);
-        Player currentPlayer = new Player("");
-        int maxNumberOfRounds;
-        int currentRoundNumber;
+        private ArrayList<Player> playersList = new ArrayList<>(4);
+        private Player currentPlayer = null;
+        private int maxNumberOfRounds;
+        private int currentRoundNumber;
+        private Store store = new Store();
 
         public Game () {
+            startGame();
         }
 
         public void nextPlayerRound() {
@@ -59,6 +61,7 @@ public class Game {
         this.playersList = game.playersList;
         this.currentPlayer = game.currentPlayer;
         this.currentRoundNumber = game.currentRoundNumber;
+        this.store = game.store;
         System.out.println("Game file " + inp + " has been loaded!");
     }
 
