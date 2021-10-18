@@ -165,7 +165,7 @@ public class Game implements Serializable {
     private void removePlayer() {
         System.out.println(currentPlayer.getName() + ", you have no money and no animals...");
         System.out.println("You lost the game!");
-        //playersList.remove(currentPlayer);
+        playersList.remove(currentPlayer);
     }
 
     private void showPlayerStatus() {
@@ -203,17 +203,30 @@ public class Game implements Serializable {
     }
 
     private void finalizeGame() {
-        Player currentRichestPlayer = playersList.get(0);
+        ArrayList<Player> richestPlayers = new ArrayList<>();
+        richestPlayers.add(playersList.get(0));
 
         for (Player player : playersList) {
             player.sellAllAnimals(player.getAnimalsOwned(), store);
-            if (player.getMoney() > currentRichestPlayer.getMoney()) {
-                currentRichestPlayer = player;
+
+            for (Player currentRichestPlayer : richestPlayers) {
+                if (player.getMoney() > currentRichestPlayer.getMoney() && !player.equals(currentRichestPlayer)) {
+                    richestPlayers.remove(currentRichestPlayer);
+                    richestPlayers.add(player);
+                }
             }
         }
 
-        System.out.println("The player who won is: " + currentRichestPlayer.getName()
-                + " with a total money amount of " + currentRichestPlayer.getMoney());
+        if (richestPlayers.size() > 1) {
+            System.out.println("Game ended in a draw!");
+            System.out.println("The winners are: ");
+            for (Player winner : richestPlayers) {
+                System.out.println(winner.getName() + " money: " + winner.getMoney());
+            }
+        } else {
+            System.out.println("The player who won is: " + richestPlayers.get(0).getName()
+                    + " with a total money amount of " + richestPlayers.get(0).getMoney());
+        }
     }
 }
 
