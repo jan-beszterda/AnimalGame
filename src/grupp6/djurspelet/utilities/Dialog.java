@@ -11,9 +11,9 @@ public class Dialog {
         System.out.println("-".repeat(20));
         System.out.println(text);
         for (int i = 0; i < options.length; i++) {
-            System.out.println(i+1 + options[i]);
+            System.out.println(i+1 + ". " + options[i]);
         }
-        return readIntInput(1, options.length) - 1;
+        return readIntInput(1, options.length) + 1;
     }
 
     public static int readIntInput(int min, int max) {
