@@ -22,16 +22,17 @@ public class Player {
     }
 
     public void buyAnimal(Store store) {
-        ArrayList<String> options = new ArrayList<>();
-        for (String s : store.getAnimalsInStock().keySet()) {
-            options.add(s + " - " + store.getPriceList().get(s).toString());
+        String[] options = store.getAnimalsInStock().keySet().toArray(new String[0]);
+        for (int i = 0; i < store.getAnimalsInStock().keySet().size(); i++) {
+            String s = options[i] + " " + store.getPriceList().get(options[i]).toString();
+            options[i] = s;
         }
-        int choice = Dialog.showDialog("Animals in stock", options.toArray(new String[0]));
+        int choice = Dialog.showDialog("Animals in stock", options);
         String name = Dialog.readStringInput("What do you want to name this animal to: ");
         int gender = Dialog.showDialog("What gender should the animal have: ", "MALE", "FEMALE");
-        if(isMoneySufficient(store.getPrice(options.get(choice).substring(0, options.get(choice).indexOf("-")).trim()))) {
-            Animal a = store.sellAnimal(options.get(choice).substring(0, options.get(choice).indexOf("-")).trim(), name, gender);
-            money -= store.getPrice(options.get(choice).substring(0, options.get(choice).indexOf("-")).trim());
+        if(isMoneySufficient(store.getPrice(options[choice].substring(0, options[choice].indexOf("-")).trim()))) {
+            Animal a = store.sellAnimal(options[choice].substring(0, options[choice].indexOf("-")).trim(), name, gender);
+            money -= store.getPrice(options[choice].substring(0, options[choice].indexOf("-")).trim());
             animalsOwned.add(a);
         } else {
             System.out.println("Not enough money to buy this!");
@@ -39,15 +40,16 @@ public class Player {
     }
 
     public void buyFodder(Store store) {
-        ArrayList<String> options = new ArrayList<>();
-        for (String s : store.getFodderInStock().keySet()) {
-            options.add(s + " - " + store.getPriceList().get(s).toString());
+        String[] options = store.getFodderInStock().keySet().toArray(new String[0]);
+        for (int i = 0; i < store.getFodderInStock().keySet().size(); i++) {
+            String s = options[i] + " " + store.getPriceList().get(options[i]).toString();
+            options[i] = s;
         }
-        int choice = Dialog.showDialog("Fodder in stock", options.toArray(new String[0]));
+        int choice = Dialog.showDialog("Fodder in stock", options);
         int amount = Dialog.showDialog("How much kg do you want to buy: ");
-        if (isMoneySufficient(store.getPrice(options.get(choice).substring(0, options.get(choice).indexOf("-")).trim()) * amount)) {
-            Food f = store.sellFodder(options.get(choice).substring(0, options.get(choice).indexOf("-")).trim());
-            money = money - (store.getPrice(options.get(choice).substring(0, options.get(choice).indexOf("-")).trim()) * amount);
+        if (isMoneySufficient(store.getPrice(options[choice].substring(0, options[choice].indexOf("-")).trim()) * amount)) {
+            Food f = store.sellFodder(options[choice].substring(0, options[choice].indexOf("-")).trim());
+            money = money - (store.getPrice(options[choice].substring(0, options[choice].indexOf("-")).trim()) * amount);
             if (!fodderOwned.containsKey(f)) {
                 fodderOwned.put(f, 0);
             }
@@ -75,37 +77,47 @@ public class Player {
     }
 
     public void attemptToMateAnAnimal() {
-        ArrayList<String> options = new ArrayList<>();
+        String[] options = new String[animalsOwned.size()];
         for (int i = 0; i < animalsOwned.size(); i++) {
-            options.add(animalsOwned.get(i).toString());
+            options[i] = animalsOwned.get(i).toString();
         }
-        int choice = Dialog.showDialog("Chose animal to mate:", options.toArray(new String[0]));
+        int choice = Dialog.showDialog("Chose animal to mate:", options);
         Animal a = animalsOwned.get(choice);
-        options.remove(choice);
-        choice = Dialog.showDialog("Chose other animal to mate:", options.toArray(new String[0]));
-        Animal child = a.mate(animalsOwned.get(choice));
-        if (child != null) {
-            String name = Dialog.readStringInput("What do you want to name this animal to: ");
-            child.setName(name);
-            child.setOwner(this);
-            animalsOwned.add(child);
+        options = new String[animalsOwned.size()-1];
+        for (int i = 0; i < animalsOwned.size(); i++) {
+            if (i == choice) {
+                continue;
+            }
+            options[i] = animalsOwned.get(i).toString();
+        }
+        choice = Dialog.showDialog("Chose other animal to mate:", options);
+        Animal[] children = a.mate(animalsOwned.get(choice));
+        if (children != null || children.length != 0) {
+            for (Animal child : children) {
+                String name = Dialog.readStringInput("What do you want to name this animal to: ");
+                child.setName(name);
+                child.setOwner(this);
+                animalsOwned.add(child);
+            }
         } else {
             System.out.println("Unsuccessful mating attempt.");
         }
     }
 
     public void feedAnAnimal() {
-        ArrayList<String> options = new ArrayList<>();
+        String[] options = new String[animalsOwned.size()];
         for (int i = 0; i < animalsOwned.size(); i++) {
-            options.add(animalsOwned.get(i).toString());
+            options[i] = animalsOwned.get(i).toString();
         }
-        int choice = Dialog.showDialog("Chose animal to feed:", options.toArray(new String[0]));
+        int choice = Dialog.showDialog("Chose animal to feed:", options);
         Animal a = animalsOwned.get(choice);
-        options.clear();
+        options = new String[fodderOwned.keySet().size()];
+        int i = 0;
         for (Food f : fodderOwned.keySet()) {
-            options.add(f.getName());
+            options[i] = f.getName();
+            i++;
         }
-        choice = Dialog.showDialog("Chose food to give:", options.toArray(new String[0]));
+        choice = Dialog.showDialog("Chose food to give:", options);
         Food f = fodderOwned.keySet().toArray(new Food[0])[choice];
         if (a.eat(f)) {
             System.out.println("Animal is eating.");
