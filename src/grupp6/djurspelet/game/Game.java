@@ -46,11 +46,21 @@ public class Game {
     We will need method to finalise the game
     */
 
-        private void saveGame(){
-            String inp = Dialog.readStringInput("What should the game be saved as?");
-            FileUtilities.saveGameToFile(inp, this);
-            System.out.println("Game has been saved!");
-        }
+    private void saveGame(){
+        String inp = Dialog.readStringInput("What should the game be saved as?");
+        FileUtilities.saveGameToFile(inp, this);
+        System.out.println("Game has been saved!");
+    }
+
+    //TODO om fler variabler läggs till så lägg till dem i här
+    private void loadGame(){
+        String inp = Dialog.readStringInput("What is th name of the save file?");
+        Game game = FileUtilities.loadGameFromFile(inp);
+        this.playersList = game.playersList;
+        this.currentPlayer = game.currentPlayer;
+        this.currentRoundNumber = game.currentRoundNumber;
+        System.out.println("Game file " + inp + " has been loaded!");
+    }
 
     private void updatePlayersAnimals() {
         for (Animal a : currentPlayer.getAnimalsOwned()) {
@@ -60,6 +70,8 @@ public class Game {
             }
         }
     }
+
+
 
     private boolean checkIfPlayerLost() {
         if (currentPlayer.getMoney() <= 0 && currentPlayer.getAnimalsOwned().size() <= 0) {
