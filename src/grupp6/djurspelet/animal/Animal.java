@@ -2,6 +2,8 @@ package grupp6.djurspelet.animal;
 
 import grupp6.djurspelet.food.Food;
 import grupp6.djurspelet.game.Player;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -54,16 +56,17 @@ Scanner scanner = new Scanner(System.in);
 
 
 
-    public Animal mate(Animal animalToMateWith) {
+    public Animal[] mate(Animal animalToMateWith) {
         if (this.getClass() == animalToMateWith.getClass() && !this.gender.equals(animalToMateWith.gender)) {
             int randomNumber = random.nextInt(2);
             if (randomNumber == 1) {
-
                 int randomNrOfOffsprings = random.nextInt((this.maxOffspringNumber) + 1);
+                Animal[] offspring = new Animal[randomNrOfOffsprings];
                 for (int i = 0; i < randomNrOfOffsprings; i++) {
                     int randomGender = random.nextInt(2);
-                    createChild(randomGender);
+                    offspring[i] = createChild(randomGender);
                 }
+                return offspring;
             } else {
                 System.out.println("No new animal this time.");
                 return null;
@@ -82,14 +85,12 @@ Scanner scanner = new Scanner(System.in);
         }
     }
 
-    //method for increasing health when animal eats health increases by 10%
     public void increaseHealth() {
-        if (health <= (health / 1.1)){
-        health = (health * 1.1);
-        }
-        else {
-            health = health + (100 - health); // if health is between 91% and 100%
-        }
+            health = health + 10;
+            if(health > 100){
+                health = 100;
+            }
+
     }
 
     public void diminishHealth() {
