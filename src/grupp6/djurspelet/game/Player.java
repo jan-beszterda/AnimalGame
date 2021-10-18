@@ -78,6 +78,14 @@ public class Player {
         }
     }
 
+    public void sellAllAnimals(ArrayList<Animal> animals, Store store){
+        int pay;
+        for (Animal animal : animals) {
+            pay = store.buyAnimal(animal);
+            money += pay;
+        }
+    }
+
     public void attemptToMateAnAnimal() {
         String[] options = new String[animalsOwned.size()];
         for (int i = 0; i < animalsOwned.size(); i++) {

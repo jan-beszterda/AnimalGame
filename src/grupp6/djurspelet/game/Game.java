@@ -184,7 +184,21 @@ public class Game {
         System.out.println("Your money: " + currentPlayer.getMoney());
         System.out.println("-".repeat(50));
     }
+
+    private void finalizeGame(){
+        Player currentRichestPlayer = playersList.get(0);
+
+        for (Player player : playersList) {
+            player.sellAllAnimals(player.getAnimalsOwned(), store);
+            if (player.getMoney() > currentRichestPlayer.getMoney()){
+                currentRichestPlayer = player;
+            }
+        }
+
+        System.out.println("The player who won is: " + currentRichestPlayer.getName()
+        + " with a total money amount of " + currentRichestPlayer.getMoney());
     }
+}
 
 
 
