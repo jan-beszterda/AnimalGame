@@ -26,15 +26,15 @@ public class Player {
     public void buyAnimal(Store store) {
         String[] options = store.getAnimalsInStock().keySet().toArray(new String[0]);
         for (int i = 0; i < store.getAnimalsInStock().keySet().size(); i++) {
-            String s = options[i] + " " + store.getPriceList().get(options[i]).toString();
+            String s = options[i] + " - price: " + store.getPriceList().get(options[i]).toString();
             options[i] = s;
         }
         int choice = Dialog.showDialog("Animals in stock", options);
         String name = Dialog.readStringInput("What do you want to name this animal to: ");
         int gender = Dialog.showDialog("What gender should the animal have: ", "MALE", "FEMALE");
-        if(isMoneySufficient(store.getPrice(options[choice].substring(0, options[choice].indexOf("-")).trim()))) {
-            Animal a = store.sellAnimal(options[choice].substring(0, options[choice].indexOf("-")).trim(), name, gender);
-            money -= store.getPrice(options[choice].substring(0, options[choice].indexOf("-")).trim());
+        if(isMoneySufficient(store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim()))) {
+            Animal a = store.sellAnimal(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim(), name, gender-1);
+            money -= store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim());
             animalsOwned.add(a);
         } else {
             System.out.println("Not enough money to buy this!");
@@ -44,14 +44,14 @@ public class Player {
     public void buyFodder(Store store) {
         String[] options = store.getFodderInStock().keySet().toArray(new String[0]);
         for (int i = 0; i < store.getFodderInStock().keySet().size(); i++) {
-            String s = options[i] + " " + store.getPriceList().get(options[i]).toString();
+            String s = options[i] + " - price: " + store.getPriceList().get(options[i]).toString() + " per kg";
             options[i] = s;
         }
         int choice = Dialog.showDialog("Fodder in stock", options);
         int amount = Dialog.showDialog("How much kg do you want to buy: ");
-        if (isMoneySufficient(store.getPrice(options[choice].substring(0, options[choice].indexOf("-")).trim()) * amount)) {
-            Food f = store.sellFodder(options[choice].substring(0, options[choice].indexOf("-")).trim());
-            money = money - (store.getPrice(options[choice].substring(0, options[choice].indexOf("-")).trim()) * amount);
+        if (isMoneySufficient(store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim()) * amount)) {
+            Food f = store.sellFodder(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim());
+            money = money - (store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim()) * amount);
             if (!fodderOwned.containsKey(f)) {
                 fodderOwned.put(f, 0);
             }

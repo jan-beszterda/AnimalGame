@@ -118,7 +118,7 @@ public class Game {
 
     //TODO om fler variabler läggs till så lägg till dem i här
     private void loadGame(){
-        String inp = Dialog.readStringInput("What is th name of the save file?");
+        String inp = Dialog.readStringInput("What is the name of the save file?");
         Game game = FileUtilities.loadGameFromFile(inp);
         this.playersList = game.playersList;
         this.currentPlayer = game.currentPlayer;
@@ -197,7 +197,7 @@ public class Game {
         }
         currentPlayer = playersList.get(0);
         currentRoundNumber = 1;
-        // play Round();
+        playPlayerRound();
     }
 
     private void finalizeGame(){
