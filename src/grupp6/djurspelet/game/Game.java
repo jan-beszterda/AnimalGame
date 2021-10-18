@@ -59,39 +59,40 @@ public class Game {
 
         private void playPlayerRound() {
             boolean playerNotFinished = true;
-            String[] options = {"Buy animal", "Buy fodder", "Feed an animal", "Attempt to mate two animals", "Sell animal", "End turn"};
+            String[] options = {"Buy animal", "Buy fodder", "Feed an animal", "Attempt to mate two animals", "Sell animal"};
             while(playerNotFinished) {
                 int answer = Dialog.showDialog("Make your choice:", options);
                 switch(answer) {
                     case 1:
-                        currentPlayer.buyAnimal(store);
+                        while (currentPlayer.getMoney() > store.getCheapestAnimal()) {
+                            currentPlayer.buyAnimal(store);
+                        }
                         break;
                     case 2:
-                        currentPlayer.buyFodder(store);
+                        while (currentPlayer.getMoney() > store.getCheapestFodder()){
+                            currentPlayer.buyFodder(store);
+                        }
                         break;
                     case 3:
-                        if (currentPlayer.getFodderOwned().isEmpty() || currentPlayer.getAnimalsOwned().isEmpty()) {
-                            System.out.println("You have no animals to feed or no fodder to give!");
-                        } else {
+                        if (!currentPlayer.getFodderOwned().isEmpty() && !currentPlayer.getAnimalsOwned().isEmpty()) {
                             currentPlayer.feedAnAnimal();
+                        } else {
+                            System.out.println("You have no animals to feed or no fodder to give!");
                         }
                         break;
                     case 4:
-                        if (currentPlayer.getAnimalsOwned().size() < 2) {
-                            System.out.println("You need at least two animals to attempt to mate them!");
-                        } else {
+                        if (currentPlayer.getAnimalsOwned().size() > 2) {
                             currentPlayer.attemptToMateAnAnimal();
+                        } else {
+                            System.out.println("You need at least two animals to attempt to mate them!");
                         }
                         break;
                     case 5:
-                        if (currentPlayer.getAnimalsOwned().isEmpty()) {
-                            System.out.println("You need no animals to sell!");
-                        } else {
+                        if (!currentPlayer.getAnimalsOwned().isEmpty()) {
                             currentPlayer.sellAnimal(store);
+                        } else {
+                            System.out.println("You need no animals to sell!");
                         }
-                        break;
-                    case 6:
-                        playerNotFinished = false;
                         break;
                 }
                 nextPlayerRound();
