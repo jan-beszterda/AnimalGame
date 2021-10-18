@@ -1,5 +1,8 @@
 package grupp6.djurspelet.game;
 
+import grupp6.djurspelet.utilities.Dialog;
+import grupp6.djurspelet.utilities.FileUtilities;
+
 public class Game {
 
     /*
@@ -15,4 +18,10 @@ public class Game {
     We will need method to quit game
     We will need method to finalise the game
     */
+
+    private void saveGame(){
+        String inp = Dialog.readStringInput("What should the game be saved as?");
+        FileUtilities.saveGameToFile(inp, this);
+        System.out.println("Game has been saved!");
+    }
 }
