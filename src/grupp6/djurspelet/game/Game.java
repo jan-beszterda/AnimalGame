@@ -32,6 +32,23 @@ public class Game {
             }
         }
 
+        public void startGame(){
+            int answer = Dialog.showDialog("** ANIMAL GAME **", "1. Start New Game", "2. Load Game", "3. Quit Game");
+       switch (answer){
+
+           case 1:
+
+               break;
+           case 2:
+
+               break;
+           case 3:
+               System.exit(0);
+               break;
+       }
+
+        }
+
 
     /*
     We will need a variable to hold all players in the game, example ArrayList
