@@ -64,14 +64,24 @@ public class Game {
                 int answer = Dialog.showDialog("Make your choice:", options);
                 switch(answer) {
                     case 1:
-                        while (currentPlayer.getMoney() > store.getCheapestAnimal()) {
+                        do {
                             currentPlayer.buyAnimal(store);
-                        }
+                            if (currentPlayer.getMoney() < store.getCheapestAnimal()) {
+                                answer = 1;
+                            } else {
+                                answer = Dialog.showDialog("Do you want to buy another animal:", "Yes", "No");
+                            }
+                        } while (answer-1 == 0);
                         break;
                     case 2:
-                        while (currentPlayer.getMoney() > store.getCheapestFodder()){
+                        do {
                             currentPlayer.buyFodder(store);
-                        }
+                            if (currentPlayer.getMoney() < store.getCheapestFodder()) {
+                                answer = 1;
+                            } else {
+                                answer = Dialog.showDialog("Do you want to buy more fodder:", "Yes", "No");
+                            }
+                        } while (answer-1 == 0);
                         break;
                     case 3:
                         if (!currentPlayer.getFodderOwned().isEmpty() && !currentPlayer.getAnimalsOwned().isEmpty()) {
