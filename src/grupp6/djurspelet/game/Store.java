@@ -1,6 +1,5 @@
 package grupp6.djurspelet.game;
 
-
 import grupp6.djurspelet.animal.*;
 import grupp6.djurspelet.food.*;
 
@@ -8,43 +7,37 @@ import java.util.LinkedHashMap;
 
 public class Store {
 
-    private LinkedHashMap<String, Animal> animalsInStock;
-    private LinkedHashMap<String, Food> fodderInStock;
-    private LinkedHashMap<String, Integer> priceList;
+    private LinkedHashMap<String, Integer> animalStock;
+    private LinkedHashMap<String, Integer> fodderStock;
 
     public Store() {
-        this.animalsInStock = new LinkedHashMap<>();
-        this.fodderInStock = new LinkedHashMap<>();
-        this.priceList = new LinkedHashMap<>();
+        this.animalStock = new LinkedHashMap<>();
+        this.fodderStock = new LinkedHashMap<>();
         initialiseStore();
     }
 
     private void initialiseStore() {
-        this.animalsInStock.put("Horse", new Horse("", 0));
-        this.animalsInStock.put("Cow", new Cow("", 0));
-        this.animalsInStock.put("Dog", new Dog("", 0));
-        this.animalsInStock.put("Cat", new Cat("", 0));
-        this.animalsInStock.put("Pig", new Pig("", 0));
+        this.animalStock.put("Horse", 1000);
+        this.animalStock.put("Cow", 500);
+        this.animalStock.put("Dog", 300);
+        this.animalStock.put("Cat", 200);
+        this.animalStock.put("Pig", 500);
 
-        this.fodderInStock.put("Meat", new Meat());
-        this.fodderInStock.put("Grass", new Grass());
-        this.fodderInStock.put("Corn", new Corn());
-
-        this.priceList.put("Horse", 1000);
-        this.priceList.put("Cow", 500);
-        this.priceList.put("Dog", 300);
-        this.priceList.put("Cat", 200);
-        this.priceList.put("Pig", 500);
-        this.priceList.put("Meat", 100);
-        this.priceList.put("Grass", 30);
-        this.priceList.put("Corn", 50);
+        this.fodderStock.put("Meat", 100);
+        this.fodderStock.put("Grass", 30);
+        this.fodderStock.put("Corn", 50);
     }
 
     public int getPrice(String productName) {
-        int price = 0;
-        for (String s : priceList.keySet()) {
+        int price = -1;
+        for (String s : animalStock.keySet()) {
             if (s.equalsIgnoreCase(productName)) {
-                price = priceList.get(s);
+                price = animalStock.get(s);
+            }
+        }
+        for (String s : fodderStock.keySet()) {
+            if (s.equalsIgnoreCase(productName)) {
+                price = fodderStock.get(s);
             }
         }
         return price;
@@ -82,7 +75,7 @@ public class Store {
     public int buyAnimal(Animal animal) {
         String productName = animal.getClass().getSimpleName();
         int pay = 0;
-        for (String s : priceList.keySet()) {
+        for (String s : animalStock.keySet()) {
             if (s.equalsIgnoreCase(productName)) {
                 pay = getPrice(productName) * (animal.getHealth() / 100);
                 break;
@@ -90,11 +83,12 @@ public class Store {
         }
         return pay;
     }
+
     public int getCheapestAnimal() {
         int price = 0;
-        for (String s : animalsInStock.keySet()) {
-            if (price > priceList.get(s)) {
-                price = priceList.get(s);
+        for (String s : animalStock.keySet()) {
+            if (price > animalStock.get(s)) {
+                price = animalStock.get(s);
             }
         }
         return price;
@@ -102,23 +96,19 @@ public class Store {
 
     public int getCheapestFodder() {
         int price = 0;
-        for (String s : fodderInStock.keySet()) {
-            if (price > priceList.get(s)) {
-                price = priceList.get(s);
+        for (String s : fodderStock.keySet()) {
+            if (price > fodderStock.get(s)) {
+                price = fodderStock.get(s);
             }
         }
         return price;
     }
 
-    public LinkedHashMap<String, Animal> getAnimalsInStock() {
-        return animalsInStock;
+    public LinkedHashMap<String, Integer> getFodderStock() {
+        return fodderStock;
     }
 
-    public LinkedHashMap<String, Food> getFodderInStock() {
-        return fodderInStock;
-    }
-
-    public LinkedHashMap<String, Integer> getPriceList() {
-        return priceList;
+    public LinkedHashMap<String, Integer> getAnimalStock() {
+        return animalStock;
     }
 }

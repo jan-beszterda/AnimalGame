@@ -5,13 +5,8 @@ import grupp6.djurspelet.game.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.Scanner;
-
 
 public abstract class Animal {
-
-
-Scanner scanner = new Scanner(System.in);
 
     enum Gender {
         MALE, FEMALE
@@ -25,9 +20,7 @@ Scanner scanner = new Scanner(System.in);
     private int health = 100;
     private Player owner;
     private int maxOffspringNumber;
-
     private boolean alive = true;
-
 
     public Animal(String name, int gender, int maxAge, Player owner, int maxOffspringNumber, Food... acceptedFood) {
         this.name = name;
@@ -39,13 +32,11 @@ Scanner scanner = new Scanner(System.in);
         this.acceptedFood.addAll(Arrays.asList(acceptedFood));
     }
 
-
     public abstract Animal createChild(int randomGender);
 
-
     public boolean eat(Food food) {
-        for (int i = 0; i < acceptedFood.size(); i++) {
-            if (food.getName().equalsIgnoreCase(acceptedFood.get(i).getName())) {
+        for (Food f : acceptedFood) {
+            if (f.equals(food)) {
                 this.increaseHealth();
                 return true;
             }
@@ -53,8 +44,6 @@ Scanner scanner = new Scanner(System.in);
         System.out.println("I can't eat this!");
         return false;
     }
-
-
 
     public Animal[] mate(Animal animalToMateWith) {
         if (this.getClass() == animalToMateWith.getClass() && !this.gender.equals(animalToMateWith.gender)) {
@@ -76,8 +65,6 @@ Scanner scanner = new Scanner(System.in);
         return null;
     }
 
-
-
     public void getOlder() {
         age += 1;
         if (age > maxAge) {
@@ -87,7 +74,7 @@ Scanner scanner = new Scanner(System.in);
 
     public void increaseHealth() {
         health = health + 10;
-        if(health > 100){
+        if (health > 100) {
             health = 100;
         }
     }
@@ -100,32 +87,26 @@ Scanner scanner = new Scanner(System.in);
         }
     }
 
-
     private void die() {
-        owner.getAnimalsOwned().remove(this);
-        this.owner = null;
         alive = false;
-        System.out.println("Animal is dead.");
     }
-
 
     public String toString() {
         String animalInfo = (this.name + " a " + this.age + " years old " + this.gender + " " + this.getClass().getSimpleName() + " at " + this.health + "% health.");
         return animalInfo;
     }
 
-
     public String getName(){
         return name;
     }
 
     public void setName(String name) {
-            this.name = name;
-        }
+        this.name = name;
+    }
 
-        public void setOwner(Player owner) {
-            this.owner = owner;
-        }
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
 
     public Gender getGender() {
         return this.gender;
@@ -142,5 +123,4 @@ Scanner scanner = new Scanner(System.in);
     public int getHealth() {
         return health;
     }
-
 }

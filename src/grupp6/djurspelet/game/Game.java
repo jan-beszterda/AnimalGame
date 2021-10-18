@@ -1,11 +1,9 @@
 package grupp6.djurspelet.game;
 
-
 import grupp6.djurspelet.animal.Animal;
 import grupp6.djurspelet.food.Food;
 import grupp6.djurspelet.utilities.Dialog;
 import grupp6.djurspelet.utilities.FileUtilities;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
@@ -59,7 +57,6 @@ public class Game implements Serializable {
     }
 
     private void playPlayerRound() {
-        boolean playerNotFinished = true;
         String[] options = {"Buy animal", "Buy fodder", "Feed an animal", "Attempt to mate two animals", "Sell animal", "Save game and quit"};
         int answer = Dialog.showDialog("Make your choice:", options);
         switch (answer) {
@@ -135,12 +132,12 @@ public class Game implements Serializable {
             int answer = Dialog.showDialog("Do you really want to quit? Your progress will be lost.",
                     "Yes", "No");
             switch (answer) {
-                case 1 -> System.exit(0);
-                case 2 -> {
+                case 1:
+                    System.exit(0);
+                case 2:
                     saveGame();
                     System.out.println("Quitting game...");
                     System.exit(0);
-                }
             }
         }
         System.out.println("Quitting game...");
@@ -148,10 +145,22 @@ public class Game implements Serializable {
     }
 
     private void updatePlayersAnimals() {
+        ArrayList<Animal> toRemove = new ArrayList<>();
         for (Animal a : currentPlayer.getAnimalsOwned()) {
             a.getOlder();
             if (a.isAlive()) {
                 a.diminishHealth();
+            }
+            if (!a.isAlive()) {
+                toRemove.add(a);
+            }
+        }
+        if (!toRemove.isEmpty()) {
+            for (Animal a : toRemove) {
+                currentPlayer.getAnimalsOwned().remove(a);
+                a.setOwner(null);
+                System.out.println("-".repeat(50));
+                System.out.println(currentPlayer.getName() + "! Your " + a.getClass().getSimpleName() + " " + a.getName() + " died.");
             }
         }
     }
@@ -178,8 +187,7 @@ public class Game implements Serializable {
         System.out.println("-".repeat(50));
         System.out.println("Your fodder:");
         Set<Map.Entry<Food, Integer>> entries = currentPlayer.getFodderOwned().entrySet();
-        for (Map.Entry<Food, Integer> e : entries
-        ) {
+        for (Map.Entry<Food, Integer> e : entries) {
             System.out.println(e.getKey().getClass().getSimpleName() + " - " + e.getValue().toString() + " kg.");
         }
         System.out.println("-".repeat(50));
@@ -206,7 +214,6 @@ public class Game implements Serializable {
     private void finalizeGame() {
         ArrayList<Player> richestPlayers = new ArrayList<>();
         richestPlayers.add(playersList.get(0));
-
         for (Player player : playersList) {
             player.sellAllAnimals(player.getAnimalsOwned(), store);
 
@@ -217,7 +224,6 @@ public class Game implements Serializable {
                 }
             }
         }
-
         if (richestPlayers.size() > 1) {
             System.out.println("Game ended in a draw!");
             System.out.println("The winners are: ");

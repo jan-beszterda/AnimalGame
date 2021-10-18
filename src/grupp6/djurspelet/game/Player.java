@@ -3,11 +3,8 @@ package grupp6.djurspelet.game;
 import grupp6.djurspelet.animal.Animal;
 import grupp6.djurspelet.food.Food;
 import grupp6.djurspelet.utilities.Dialog;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
 
 public class Player {
 
@@ -24,17 +21,19 @@ public class Player {
     }
 
     public void buyAnimal(Store store) {
-        String[] options = store.getAnimalsInStock().keySet().toArray(new String[0]);
-        for (int i = 0; i < store.getAnimalsInStock().keySet().size(); i++) {
-            String s = options[i] + " - price: " + store.getPriceList().get(options[i]).toString();
+        String[] options = store.getAnimalStock().keySet().toArray(new String[0]);
+        for (int i = 0; i < store.getAnimalStock().keySet().size(); i++) {
+            String s = options[i] + " - price: " + store.getAnimalStock().get(options[i]).toString();
             options[i] = s;
         }
         int choice = Dialog.showDialog("Animals in stock", options);
-        String name = Dialog.readStringInput("What do you want to name this animal to: ");
-        int gender = Dialog.showDialog("What gender should the animal have: ", "MALE", "FEMALE");
         if(isMoneySufficient(store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim()))) {
-            Animal a = store.sellAnimal(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim(), name, gender-1);
+            int gender = Dialog.showDialog("What gender should the animal have: ", "MALE", "FEMALE");
+            Animal a = store.sellAnimal(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim(), "", gender-1);
             money -= store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim());
+            String name = Dialog.readStringInput("What do you want to name this animal to: ");
+            a.setName(name);
+            a.setOwner(this);
             animalsOwned.add(a);
         } else {
             System.out.println("Not enough money to buy this!");
@@ -42,9 +41,9 @@ public class Player {
     }
 
     public void buyFodder(Store store) {
-        String[] options = store.getFodderInStock().keySet().toArray(new String[0]);
-        for (int i = 0; i < store.getFodderInStock().keySet().size(); i++) {
-            String s = options[i] + " - price: " + store.getPriceList().get(options[i]).toString() + " per kg";
+        String[] options = store.getFodderStock().keySet().toArray(new String[0]);
+        for (int i = 0; i < store.getFodderStock().keySet().size(); i++) {
+            String s = options[i] + " - price: " + store.getFodderStock().get(options[i]).toString() + "/kg";
             options[i] = s;
         }
         int choice = Dialog.showDialog("Fodder in stock", options);
