@@ -80,6 +80,10 @@ public class Game {
         return false;
     }
 
+    private void removePlayer() {
+            playersList.remove(currentPlayer);
+    }
+
     private void showPlayerStatus() {
         System.out.println("-".repeat(50));
         System.out.println("Your animals:");
