@@ -11,4 +11,8 @@ public abstract class Food {
     public String getName() {
         return name;
     }
+
+    public boolean equals(Object food){
+        return this.getClass() == food.getClass() && this == food;
+    }
 }
