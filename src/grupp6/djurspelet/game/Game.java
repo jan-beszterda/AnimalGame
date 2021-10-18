@@ -33,70 +33,20 @@ public class Game {
         }
 
         public void startGame(){
-            int answer = Dialog.showDialog("** ANIMAL GAME **", "Start New Game", "Load Game", "Quit Game");
-            switch (answer){
-                case 1:
+            int answer = Dialog.showDialog("** ANIMAL GAME **", "1. Start New Game", "2. Load Game", "3. Quit Game");
+       switch (answer){
 
-                break;
-                case 2:
+           case 1:
 
-                break;
-                case 3:
-                System.exit(0);
-                break;
+               break;
+           case 2:
+
+               break;
+           case 3:
+               System.exit(0);
+               break;
        }
 
-        }
-
-        private void playRound() {
-            nextPlayerRound();
-            if (checkIfPlayerLost()) {
-                removePlayer();
-                nextPlayerRound();
-            } else {
-                playPlayerRound();
-            }
-        }
-
-        private void playPlayerRound() {
-            boolean playerNotFinished = true;
-            String[] options = {"Buy animal", "Buy fodder", "Feed an animal", "Attempt to mate two animals", "Sell animal", "End turn"};
-            while(playerNotFinished) {
-                int answer = Dialog.showDialog("Make your choice:", options);
-                switch(answer) {
-                    case 1:
-                        currentPlayer.buyAnimal(store);
-                        break;
-                    case 2:
-                        currentPlayer.buyFodder(store);
-                        break;
-                    case 3:
-                        if (currentPlayer.getFodderOwned().isEmpty() || currentPlayer.getAnimalsOwned().isEmpty()) {
-                            System.out.println("You have no animals to feed or no fodder to give!");
-                        } else {
-                            currentPlayer.feedAnAnimal();
-                        }
-                        break;
-                    case 4:
-                        if (currentPlayer.getAnimalsOwned().size() < 2) {
-                            System.out.println("You need at least two animals to attempt to mate them!");
-                        } else {
-                            currentPlayer.attemptToMateAnAnimal();
-                        }
-                        break;
-                    case 5:
-                        if (currentPlayer.getAnimalsOwned().isEmpty()) {
-                            System.out.println("You need no animals to sell!");
-                        } else {
-                            currentPlayer.sellAnimal(store);
-                        }
-                        break;
-                    case 6:
-                        playerNotFinished = false;
-                        break;
-                }
-                nextPlayerRound();
-            }
         }
     /*
     We will need a variable to hold all players in the game, example ArrayList
@@ -185,20 +135,24 @@ public class Game {
         System.out.println("-".repeat(50));
     }
 
-    private void finalizeGame(){
-        Player currentRichestPlayer = playersList.get(0);
-
-        for (Player player : playersList) {
-            player.sellAllAnimals(player.getAnimalsOwned(), store);
-            if (player.getMoney() > currentRichestPlayer.getMoney()){
-                currentRichestPlayer = player;
-            }
+    private void startNewGame(){
+        int numberOfPlayers = Dialog.showDialog("Number of players in the game?");
+        for (int i = 0; i < numberOfPlayers; i++){
+            String name = Dialog.readStringInput("What is your name player " + (i+1) + " ?");
+            Player player = new Player(name);
+            playersList.add(player);
         }
+        maxNumberOfRounds = Dialog.showDialog("Input number of rounds you want to play (MAX 30): ");
+        while (maxNumberOfRounds <= 0 || maxNumberOfRounds > 30){
+            maxNumberOfRounds = Dialog.showDialog("Input number of rounds you want to play (MAX 30): ");
+        }
+        currentPlayer = playersList.get(0);
+        currentRoundNumber = 1;
+        // play Round();
 
-        System.out.println("The player who won is: " + currentRichestPlayer.getName()
-        + " with a total money amount of " + currentRichestPlayer.getMoney());
     }
 }
+
 
 
 
