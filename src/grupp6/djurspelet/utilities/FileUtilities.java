@@ -30,7 +30,6 @@ public class FileUtilities implements Serializable {
             objectinputstream .close();
         } catch (Exception e) {
             System.out.println("Something went wrong when loading the game from file!");
-            e.printStackTrace();
         }
         return game;
     }

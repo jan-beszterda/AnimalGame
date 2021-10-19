@@ -117,16 +117,21 @@ public class Game implements Serializable {
 
     private void loadGame() {
         String inp = Dialog.readStringInput("What is the name of the save file?");
-        Game game = FileUtilities.loadGameFromFile(inp);
-        this.playersList = game.playersList;
-        this.currentPlayer = game.currentPlayer;
-        this.currentRoundNumber = game.currentRoundNumber;
-        this.store = game.store;
-        this.currentPlayerIndex = game.currentPlayerIndex;
-        System.out.println("Game file " + inp + " has been loaded!");
-        playPlayerRound();
-    }
+        try {
+            Game game = FileUtilities.loadGameFromFile(inp);
+            this.playersList = game.playersList;
+            this.currentPlayer = game.currentPlayer;
+            this.currentRoundNumber = game.currentRoundNumber;
+            this.store = game.store;
+            this.currentPlayerIndex = game.currentPlayerIndex;
+            System.out.println("Game file " + inp + " has been loaded!");
+            playPlayerRound();
+        } catch (Exception e) {
+            System.out.println("Wrong filename!");
+            startGame();
+        }
 
+    }
     private void quitGame() {
         if (this.playersList != null) {
             int answer = Dialog.showDialog("Do you really want to quit? Your progress will be lost.",
