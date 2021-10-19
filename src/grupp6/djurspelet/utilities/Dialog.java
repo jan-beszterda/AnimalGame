@@ -1,8 +1,9 @@
 package grupp6.djurspelet.utilities;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Dialog {
+public class Dialog implements Serializable {
 
     private static Scanner scanner = new Scanner(System.in);
 

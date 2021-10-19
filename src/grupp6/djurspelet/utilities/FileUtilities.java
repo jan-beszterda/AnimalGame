@@ -2,12 +2,9 @@ package grupp6.djurspelet.utilities;
 
 import grupp6.djurspelet.game.Game;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
-public class FileUtilities {
+public class FileUtilities implements Serializable {
 
     public static void saveGameToFile(String fileName, Game game) {
         ObjectOutputStream objectOutputStream = null;

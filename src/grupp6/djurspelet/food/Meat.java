@@ -1,6 +1,8 @@
 package grupp6.djurspelet.food;
 
-public class Meat extends Food {
+import java.io.Serializable;
+
+public class Meat extends Food implements Serializable {
 
     public Meat(){
         super("Meat");

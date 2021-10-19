@@ -3,9 +3,11 @@ package grupp6.djurspelet.game;
 import grupp6.djurspelet.animal.*;
 import grupp6.djurspelet.food.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 
-public class Store {
+public class Store implements Serializable {
 
     private LinkedHashMap<String, Integer> animalStock;
     private LinkedHashMap<String, Integer> fodderStock;

@@ -3,10 +3,12 @@ package grupp6.djurspelet.game;
 import grupp6.djurspelet.animal.Animal;
 import grupp6.djurspelet.food.Food;
 import grupp6.djurspelet.utilities.Dialog;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-public class Player {
+public class Player implements Serializable {
 
     private int money;
     private String name;

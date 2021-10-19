@@ -1,6 +1,8 @@
 package grupp6.djurspelet.food;
 
-public class Corn extends Food{
+import java.io.Serializable;
+
+public class Corn extends Food implements Serializable {
 
     public Corn(){
         super("Corn");

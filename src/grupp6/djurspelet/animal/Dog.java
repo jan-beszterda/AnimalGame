@@ -1,8 +1,10 @@
 package grupp6.djurspelet.animal;
 import grupp6.djurspelet.food.Meat;
 
+import java.io.Serializable;
 
-public class Dog extends Animal {
+
+public class Dog extends Animal implements Serializable {
 
     private String name;
 
