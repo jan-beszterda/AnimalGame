@@ -35,11 +35,11 @@ public class Player implements Serializable {
             Animal a = store.sellAnimal(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim(), "", gender-1);
             int price = store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim());
             money -= price;
-            String name = Dialog.readStringInput("What do you want to name this animal to: ");
+            String name = Dialog.readStringInput("What do you want to name this animal to");
             a.setName(name);
             a.setOwner(this);
             animalsOwned.add(a);
-            System.out.println("You bought a " + a.getClass().getSimpleName() + " and paid " + price);
+            System.out.println("You bought a " + a.getClass().getSimpleName() + " and paid " + price + ".");
         } else {
             System.out.println("Not enough money to buy this!");
         }
@@ -63,7 +63,7 @@ public class Player implements Serializable {
             int currentAmount = fodderOwned.get(f);
             currentAmount += amount;
             fodderOwned.replace(f, currentAmount);
-            System.out.println("You bought " + amount + " kg of " + f.getName() + " and paid " + price);
+            System.out.println("You bought " + amount + " kg of " + f.getName() + " and paid " + price + ".");
         } else {
             System.out.println("Not enough money to buy this!");
         }
@@ -75,10 +75,13 @@ public class Player implements Serializable {
             options[i] = animalsOwned.get(i).toString();
         }
         int choice = Dialog.showDialog("Chose animal to sell:", options);
-        int pay = store.buyAnimal(animalsOwned.get(choice-1));
+        Animal a = animalsOwned.get(choice-1);
+        int pay = store.buyAnimal(a);
         if (pay > 0) {
             money += pay;
-            System.out.println("Animal sold. You earned " + pay);
+            System.out.println("You sold a " + a.getClass().getSimpleName() + " (" + a.getName() + "). You earned " + pay + ".");
+            a.setOwner(null);
+            animalsOwned.remove(a);
         } else {
             System.out.println("Couldn't sell that.");
         }

@@ -79,7 +79,7 @@ public class Store implements Serializable {
         int pay = 0;
         for (String s : animalStock.keySet()) {
             if (s.equalsIgnoreCase(productName)) {
-                pay = getPrice(productName) * (animal.getHealth() / 100);
+                pay = (int) (getPrice(productName) * (animal.getHealth() / 100.0));
                 break;
             }
         }
