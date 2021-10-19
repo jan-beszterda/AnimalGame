@@ -27,6 +27,10 @@ public class Game implements Serializable {
         if (currentPlayerIndex > playersList.size() - 1) {
             currentPlayerIndex = 0;
             currentRoundNumber++;
+            if (currentRoundNumber > maxNumberOfRounds) {
+                finalizeGame();
+                System.exit(0);
+            }
             System.out.println("-".repeat(50));
             System.out.println("ROUND " + currentRoundNumber + " BEGINS!");
             System.out.println("-".repeat(50));
@@ -204,15 +208,27 @@ public class Game implements Serializable {
     }
 
     private void startNewGame() {
-        int numberOfPlayers = Dialog.showDialog("Number of players in the game?");
+        int numberOfPlayers = 0;
+        while (numberOfPlayers < 2 || numberOfPlayers > 4) {
+            numberOfPlayers = Dialog.showDialog("Number of players in the game?");
+            if (numberOfPlayers < 2) {
+                System.out.println("You need at least 2 players to play the game!");
+            } else if (numberOfPlayers > 4) {
+                System.out.println("Maximum 4 players can play the game!");
+            }
+        }
         for (int i = 0; i < numberOfPlayers; i++) {
             String name = Dialog.readStringInput("What is your name player " + (i + 1) + " ?");
             Player player = new Player(name);
             playersList.add(player);
         }
-        maxNumberOfRounds = Dialog.showDialog("Input number of rounds you want to play (MAX 30): ");
-        while (maxNumberOfRounds <= 0 || maxNumberOfRounds > 30) {
+        while (maxNumberOfRounds < 5 || maxNumberOfRounds > 30) {
             maxNumberOfRounds = Dialog.showDialog("Input number of rounds you want to play (MAX 30): ");
+            if (maxNumberOfRounds < 5) {
+                System.out.println("Minimum number of rounds is 5!");
+            } else if (maxNumberOfRounds > 30) {
+                System.out.println("Maximum number of rounds is 30!");
+            }
         }
         currentPlayer = playersList.get(0);
         currentRoundNumber = 1;
