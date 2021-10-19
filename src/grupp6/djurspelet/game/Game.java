@@ -27,6 +27,9 @@ public class Game implements Serializable {
         if (currentPlayerIndex > playersList.size() - 1) {
             currentPlayerIndex = 0;
             currentRoundNumber++;
+            System.out.println("-".repeat(50));
+            System.out.println("ROUND " + currentRoundNumber + " BEGINS!");
+            System.out.println("-".repeat(50));
         }
         currentPlayer = playersList.get(currentPlayerIndex);
         updatePlayersAnimals();
@@ -57,7 +60,7 @@ public class Game implements Serializable {
     }
 
     private void playPlayerRound() {
-        String[] options = {"Buy animal", "Buy fodder", "Feed an animal", "Attempt to mate two animals", "Sell animal", "Save game and quit"};
+        String[] options = {"Buy an animal", "Buy fodder", "Feed an animal", "Mate two animals", "Sell an animal", "Save game and quit"};
         int answer = Dialog.showDialog("Make your choice:", options);
         switch (answer) {
             case 1:
@@ -88,7 +91,7 @@ public class Game implements Serializable {
                 }
                 break;
             case 4:
-                if (currentPlayer.getAnimalsOwned().size() > 2) {
+                if (currentPlayer.getAnimalsOwned().size() > 1) {
                     currentPlayer.attemptToMateAnAnimal();
                 } else {
                     System.out.println("You need at least two animals to attempt to mate them!");
@@ -213,6 +216,11 @@ public class Game implements Serializable {
         }
         currentPlayer = playersList.get(0);
         currentRoundNumber = 1;
+        System.out.println("-".repeat(50));
+        System.out.println("ROUND " + currentRoundNumber + " BEGINS!");
+        System.out.println("-".repeat(50));
+        System.out.println(currentPlayer.getName() + " - your turn begins!");
+        showPlayerStatus();
         playPlayerRound();
     }
 

@@ -6,6 +6,7 @@ import grupp6.djurspelet.utilities.Dialog;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 public class Player implements Serializable {
@@ -32,11 +33,13 @@ public class Player implements Serializable {
         if(isMoneySufficient(store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim()))) {
             int gender = Dialog.showDialog("What gender should the animal have: ", "MALE", "FEMALE");
             Animal a = store.sellAnimal(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim(), "", gender-1);
-            money -= store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim());
+            int price = store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim());
+            money -= price;
             String name = Dialog.readStringInput("What do you want to name this animal to: ");
             a.setName(name);
             a.setOwner(this);
             animalsOwned.add(a);
+            System.out.println("You bought a " + a.getClass().getSimpleName() + " and paid " + price);
         } else {
             System.out.println("Not enough money to buy this!");
         }
@@ -52,13 +55,15 @@ public class Player implements Serializable {
         int amount = Dialog.showDialog("How much kg do you want to buy: ");
         if (isMoneySufficient(store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim()) * amount)) {
             Food f = store.sellFodder(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim());
-            money = money - (store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim()) * amount);
+            int price = (store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim()) * amount);
+            money = money - price;
             if (!fodderOwned.containsKey(f)) {
                 fodderOwned.put(f, 0);
             }
             int currentAmount = fodderOwned.get(f);
             currentAmount += amount;
             fodderOwned.replace(f, currentAmount);
+            System.out.println("You bought " + amount + " kg of " + f.getName() + " and paid " + price);
         } else {
             System.out.println("Not enough money to buy this!");
         }
@@ -88,22 +93,15 @@ public class Player implements Serializable {
     }
 
     public void attemptToMateAnAnimal() {
-        String[] options = new String[animalsOwned.size()];
-        for (int i = 0; i < animalsOwned.size(); i++) {
-            options[i] = animalsOwned.get(i).toString();
+        ArrayList<String> options = new ArrayList<>();
+        for (Animal a : animalsOwned) {
+            options.add(a.toString());
         }
-        int choice = Dialog.showDialog("Chose animal to mate:", options);
-        Animal a = animalsOwned.get(choice);
-        options = new String[animalsOwned.size()-1];
-        for (int i = 0; i < animalsOwned.size(); i++) {
-            if (i == choice) {
-                continue;
-            }
-            options[i] = animalsOwned.get(i).toString();
-        }
-        choice = Dialog.showDialog("Chose other animal to mate:", options);
-        Animal[] children = a.mate(animalsOwned.get(choice));
-        if (children != null || children.length != 0) {
+        int choice = Dialog.showDialog("Chose animal to mate:", options.toArray(new String[0]));
+        Animal a = animalsOwned.get(choice-1);
+        choice = Dialog.showDialog("Chose other animal to mate:", options.toArray(new String[0]));
+        Animal[] children = a.mate(animalsOwned.get(choice-1));
+        if (children != null && children.length != 0) {
             for (Animal child : children) {
                 String name = Dialog.readStringInput("What do you want to name this animal to: ");
                 child.setName(name);

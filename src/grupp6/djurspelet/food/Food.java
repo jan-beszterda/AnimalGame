@@ -15,6 +15,12 @@ public abstract class Food implements Serializable {
     }
 
     public boolean equals(Object food){
-        return this.getClass() == food.getClass() && this == food;
+        if (this == food) {
+            return true;
+        } else if (this.getClass() == food.getClass()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
