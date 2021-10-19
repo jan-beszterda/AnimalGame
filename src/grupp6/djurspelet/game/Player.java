@@ -102,8 +102,14 @@ public class Player implements Serializable {
         choice = Dialog.showDialog("Chose other animal to mate:", options.toArray(new String[0]));
         Animal[] children = a.mate(animalsOwned.get(choice-1));
         if (children != null && children.length != 0) {
+            String s = "Success! " + name + " you got " + children.length + " new " + a.getClass().getSimpleName();
+            if (children.length > 1) {
+                s += "s!";
+            }
+            System.out.println(s);
             for (Animal child : children) {
-                String name = Dialog.readStringInput("What do you want to name this animal to: ");
+                String name = Dialog.readStringInput("What do you want to name this " + child.getGender() +
+                        " " + child.getClass().getSimpleName() + " to: ");
                 child.setName(name);
                 child.setOwner(this);
                 animalsOwned.add(child);
