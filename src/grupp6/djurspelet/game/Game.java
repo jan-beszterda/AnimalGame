@@ -130,7 +130,7 @@ public class Game implements Serializable {
     private void quitGame() {
         if (this.playersList != null) {
             int answer = Dialog.showDialog("Do you really want to quit? Your progress will be lost.",
-                    "Yes", "No");
+                    "Yes", "No, SAVE GAME");
             switch (answer) {
                 case 1:
                     System.exit(0);
@@ -214,7 +214,7 @@ public class Game implements Serializable {
     private void finalizeGame() {
         ArrayList<Player> richestPlayers = new ArrayList<>();
         richestPlayers.add(playersList.get(0));
-        for (Player player : playersList) {
+         for (Player player : playersList) {
             player.sellAllAnimals(player.getAnimalsOwned(), store);
 
             for (Player currentRichestPlayer : richestPlayers) {
