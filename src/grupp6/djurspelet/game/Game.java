@@ -221,7 +221,7 @@ public class Game implements Serializable {
     private void startNewGame() {
         int numberOfPlayers = 0;
         while (numberOfPlayers < 2 || numberOfPlayers > 4) {
-            numberOfPlayers = Dialog.showDialog("Number of players in the game?");
+            numberOfPlayers = Dialog.showDialog("How many players will play the game (2-4)?");
             if (numberOfPlayers < 2) {
                 System.out.println("You need at least 2 players to play the game!");
             } else if (numberOfPlayers > 4) {
