@@ -103,7 +103,14 @@ public class Game implements Serializable {
                 break;
             case 5:
                 if (!currentPlayer.getAnimalsOwned().isEmpty()) {
-                    currentPlayer.sellAnimal(store);
+                    do {
+                        currentPlayer.sellAnimal(store);
+                        if (!currentPlayer.getAnimalsOwned().isEmpty()) {
+                            answer = Dialog.showDialog("Do you want to sell another animal?", "Yes", "No");
+                        } else {
+                            break;
+                        }
+                    } while (answer != 2);
                 } else {
                     System.out.println("You need no animals to sell!");
                 }
@@ -132,6 +139,8 @@ public class Game implements Serializable {
             this.store = game.store;
             this.currentPlayerIndex = game.currentPlayerIndex;
             System.out.println("Game file " + inp + " has been loaded!");
+            System.out.println(currentPlayer.getName() + " - your turn begins!");
+            showPlayerStatus();
             playPlayerRound();
         } catch (Exception e) {
             System.out.println("Wrong filename!");

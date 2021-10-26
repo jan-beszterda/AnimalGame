@@ -24,7 +24,7 @@ public class FileUtilities implements Serializable {
         ObjectInputStream objectinputstream = null;
         Game game = null;
         try {
-            FileInputStream streamIn = new FileInputStream(fileName);
+            FileInputStream streamIn = new FileInputStream(fileName + ".ser");
             objectinputstream = new ObjectInputStream(streamIn);
             game = (Game) objectinputstream.readObject();
             objectinputstream .close();
