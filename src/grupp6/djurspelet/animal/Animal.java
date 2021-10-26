@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+// HÄr kommer Java doc framöver
+
 public abstract class Animal implements Serializable {
 
     enum Gender {
