@@ -3,7 +3,7 @@ package grupp6.djurspelet.utilities;
 import java.io.Serializable;
 import java.util.Scanner;
 
-public class Dialog implements Serializable {
+public class Dialog {
 
     private static Scanner scanner = new Scanner(System.in);
 

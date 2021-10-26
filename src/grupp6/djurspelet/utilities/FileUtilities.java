@@ -3,7 +3,7 @@ package grupp6.djurspelet.utilities;
 import grupp6.djurspelet.game.Game;
 import java.io.*;
 
-public class FileUtilities implements Serializable {
+public class FileUtilities{
 
     public static void saveGameToFile(String fileName, Game game) {
         ObjectOutputStream objectOutputStream = null;

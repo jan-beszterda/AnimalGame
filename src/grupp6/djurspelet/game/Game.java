@@ -136,6 +136,7 @@ public class Game implements Serializable {
             this.playersList = game.playersList;
             this.currentPlayer = game.currentPlayer;
             this.currentRoundNumber = game.currentRoundNumber;
+            this.maxNumberOfRounds = game.maxNumberOfRounds;
             this.store = game.store;
             this.currentPlayerIndex = game.currentPlayerIndex;
             System.out.println("Game file " + inp + " has been loaded!");
