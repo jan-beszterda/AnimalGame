@@ -22,7 +22,7 @@ public class Game implements Serializable {
         startGame();
     }
 
-    public void nextPlayerRound() {
+    public void moveTurn() {
         currentPlayerIndex++;
         if (currentPlayerIndex > playersList.size() - 1) {
             currentPlayerIndex = 0;
@@ -39,12 +39,12 @@ public class Game implements Serializable {
         updatePlayersAnimals();
         if (checkIfPlayerLost()) {
             removePlayer();
-            nextPlayerRound();
+            moveTurn();
         } else {
             System.out.println("-".repeat(50));
             System.out.println(currentPlayer.getName() + " - your turn begins!");
             showPlayerStatus();
-            playPlayerRound();
+            playTurn();
         }
     }
 
@@ -63,7 +63,7 @@ public class Game implements Serializable {
         }
     }
 
-    private void playPlayerRound() {
+    private void playTurn() {
         String[] options = {"Buy an animal", "Buy fodder", "Feed an animal", "Mate two animals", "Sell an animal", "Save game and quit"};
         int answer = Dialog.showDialog("Make your choice:", options);
         switch (answer) {
@@ -73,7 +73,7 @@ public class Game implements Serializable {
                     if (currentPlayer.getMoney() < store.getCheapestAnimal()) {
                         answer = 1;
                     } else {
-                        answer = Dialog.showDialog("Do you want to buy another animal:", "Yes", "No");
+                        answer = Dialog.showDialog("Do you want to buy another animal?", "Yes", "No");
                     }
                 } while (answer - 1 == 0);
                 break;
@@ -83,7 +83,7 @@ public class Game implements Serializable {
                     if (currentPlayer.getMoney() < store.getCheapestFodder()) {
                         answer = 1;
                     } else {
-                        answer = Dialog.showDialog("Do you want to buy more fodder:", "Yes", "No");
+                        answer = Dialog.showDialog("Do you want to buy more fodder?", "Yes", "No");
                     }
                 } while (answer - 1 == 0);
                 break;
@@ -96,9 +96,9 @@ public class Game implements Serializable {
                 break;
             case 4:
                 if (currentPlayer.getAnimalsOwned().size() > 1) {
-                    currentPlayer.attemptToMateAnAnimal();
+                    currentPlayer.mateAnimals();
                 } else {
-                    System.out.println("You need at least two animals to attempt to mate them!");
+                    System.out.println("You need at least two animals to mate!");
                 }
                 break;
             case 5:
@@ -112,7 +112,7 @@ public class Game implements Serializable {
                         }
                     } while (answer != 2);
                 } else {
-                    System.out.println("You need no animals to sell!");
+                    System.out.println("You have no animals to sell!");
                 }
                 break;
             case 6:
@@ -120,7 +120,7 @@ public class Game implements Serializable {
                 break;
 
         }
-        nextPlayerRound();
+        moveTurn();
     }
 
     private void saveGame() {
@@ -141,7 +141,7 @@ public class Game implements Serializable {
             System.out.println("Game file " + inp + " has been loaded!");
             System.out.println(currentPlayer.getName() + " - your turn begins!");
             showPlayerStatus();
-            playPlayerRound();
+            playTurn();
         } catch (Exception e) {
             System.out.println("Wrong filename!");
             startGame();
@@ -227,12 +227,12 @@ public class Game implements Serializable {
             }
         }
         for (int i = 0; i < numberOfPlayers; i++) {
-            String name = Dialog.readStringInput("What is your name player " + (i + 1) + " ?");
+            String name = Dialog.readStringInput("Player " + (i + 1) + ", what is your name?");
             Player player = new Player(name);
             playersList.add(player);
         }
         while (maxNumberOfRounds < 5 || maxNumberOfRounds > 30) {
-            maxNumberOfRounds = Dialog.showDialog("Input number of rounds you want to play (MAX 30): ");
+            maxNumberOfRounds = Dialog.showDialog("How many rounds do you want to play (5-30)?");
             if (maxNumberOfRounds < 5) {
                 System.out.println("Minimum number of rounds is 5!");
             } else if (maxNumberOfRounds > 30) {
@@ -246,7 +246,7 @@ public class Game implements Serializable {
         System.out.println("-".repeat(50));
         System.out.println(currentPlayer.getName() + " - your turn begins!");
         showPlayerStatus();
-        playPlayerRound();
+        playTurn();
     }
 
     private void finalizeGame() {

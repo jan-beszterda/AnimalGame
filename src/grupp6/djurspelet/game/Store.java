@@ -2,8 +2,6 @@ package grupp6.djurspelet.game;
 
 import grupp6.djurspelet.animal.*;
 import grupp6.djurspelet.food.*;
-
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 

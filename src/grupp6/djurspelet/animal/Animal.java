@@ -2,7 +2,6 @@ package grupp6.djurspelet.animal;
 
 import grupp6.djurspelet.food.Food;
 import grupp6.djurspelet.game.Player;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;

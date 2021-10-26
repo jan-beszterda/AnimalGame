@@ -40,7 +40,8 @@ public class Dialog implements Serializable {
     public static String readStringInput(String prompt) {
         String answer = "";
         while (answer.isEmpty()) {
-            System.out.println(prompt + ": ");
+            System.out.println(prompt);
+            System.out.print("Your answer: ");
             answer = scanner.nextLine();
         }
         return answer;

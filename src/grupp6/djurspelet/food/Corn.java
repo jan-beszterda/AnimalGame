@@ -7,5 +7,4 @@ public class Corn extends Food implements Serializable {
     public Corn(){
         super("Corn");
     }
-
 }

@@ -1,7 +1,6 @@
 package grupp6.djurspelet.animal;
 
 import grupp6.djurspelet.food.*;
-
 import java.io.Serializable;
 
 public class Cat extends Animal implements Serializable {
@@ -10,8 +9,9 @@ public class Cat extends Animal implements Serializable {
         super(name, gender, 12, null, 12, new Meat());
     }
 
+    @Override
     public Cat createChild(int randomGender) {
-        Cat cat = new Cat ("", randomGender);
+        Cat cat = new Cat("", randomGender);
         return cat;
     }
 }

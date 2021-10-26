@@ -3,10 +3,8 @@ package grupp6.djurspelet.game;
 import grupp6.djurspelet.animal.Animal;
 import grupp6.djurspelet.food.Food;
 import grupp6.djurspelet.utilities.Dialog;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 public class Player implements Serializable {
@@ -35,7 +33,7 @@ public class Player implements Serializable {
             Animal a = store.sellAnimal(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim(), "", gender-1);
             int price = store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim());
             money -= price;
-            String name = Dialog.readStringInput("What do you want to name this animal to");
+            String name = Dialog.readStringInput("What do you want to name this animal to?");
             a.setName(name);
             a.setOwner(this);
             animalsOwned.add(a);
@@ -52,7 +50,7 @@ public class Player implements Serializable {
             options[i] = s;
         }
         int choice = Dialog.showDialog("Fodder in stock", options);
-        int amount = Dialog.showDialog("How much kg do you want to buy: ");
+        int amount = Dialog.showDialog("How much kg do you want to buy?");
         if (isMoneySufficient(store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim()) * amount)) {
             Food f = store.sellFodder(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim());
             int price = (store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim()) * amount);
@@ -95,7 +93,7 @@ public class Player implements Serializable {
         }
     }
 
-    public void attemptToMateAnAnimal() {
+    public void mateAnimals() {
         ArrayList<String> options = new ArrayList<>();
         for (Animal a : animalsOwned) {
             options.add(a.toString());
@@ -112,7 +110,7 @@ public class Player implements Serializable {
             System.out.println(s);
             for (Animal child : children) {
                 String name = Dialog.readStringInput("What do you want to name this " + child.getGender() +
-                        " " + child.getClass().getSimpleName() + " to: ");
+                        " " + child.getClass().getSimpleName() + " to?");
                 child.setName(name);
                 child.setOwner(this);
                 animalsOwned.add(child);

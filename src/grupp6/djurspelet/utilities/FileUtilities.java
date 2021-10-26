@@ -1,7 +1,6 @@
 package grupp6.djurspelet.utilities;
 
 import grupp6.djurspelet.game.Game;
-
 import java.io.*;
 
 public class FileUtilities implements Serializable {
