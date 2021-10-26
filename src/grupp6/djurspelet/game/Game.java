@@ -144,7 +144,7 @@ public class Game implements Serializable {
             showPlayerStatus();
             playTurn();
         } catch (Exception e) {
-            System.out.println("Wrong filename!");
+            System.out.println("Wrong file name!");
             startGame();
         }
 

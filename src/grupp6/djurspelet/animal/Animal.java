@@ -7,8 +7,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-// HÄr kommer Java doc framöver
 
+/**
+ * This is the abstract class Animal where
+ * we store info about animals in the game
+ * and  types of food that different animals.
+ * can eat.
+ * @author grupp6
+ */
 public abstract class Animal implements Serializable {
 
     enum Gender {
@@ -37,6 +43,13 @@ public abstract class Animal implements Serializable {
 
     public abstract Animal createChild(int randomGender);
 
+    /**
+     * Takes in food object, checks if animal can eat the particural
+     * food. If the food is accepted, the method increases the
+     * animal's health.
+     * @param food
+     * @return true if the food is accepted by the animal.
+     */
     public boolean eat(Food food) {
         for (Food f : acceptedFood) {
             if (f.equals(food)) {
@@ -48,6 +61,13 @@ public abstract class Animal implements Serializable {
         return false;
     }
 
+    /**
+     * This method takes a second animal as a parameter and checks if the second animal is of same sort
+     * but different gender as the first animal. If this is true, method creates random number of
+     * offsprings with random gender.
+     * @param animalToMateWith
+     * @return an array of animal offsprings.
+     */
     public Animal[] mate(Animal animalToMateWith) {
         if (this.getClass() == animalToMateWith.getClass() && !this.gender.equals(animalToMateWith.gender)) {
             int randomNumber = random.nextInt(2);
@@ -68,6 +88,10 @@ public abstract class Animal implements Serializable {
         return null;
     }
 
+    /**
+     * Adds one year to animal's age. If the animal is
+     * older than it's max age it dies.
+     */
     public void getOlder() {
         age += 1;
         if (age > maxAge) {
@@ -75,6 +99,9 @@ public abstract class Animal implements Serializable {
         }
     }
 
+    /**
+     * Increases the animal's health by 10.
+     */
     public void increaseHealth() {
         health = health + 10;
         if (health > 100) {
@@ -82,6 +109,10 @@ public abstract class Animal implements Serializable {
         }
     }
 
+    /**
+     * Decreases the animal's health by random value
+     * between 10 and 30. If the health is 0 animal dies.
+     */
     public void diminishHealth() {
         double randomNumber = (random.nextDouble() * 20) + 10;
         health = health - (int) randomNumber;
@@ -90,13 +121,29 @@ public abstract class Animal implements Serializable {
         }
     }
 
+    /**
+     *Sets boolean variable alive to false.
+     */
     private void die() {
         alive = false;
     }
 
+    /**
+     *This method collects info about an animal and
+     * stores it into a string.
+     * @return a string containing info about the animal.
+     */
     public String toString() {
         String animalInfo = (this.name + " a " + this.age + " years old " + this.gender + " " + this.getClass().getSimpleName() + " at " + this.health + "% health.");
         return animalInfo;
+    }
+
+    /**
+     * Confirms that the animal is alive.
+     * @return true
+     */
+    public boolean isAlive() {
+        return alive;
     }
 
     public String getName(){
@@ -117,10 +164,6 @@ public abstract class Animal implements Serializable {
 
     public int getAge() {
         return age;
-    }
-
-    public boolean isAlive() {
-        return alive;
     }
 
     public int getHealth() {
