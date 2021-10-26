@@ -58,13 +58,13 @@ public class Game implements Serializable {
                 loadGame();
                 break;
             case 3:
-                System.exit(0);
+                quitGame();
                 break;
         }
     }
 
     private void playTurn() {
-        String[] options = {"Buy an animal", "Buy fodder", "Feed an animal", "Mate two animals", "Sell an animal", "Save game and quit"};
+        String[] options = {"Buy an animal", "Buy fodder", "Feed an animal", "Mate two animals", "Sell an animal", "Quit game"};
         int answer = Dialog.showDialog("Make your choice:", options);
         switch (answer) {
             case 1:
@@ -150,11 +150,12 @@ public class Game implements Serializable {
 
     }
     private void quitGame() {
-        if (this.playersList != null) {
-            int answer = Dialog.showDialog("Do you really want to quit? Your progress will be lost.",
-                    "Yes", "No, SAVE GAME");
+        if (!this.playersList.isEmpty()) {
+            int answer = Dialog.showDialog("Do you want to save your game before you quit?",
+                    "No (Warning! Your progress will be lost.)", "Yes");
             switch (answer) {
                 case 1:
+                    System.out.println("Quitting game...");
                     System.exit(0);
                 case 2:
                     saveGame();
