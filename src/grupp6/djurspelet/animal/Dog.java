@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * This class is subclass of the animal class and contains
  * data about dogs.
- * @grupp6
+ * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
  */
 public class Dog extends Animal{
 

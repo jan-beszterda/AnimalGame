@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * This class is subclass of the animal class and contains
  * data about horses.
- * @grupp6
+ * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
  */
 public class Horse extends Animal{
 

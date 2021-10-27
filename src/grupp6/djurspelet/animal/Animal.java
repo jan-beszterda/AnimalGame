@@ -13,7 +13,7 @@ import java.util.Random;
  * we store info about animals in the game
  * and  types of food that different animals.
  * can eat.
- * @author grupp6
+ * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
  */
 public abstract class Animal implements Serializable {
 
