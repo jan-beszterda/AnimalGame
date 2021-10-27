@@ -68,30 +68,49 @@ public class Game implements Serializable {
         int answer = Dialog.showDialog("Make your choice:", options);
         switch (answer) {
             case 1:
-                do {
-                    currentPlayer.buyAnimal(store);
-                    if (currentPlayer.getMoney() < store.getCheapestAnimal()) {
-                        answer = 1;
-                    } else {
-                        answer = Dialog.showDialog("Do you want to buy another animal?", "Yes", "No");
+                if (currentPlayer.getMoney() >= store.getCheapestAnimal()) {
+                    while (currentPlayer.getMoney() >= store.getCheapestAnimal()) {
+                        currentPlayer.buyAnimal(store);
+                        if (currentPlayer.getMoney() >= store.getCheapestAnimal()) {
+                            answer = Dialog.showDialog("Do you want to buy another animal?", "Yes", "No");
+                            if (answer == 2) {
+                                break;
+                            }
+                        } else {
+                            System.out.println("You don't have enough money to buy another animal.");
+                            break;
+                        }
                     }
-                } while (answer - 1 == 0);
+                } else {
+                    System.out.println("You don't have enough money to buy an animal.");
+                    playTurn();
+                }
                 break;
             case 2:
-                do {
-                    currentPlayer.buyFodder(store);
-                    if (currentPlayer.getMoney() < store.getCheapestFodder()) {
-                        answer = 1;
-                    } else {
-                        answer = Dialog.showDialog("Do you want to buy more fodder?", "Yes", "No");
+                if (currentPlayer.getMoney() >= store.getCheapestFodder()) {
+                    while (currentPlayer.getMoney() >= store.getCheapestFodder()) {
+                        currentPlayer.buyFodder(store);
+                        if (currentPlayer.getMoney() >= store.getCheapestFodder()) {
+                            answer = Dialog.showDialog("Do you want to buy more fodder?", "Yes", "No");
+                            if (answer == 2) {
+                                break;
+                            }
+                        } else {
+                            System.out.println("You don't have enough money to buy more fodder.");
+                            break;
+                        }
                     }
-                } while (answer - 1 == 0);
+                } else {
+                    System.out.println("You don't have enough money to buy fodder.");
+                    playTurn();
+                }
                 break;
             case 3:
                 if (!currentPlayer.getFodderOwned().isEmpty() && !currentPlayer.getAnimalsOwned().isEmpty()) {
                     currentPlayer.feedAnAnimal();
                 } else {
                     System.out.println("You have no animals to feed or no fodder to give!");
+                    playTurn();
                 }
                 break;
             case 4:
@@ -99,20 +118,26 @@ public class Game implements Serializable {
                     currentPlayer.mateAnimals();
                 } else {
                     System.out.println("You need at least two animals to mate!");
+                    playTurn();
                 }
                 break;
             case 5:
                 if (!currentPlayer.getAnimalsOwned().isEmpty()) {
-                    do {
+                    while (!currentPlayer.getAnimalsOwned().isEmpty()) {
                         currentPlayer.sellAnimal(store);
                         if (!currentPlayer.getAnimalsOwned().isEmpty()) {
                             answer = Dialog.showDialog("Do you want to sell another animal?", "Yes", "No");
+                            if (answer == 2) {
+                                break;
+                            }
                         } else {
+                            System.out.println("You don't have any more animals to sell.");
                             break;
                         }
-                    } while (answer != 2);
+                    }
                 } else {
                     System.out.println("You have no animals to sell!");
+                    playTurn();
                 }
                 break;
             case 6:

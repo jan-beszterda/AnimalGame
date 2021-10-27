@@ -85,7 +85,7 @@ public class Store implements Serializable {
     }
 
     public int getCheapestAnimal() {
-        int price = 0;
+        int price = Integer.MAX_VALUE;
         for (String s : animalStock.keySet()) {
             if (price > animalStock.get(s)) {
                 price = animalStock.get(s);
@@ -95,7 +95,7 @@ public class Store implements Serializable {
     }
 
     public int getCheapestFodder() {
-        int price = 0;
+        int price = Integer.MAX_VALUE;
         for (String s : fodderStock.keySet()) {
             if (price > fodderStock.get(s)) {
                 price = fodderStock.get(s);
