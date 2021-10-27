@@ -1,7 +1,10 @@
 package grupp6.djurspelet.utilities;
 
 import grupp6.djurspelet.game.Game;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class FileUtilities{
 

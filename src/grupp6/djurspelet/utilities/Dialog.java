@@ -1,6 +1,5 @@
 package grupp6.djurspelet.utilities;
 
-import java.io.Serializable;
 import java.util.Scanner;
 
 public class Dialog {

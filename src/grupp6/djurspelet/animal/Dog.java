@@ -1,7 +1,6 @@
 package grupp6.djurspelet.animal;
 
 import grupp6.djurspelet.food.*;
-import java.io.Serializable;
 
 /**
  * This class is subclass of the animal class and contains
