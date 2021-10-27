@@ -5,17 +5,28 @@ import grupp6.djurspelet.food.*;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
+/**
+ * Store class is responsible for selling animals and fodder to players in the game as well as buying animals from the
+ * players.
+ * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
+ */
 public class Store implements Serializable {
 
     private LinkedHashMap<String, Integer> animalStock;
     private LinkedHashMap<String, Integer> fodderStock;
 
+    /**
+     * Constructor of the Store object, initialises maps holding animals/fodder and their prices.
+     */
     public Store() {
         this.animalStock = new LinkedHashMap<>();
         this.fodderStock = new LinkedHashMap<>();
         initialiseStore();
     }
 
+    /**
+     * Method fills store maps with animals/fodder and their prices.
+     */
     private void initialiseStore() {
         this.animalStock.put("Horse", 1000);
         this.animalStock.put("Cow", 500);
@@ -28,6 +39,11 @@ public class Store implements Serializable {
         this.fodderStock.put("Corn", 50);
     }
 
+    /**
+     * Method to return a price of the product by its name.
+     * @param productName name of the product to check for price
+     * @return product's price
+     */
     public int getPrice(String productName) {
         int price = -1;
         for (String s : animalStock.keySet()) {
@@ -43,6 +59,13 @@ public class Store implements Serializable {
         return price;
     }
 
+    /**
+     * Method responsible for selling an animal to the player.
+     * @param choice animal type chosen by player
+     * @param name name to set to the animal purchased by the player
+     * @param gender gender of the animal purchased by the player
+     * @return the animal bought by the player
+     */
     public Animal sellAnimal(String choice, String name, int gender) {
         switch (choice) {
             case "Horse":
@@ -59,6 +82,12 @@ public class Store implements Serializable {
                 return null;
         }
     }
+
+    /**
+     * Method responsible for selling fodder to the player.
+     * @param choice fodder type chosen by the player
+     * @return fodder bought by the player
+     */
     public Food sellFodder(String choice) {
         switch (choice) {
             case "Meat":
@@ -72,6 +101,11 @@ public class Store implements Serializable {
         }
     }
 
+    /**
+     * Method responsible for buying an animal from the player.
+     * @param animal animal that the player wants to sell
+     * @return money amount the store buys the animal for
+     */
     public int buyAnimal(Animal animal) {
         String productName = animal.getClass().getSimpleName();
         int pay = 0;
@@ -84,6 +118,10 @@ public class Store implements Serializable {
         return pay;
     }
 
+    /**
+     * Method gives the price of the cheapest animal in stock.
+     * @return the price of the cheapest animal
+     */
     public int getCheapestAnimal() {
         int price = Integer.MAX_VALUE;
         for (String s : animalStock.keySet()) {
@@ -94,6 +132,10 @@ public class Store implements Serializable {
         return price;
     }
 
+    /**
+     * Method gives the price of the cheapest fodder in stock.
+     * @return the price of the cheapest fodder
+     */
     public int getCheapestFodder() {
         int price = Integer.MAX_VALUE;
         for (String s : fodderStock.keySet()) {
