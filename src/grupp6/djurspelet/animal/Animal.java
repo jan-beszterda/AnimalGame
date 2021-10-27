@@ -62,7 +62,7 @@ public abstract class Animal implements Serializable {
     }
 
     /**
-     * This method takes a second animal as a parameter and checks if the second animal is of same sort
+     * This method takes a second animal as a parameter and checks if the second animal is of same kind
      * but different gender as the first animal. If this is true, method creates random number of
      * offsprings with random gender.
      * @param animalToMateWith

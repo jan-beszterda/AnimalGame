@@ -4,7 +4,7 @@ import grupp6.djurspelet.food.*;
 import java.io.Serializable;
 
 /**
- * This class extends animal class and contains
+ * This class is subclass of the animal class and contains
  * data about cats.
  * @grupp6
  */
