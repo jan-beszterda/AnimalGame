@@ -9,10 +9,8 @@ import java.util.Random;
 
 
 /**
- * This is the abstract class Animal where
- * we store info about animals in the game
- * and  types of food that different animals.
- * can eat.
+ * This is the abstract class Animal where we store info about animals in the game and types of food that different
+ * animals can eat.
  * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
  */
 public abstract class Animal implements Serializable {
@@ -31,7 +29,15 @@ public abstract class Animal implements Serializable {
     private int maxOffspringNumber;
     private boolean alive = true;
 
-    public Animal(String name, int gender, int maxAge, Player owner, int maxOffspringNumber, Food... acceptedFood) {
+    /**
+     * Constructor of the animal object.
+     * @param name name the animal should have
+     * @param gender gender the animal should have
+     * @param maxAge maximum age of the animal
+     * @param maxOffspringNumber maximum number of offspring the animal can have
+     * @param acceptedFood array of fodder accepted by the animal
+     */
+    public Animal(String name, int gender, int maxAge, int maxOffspringNumber, Food... acceptedFood) {
         this.name = name;
         this.gender = Gender.values()[gender];
         this.maxAge = maxAge;
@@ -41,13 +47,17 @@ public abstract class Animal implements Serializable {
         this.acceptedFood.addAll(Arrays.asList(acceptedFood));
     }
 
+    /**
+     * Abstract method for creating offspring.
+     * @param randomGender gender of the child animal
+     * @return new animal of the same type as animal calling this method
+     */
     public abstract Animal createChild(int randomGender);
 
     /**
-     * Takes in food object, checks if animal can eat the particural
-     * food. If the food is accepted, the method increases the
-     * animal's health.
-     * @param food
+     * Takes in food object, checks if animal can eat the particular food. If the food is accepted, the method
+     * increases the animal's health.
+     * @param food food given to the animal to eat
      * @return true if the food is accepted by the animal.
      */
     public boolean eat(Food food) {
@@ -65,7 +75,7 @@ public abstract class Animal implements Serializable {
      * This method takes a second animal as a parameter and checks if the second animal is of same kind
      * but different gender as the first animal. If this is true, method creates random number of
      * offsprings with random gender.
-     * @param animalToMateWith
+     * @param animalToMateWith animal this animal should mate with
      * @return an array of animal offsprings.
      */
     public Animal[] mate(Animal animalToMateWith) {
@@ -89,8 +99,7 @@ public abstract class Animal implements Serializable {
     }
 
     /**
-     * Adds one year to animal's age. If the animal is
-     * older than it's max age it dies.
+     * Adds one year to animal's age. If the animal is older than it's max age it dies.
      */
     public void getOlder() {
         age += 1;
@@ -110,8 +119,7 @@ public abstract class Animal implements Serializable {
     }
 
     /**
-     * Decreases the animal's health by random value
-     * between 10 and 30. If the health is 0 animal dies.
+     * Decreases the animal's health by random value between 10 and 30. If the health is 0 animal dies.
      */
     public void diminishHealth() {
         double randomNumber = (random.nextDouble() * 20) + 10;
@@ -122,15 +130,14 @@ public abstract class Animal implements Serializable {
     }
 
     /**
-     *Sets boolean variable alive to false.
+     * Sets boolean variable alive to false.
      */
     private void die() {
         alive = false;
     }
 
     /**
-     *This method collects info about an animal and
-     * stores it into a string.
+     * This method collects info about an animal and stores it into a string.
      * @return a string containing info about the animal.
      */
     public String toString() {
@@ -139,8 +146,8 @@ public abstract class Animal implements Serializable {
     }
 
     /**
-     * Confirms that the animal is alive.
-     * @return true
+     * Checks if the animal is alive.
+     * @return value of the alive boolean field
      */
     public boolean isAlive() {
         return alive;

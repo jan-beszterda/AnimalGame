@@ -3,19 +3,23 @@ package grupp6.djurspelet.animal;
 import grupp6.djurspelet.food.*;
 
 /**
- * This class is subclass of the animal class and contains
- * data about pigs.
+ * This class is subclass of the animal class and contains data about pigs.
  * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
  */
 public class Pig extends Animal{
 
+    /**
+     * Constructor of the pig objects. Takes name and gender and calls the constructor of Animal superclass.
+     * @param name name for the new pig
+     * @param gender gender for the new pig
+     */
     public Pig(String name, int gender) {
-        super(name, gender, 20, null, 10, new Corn());
+        super(name, gender, 20, 10, new Corn());
     }
 
     /**
      * Creates a piglet with random gender.
-     * @param randomGender
+     * @param randomGender gender for the child to have
      * @return a new Pig object.
      */
     @Override
