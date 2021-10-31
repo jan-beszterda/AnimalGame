@@ -32,6 +32,7 @@ public class Game implements Serializable {
                 finalizeGame();
                 System.exit(0);
             }
+            Dialog.clear();
             System.out.println("-".repeat(50));
             System.out.println("ROUND " + currentRoundNumber + " BEGINS!");
             System.out.println("-".repeat(50));
@@ -42,6 +43,7 @@ public class Game implements Serializable {
             removePlayer();
             moveTurn();
         } else {
+            Dialog.clear();
             System.out.println("-".repeat(50));
             System.out.println(currentPlayer.getName() + " - your turn begins!");
             showPlayerStatus();
@@ -290,6 +292,7 @@ public class Game implements Serializable {
         }
         currentPlayer = playersList.get(0);
         currentRoundNumber = 1;
+        Dialog.clear();
         System.out.println("-".repeat(50));
         System.out.println("ROUND " + currentRoundNumber + " BEGINS!");
         System.out.println("-".repeat(50));
