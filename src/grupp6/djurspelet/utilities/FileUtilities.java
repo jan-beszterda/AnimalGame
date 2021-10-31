@@ -6,8 +6,18 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * This class takes care of saving and loading the game.
+ * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
+ */
 public class FileUtilities{
 
+    /**
+     * Method takes the name of the save file and saves the game in it.
+     * Every saving overwrites the previous one.
+     * @param fileName
+     * @param game
+     */
     public static void saveGameToFile(String fileName, Game game) {
         ObjectOutputStream objectOutputStream = null;
         FileOutputStream fileOutputStream = null;
@@ -22,6 +32,11 @@ public class FileUtilities{
         }
     }
 
+    /**
+     * This method loads end returns game from the save file.
+     * @param fileName
+     * @return saved game.
+     */
     public static Game loadGameFromFile(String fileName) {
         ObjectInputStream objectinputstream = null;
         Game game = null;
