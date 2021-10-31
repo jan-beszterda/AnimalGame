@@ -14,9 +14,8 @@ public class FileUtilities{
 
     /**
      * Method takes the name of the save file and saves the game in it.
-     * Every saving overwrites the previous one.
-     * @param fileName
-     * @param game
+     * @param fileName name of the file to save to
+     * @param game game to save
      */
     public static void saveGameToFile(String fileName, Game game) {
         ObjectOutputStream objectOutputStream = null;
@@ -34,8 +33,8 @@ public class FileUtilities{
 
     /**
      * This method loads end returns game from the save file.
-     * @param fileName
-     * @return saved game.
+     * @param fileName name of the file to load from
+     * @return saved game loaded from file
      */
     public static Game loadGameFromFile(String fileName) {
         ObjectInputStream objectinputstream = null;

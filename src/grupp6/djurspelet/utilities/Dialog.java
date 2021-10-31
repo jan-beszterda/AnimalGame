@@ -2,12 +2,21 @@ package grupp6.djurspelet.utilities;
 
 import java.util.Scanner;
 
+/**
+ * Dialog class is responsible for processing user input into console.
+ * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
+ */
 public class Dialog {
 
     private static Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Static method to display a question with options to chose from.
+     * @param text question to ask the player
+     * @param options options the player can choose from
+     * @return option number chosen by the player
+     */
     public static int showDialog(String text, String... options) {
-        //clear();
         System.out.println("-".repeat(20));
         System.out.println(text);
         for (int i = 0; i < options.length; i++) {
@@ -16,6 +25,12 @@ public class Dialog {
         return readIntInput(1, options.length);
     }
 
+    /**
+     * Method responsible for reading numeric input from the user.
+     * @param min minimum number allowed
+     * @param max maximum number allowed
+     * @return number chosen by the player
+     */
     public static int readIntInput(int min, int max) {
         System.out.println("-".repeat(20));
         if (max == 0) {
@@ -36,6 +51,11 @@ public class Dialog {
         return answer;
     }
 
+    /**
+     * Method responsible for reading text input from the player.
+     * @param prompt question to ask the player
+     * @return text answer from the player
+     */
     public static String readStringInput(String prompt) {
         String answer = "";
         while (answer.isEmpty()) {
@@ -46,6 +66,9 @@ public class Dialog {
         return answer;
     }
 
+    /**
+     * Method responsible for adding some empty space in console output.
+     */
     public static void clear() {
         System.out.println("\n".repeat(3));
     }

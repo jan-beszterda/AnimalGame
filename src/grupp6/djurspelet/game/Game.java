@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Game class is responsible for the game logic and storing current game data about players and rounds.
+ * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
+ */
 public class Game implements Serializable {
 
     private ArrayList<Player> playersList = new ArrayList<>(4);
@@ -19,10 +23,17 @@ public class Game implements Serializable {
     private int currentPlayerIndex = 0;
     private String currentSaveFileName = null;
 
+    /**
+     * Constructor of the Game object. Starts the game.
+     */
     public Game() {
         startGame();
     }
 
+    /**
+     * Initial start method, showing the main options after game is started and moving the game forward depending on the
+     * option chosen.
+     */
     public void startGame() {
         int answer = Dialog.showDialog("** ANIMAL GAME **", "Start New Game", "Load Game", "Quit Game");
         switch (answer) {
@@ -38,6 +49,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Method starting a new game, creating players and initialising the number of rounds to play.
+     */
     private void startNewGame() {
         int numberOfPlayers = 0;
         while (numberOfPlayers < 2 || numberOfPlayers > 4) {
@@ -73,6 +87,9 @@ public class Game implements Serializable {
         playTurn();
     }
 
+    /**
+     * Method responsible for playing a turn in the game, allowing player to make a choice and acting upon that choice.
+     */
     private void playTurn() {
         String[] options = {"Buy an animal", "Buy fodder", "Feed an animal", "Mate two animals", "Sell an animal", "Quit game"};
         int answer = Dialog.showDialog("Make your choice:", options);
@@ -110,6 +127,9 @@ public class Game implements Serializable {
         moveTurn();
     }
 
+    /**
+     * Method responsible for processing player's choice to sell an animal.
+     */
     private void allowAnimalSale() {
         int answer;
         if (!currentPlayer.getAnimalsOwned().isEmpty()) {
@@ -128,6 +148,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Method responsible for processing player's choice to purchase fodder.
+     */
     private void allowFodderPurchase() {
         int answer;
         if (currentPlayer.getMoney() >= store.getCheapestFodder()) {
@@ -149,6 +172,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Method responsible for processing player's choice to purchase an animal.
+     */
     private void allowAnimalPurchase() {
         int answer;
         if (currentPlayer.getMoney() >= store.getCheapestAnimal()) {
@@ -170,6 +196,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Method responsible for forwarding the turn to next player.
+     */
     public void moveTurn() {
         currentPlayerIndex++;
         if (currentPlayerIndex > playersList.size() - 1) {
@@ -198,6 +227,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Method responsible for updating players animals between their turns.
+     */
     private void updatePlayersAnimals() {
         ArrayList<Animal> toRemove = new ArrayList<>();
         for (Animal a : currentPlayer.getAnimalsOwned()) {
@@ -219,6 +251,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Method responsible for checking if player should be eliminated from the game.
+     */
     private boolean checkIfPlayerLost() {
         if (currentPlayer.getMoney() <= 0 && currentPlayer.getAnimalsOwned().size() <= 0) {
             return true;
@@ -226,12 +261,18 @@ public class Game implements Serializable {
         return false;
     }
 
+    /**
+     * Method responsible for removing eliminated player from the game.
+     */
     private void removePlayer() {
         System.out.println(currentPlayer.getName() + ", you have no money and no animals...");
         System.out.println("You lost the game!");
         playersList.remove(currentPlayer);
     }
 
+    /**
+     * Method responsible for displaying status to the player when their turn begins.
+     */
     private void showPlayerStatus() {
         System.out.println("-".repeat(50));
         System.out.println("Your animals:");
@@ -249,6 +290,9 @@ public class Game implements Serializable {
         System.out.println("-".repeat(50));
     }
 
+    /**
+     * Method responsible for saving current game.
+     */
     private void saveGame() {
         if (currentSaveFileName != null) {
             int answer = Dialog.showDialog("Do you want to overwrite your previous save?",
@@ -275,6 +319,9 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Method responsible for loading previously saved game.
+     */
     private void loadGame() {
         String inp = Dialog.readStringInput("What is the name of the save file?");
         try {
@@ -296,6 +343,10 @@ public class Game implements Serializable {
         }
 
     }
+
+    /**
+     * Method responsible for quitting current game.
+     */
     private void quitGame() {
         if (!this.playersList.isEmpty()) {
             int answer = Dialog.showDialog("Do you want to save your game before you quit?",
@@ -314,6 +365,9 @@ public class Game implements Serializable {
         System.exit(0);
     }
 
+    /**
+     * Method responsible for finalising game after all rounds were played.
+     */
     private void finalizeGame() {
         ArrayList<Player> richestPlayers = new ArrayList<>();
         richestPlayers.add(playersList.get(0));
