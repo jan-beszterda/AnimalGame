@@ -7,6 +7,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+/**
+ * Player class allows player to buy, sell and take care of animals and food
+ * they own.
+ * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
+ */
+
 public class Player implements Serializable {
 
     private int money;
@@ -14,6 +20,11 @@ public class Player implements Serializable {
     private ArrayList<Animal> animalsOwned;
     private LinkedHashMap<Food, Integer> fodderOwned;
 
+    /**
+     * Constructor of the player class. Initializes players money, saves players
+     * animals and food.
+      * @param name
+     */
     public Player(String name) {
         this.money = 10000;
         this.name = name;
@@ -21,6 +32,10 @@ public class Player implements Serializable {
         this.fodderOwned = new LinkedHashMap<>();
     }
 
+    /**
+     * This method allows player to buy animals from the store.
+     * @param store
+     */
     public void buyAnimal(Store store) {
         String[] options = store.getAnimalStock().keySet().toArray(new String[0]);
         for (int i = 0; i < store.getAnimalStock().keySet().size(); i++) {
@@ -43,6 +58,10 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * buyFodder method allows player to buy food from the store.
+     * @param store
+     */
     public void buyFodder(Store store) {
         String[] options = store.getFodderStock().keySet().toArray(new String[0]);
         for (int i = 0; i < store.getFodderStock().keySet().size(); i++) {
@@ -67,6 +86,10 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * This method sells players animals to the store.
+     * @param store
+     */
     public void sellAnimal(Store store) {
         String[] options = new String[animalsOwned.size()];
         for (int i = 0; i < animalsOwned.size(); i++) {
@@ -85,6 +108,11 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * The method that sells all animals the player owns.
+     * @param animals
+     * @param store
+     */
     public void sellAllAnimals(ArrayList<Animal> animals, Store store){
         int pay;
         for (Animal animal : animals) {
@@ -93,6 +121,10 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * This method allows player to choose two animals to mate and
+     * stores animals offspring.
+     */
     public void mateAnimals() {
         ArrayList<String> options = new ArrayList<>();
         for (Animal a : animalsOwned) {
@@ -116,10 +148,13 @@ public class Player implements Serializable {
                 animalsOwned.add(child);
             }
         } else {
-            System.out.println("Unsuccessful mating attempt.");
+            System.out.println("Unsuccessful mating.");
         }
     }
 
+    /**
+     * feedAnimal method is responsible for giving chosen food to chosen animal.
+     */
     public void feedAnAnimal() {
         String[] options = new String[animalsOwned.size()];
         int choice;
@@ -160,6 +195,11 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * This method checks if player has enough money.
+     * @param amountToPay
+     * @return true if player has enough money.
+     */
     private boolean isMoneySufficient(int amountToPay) {
         if (amountToPay > money) {
             return false;
