@@ -12,7 +12,7 @@ public abstract class Food implements Serializable {
 
     /**
      * Constructor of food class.
-     * @param name
+     * @param name name of the Food
      */
     public Food(String name) {
         this.name = name;
@@ -24,8 +24,8 @@ public abstract class Food implements Serializable {
 
     /**
      * This method compares two food types.
-     * @param food
-     * @return true if same type of food.
+     * @param food food object to compare to this food object
+     * @return true if same food object or same type of food.
      */
     public boolean equals(Object food){
         if (this == food) {
