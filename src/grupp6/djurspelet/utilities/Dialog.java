@@ -22,7 +22,7 @@ public class Dialog {
             max = Integer.MAX_VALUE;
         }
         System.out.print("Your answer: ");
-        int answer = -1;
+        int answer;
         try {
             answer = Integer.parseInt(scanner.nextLine());
             if ( answer < min || answer > max) {
