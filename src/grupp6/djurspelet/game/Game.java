@@ -32,6 +32,7 @@ public class Game implements Serializable {
                 finalizeGame();
                 System.exit(0);
             }
+            Dialog.clear();
             System.out.println("-".repeat(50));
             System.out.println("ROUND " + currentRoundNumber + " BEGINS!");
             System.out.println("-".repeat(50));
@@ -42,6 +43,7 @@ public class Game implements Serializable {
             removePlayer();
             moveTurn();
         } else {
+            Dialog.clear();
             System.out.println("-".repeat(50));
             System.out.println(currentPlayer.getName() + " - your turn begins!");
             showPlayerStatus();
@@ -69,42 +71,10 @@ public class Game implements Serializable {
         int answer = Dialog.showDialog("Make your choice:", options);
         switch (answer) {
             case 1:
-                if (currentPlayer.getMoney() >= store.getCheapestAnimal()) {
-                    while (currentPlayer.getMoney() >= store.getCheapestAnimal()) {
-                        currentPlayer.buyAnimal(store);
-                        if (currentPlayer.getMoney() >= store.getCheapestAnimal()) {
-                            answer = Dialog.showDialog("Do you want to buy another animal?", "Yes", "No");
-                            if (answer == 2) {
-                                break;
-                            }
-                        } else {
-                            System.out.println("You don't have enough money to buy another animal.");
-                            break;
-                        }
-                    }
-                } else {
-                    System.out.println("You don't have enough money to buy an animal.");
-                    playTurn();
-                }
+                allowAnimalPurchase();
                 break;
             case 2:
-                if (currentPlayer.getMoney() >= store.getCheapestFodder()) {
-                    while (currentPlayer.getMoney() >= store.getCheapestFodder()) {
-                        currentPlayer.buyFodder(store);
-                        if (currentPlayer.getMoney() >= store.getCheapestFodder()) {
-                            answer = Dialog.showDialog("Do you want to buy more fodder?", "Yes", "No");
-                            if (answer == 2) {
-                                break;
-                            }
-                        } else {
-                            System.out.println("You don't have enough money to buy more fodder.");
-                            break;
-                        }
-                    }
-                } else {
-                    System.out.println("You don't have enough money to buy fodder.");
-                    playTurn();
-                }
+                allowFodderPurchase();
                 break;
             case 3:
                 if (!currentPlayer.getFodderOwned().isEmpty() && !currentPlayer.getAnimalsOwned().isEmpty()) {
@@ -123,23 +93,7 @@ public class Game implements Serializable {
                 }
                 break;
             case 5:
-                if (!currentPlayer.getAnimalsOwned().isEmpty()) {
-                    while (!currentPlayer.getAnimalsOwned().isEmpty()) {
-                        currentPlayer.sellAnimal(store);
-                        if (!currentPlayer.getAnimalsOwned().isEmpty()) {
-                            answer = Dialog.showDialog("Do you want to sell another animal?", "Yes", "No");
-                            if (answer == 2) {
-                                break;
-                            }
-                        } else {
-                            System.out.println("You don't have any more animals to sell.");
-                            break;
-                        }
-                    }
-                } else {
-                    System.out.println("You have no animals to sell!");
-                    playTurn();
-                }
+                allowAnimalSale();
                 break;
             case 6:
                 quitGame();
@@ -147,6 +101,69 @@ public class Game implements Serializable {
 
         }
         moveTurn();
+    }
+
+    private void allowAnimalSale() {
+        int answer;
+        if (!currentPlayer.getAnimalsOwned().isEmpty()) {
+            while (!currentPlayer.getAnimalsOwned().isEmpty()) {
+                currentPlayer.sellAnimal(store);
+                if (!currentPlayer.getAnimalsOwned().isEmpty()) {
+                    answer = Dialog.showDialog("Do you want to sell another animal?", "Yes", "No");
+                    if (answer == 2) {
+                        break;
+                    }
+                } else {
+                    System.out.println("You don't have any more animals to sell.");
+                    break;
+                }
+            }
+        } else {
+            System.out.println("You have no animals to sell!");
+            playTurn();
+        }
+    }
+
+    private void allowFodderPurchase() {
+        int answer;
+        if (currentPlayer.getMoney() >= store.getCheapestFodder()) {
+            while (currentPlayer.getMoney() >= store.getCheapestFodder()) {
+                currentPlayer.buyFodder(store);
+                if (currentPlayer.getMoney() >= store.getCheapestFodder()) {
+                    answer = Dialog.showDialog("Do you want to buy more fodder?", "Yes", "No");
+                    if (answer == 2) {
+                        break;
+                    }
+                } else {
+                    System.out.println("You don't have enough money to buy more fodder.");
+                    break;
+                }
+            }
+        } else {
+            System.out.println("You don't have enough money to buy fodder.");
+            playTurn();
+        }
+    }
+
+    private void allowAnimalPurchase() {
+        int answer;
+        if (currentPlayer.getMoney() >= store.getCheapestAnimal()) {
+            while (currentPlayer.getMoney() >= store.getCheapestAnimal()) {
+                currentPlayer.buyAnimal(store);
+                if (currentPlayer.getMoney() >= store.getCheapestAnimal()) {
+                    answer = Dialog.showDialog("Do you want to buy another animal?", "Yes", "No");
+                    if (answer == 2) {
+                        break;
+                    }
+                } else {
+                    System.out.println("You don't have enough money to buy another animal.");
+                    break;
+                }
+            }
+        } else {
+            System.out.println("You don't have enough money to buy an animal.");
+            playTurn();
+        }
     }
 
     private void saveGame() {
@@ -276,6 +293,7 @@ public class Game implements Serializable {
             }
         }
         for (int i = 0; i < numberOfPlayers; i++) {
+            System.out.println("-".repeat(20));
             String name = Dialog.readStringInput("Player " + (i + 1) + ", what is your name?");
             Player player = new Player(name);
             playersList.add(player);
@@ -290,6 +308,7 @@ public class Game implements Serializable {
         }
         currentPlayer = playersList.get(0);
         currentRoundNumber = 1;
+        Dialog.clear();
         System.out.println("-".repeat(50));
         System.out.println("ROUND " + currentRoundNumber + " BEGINS!");
         System.out.println("-".repeat(50));
@@ -310,17 +329,20 @@ public class Game implements Serializable {
                     richestPlayers.add(player);
                 }
             }
-        }
-        if (richestPlayers.size() > 1) {
-            System.out.println("Game ended in a draw!");
-            System.out.println("The winners are: ");
-            for (Player winner : richestPlayers) {
-                System.out.println(winner.getName() + " money: " + winner.getMoney());
-            }
-        } else {
+         }
+         System.out.println("-".repeat(50));
+         System.out.println("ALL ROUNDS PLAYED! GAME ENDS!");
+         System.out.println("-".repeat(50));
+         if (richestPlayers.size() > 1) {
+             System.out.println("Game ended in a draw!");
+             System.out.println("The winners are: ");
+             for (Player winner : richestPlayers) {
+                 System.out.println(winner.getName() + " money: " + winner.getMoney());
+             }
+         } else {
             System.out.println("The player who won is: " + richestPlayers.get(0).getName()
                     + " with a total money amount of " + richestPlayers.get(0).getMoney());
-        }
+         }
     }
 }
 

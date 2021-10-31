@@ -46,7 +46,7 @@ public class Dialog {
         return answer;
     }
 
-    private static void clear() {
-        System.out.println("\n".repeat(5));
+    public static void clear() {
+        System.out.println("\n".repeat(20));
     }
 }

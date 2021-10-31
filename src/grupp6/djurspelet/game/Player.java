@@ -48,10 +48,12 @@ public class Player implements Serializable {
             Animal a = store.sellAnimal(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim(), "", gender-1);
             int price = store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim());
             money -= price;
+            System.out.println("-".repeat(20));
             String name = Dialog.readStringInput("What do you want to name this animal to?");
             a.setName(name);
             a.setOwner(this);
             animalsOwned.add(a);
+            System.out.println("-".repeat(20));
             System.out.println("You bought a " + a.getClass().getSimpleName() + " and paid " + price + ".");
         } else {
             System.out.println("Not enough money to buy this!");
@@ -74,12 +76,20 @@ public class Player implements Serializable {
             Food f = store.sellFodder(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim());
             int price = (store.getPrice(options[choice-1].substring(0, options[choice-1].indexOf("-")).trim()) * amount);
             money = money - price;
-            if (!fodderOwned.containsKey(f)) {
-                fodderOwned.put(f, 0);
+            boolean replaced = false;
+            for (Food food : fodderOwned.keySet()) {
+                if (food.getName().equals(f.getName())) {
+                    int currentAmount = fodderOwned.get(food);
+                    currentAmount += amount;
+                    fodderOwned.replace(food, currentAmount);
+                    replaced = true;
+                    break;
+                }
             }
-            int currentAmount = fodderOwned.get(f);
-            currentAmount += amount;
-            fodderOwned.replace(f, currentAmount);
+            if (!replaced) {
+                fodderOwned.put(f, amount);
+            }
+            System.out.println("-".repeat(20));
             System.out.println("You bought " + amount + " kg of " + f.getName() + " and paid " + price + ".");
         } else {
             System.out.println("Not enough money to buy this!");
@@ -100,6 +110,7 @@ public class Player implements Serializable {
         int pay = store.buyAnimal(a);
         if (pay > 0) {
             money += pay;
+            System.out.println("-".repeat(20));
             System.out.println("You sold a " + a.getClass().getSimpleName() + " (" + a.getName() + "). You earned " + pay + ".");
             a.setOwner(null);
             animalsOwned.remove(a);
@@ -141,14 +152,13 @@ public class Player implements Serializable {
             }
             System.out.println(s);
             for (Animal child : children) {
+                System.out.println("-".repeat(20));
                 String name = Dialog.readStringInput("What do you want to name this " + child.getGender() +
                         " " + child.getClass().getSimpleName() + " to?");
                 child.setName(name);
                 child.setOwner(this);
                 animalsOwned.add(child);
             }
-        } else {
-            System.out.println("Unsuccessful mating.");
         }
     }
 
@@ -158,32 +168,29 @@ public class Player implements Serializable {
     public void feedAnAnimal() {
         String[] options = new String[animalsOwned.size()];
         int choice;
-
         for (int i = 0; i < animalsOwned.size(); i++) {
             options[i] = animalsOwned.get(i).toString();
         }
         choice = Dialog.showDialog("Chose the animal to feed:", options);
         Animal a = animalsOwned.get(choice-1);
         options = new String[fodderOwned.keySet().size()];
-
         int i = 0;
         for (Food f : fodderOwned.keySet()) {
-            options[i] = f.getName();
+            options[i] = f.getName() + " - " + fodderOwned.get(f) + " kg";
             i++;
         }
-
         choice = Dialog.showDialog("Chose the food to give:", options);
         Food f = fodderOwned.keySet().toArray(new Food[0])[choice-1];
 
-        System.out.println("How much food would you like to feed it? : ");
-        choice = Dialog.readIntInput(0, fodderOwned.get(f));
-
+        System.out.println("How much food would you like to feed it?");
+        choice = Dialog.readIntInput(1, fodderOwned.get(f));
+        int pHealth = a.getHealth();
         if (a.eat(f, choice)) {
-            System.out.println("Animal is eating.");
+            System.out.println("-".repeat(20));
+            System.out.println(a.getName() + " is eating. Health increased by " + (a.getHealth() - pHealth));
             int amount = fodderOwned.get(f);
             if (amount > 1) {
                 fodderOwned.replace(f, amount-choice);
-
                 if (fodderOwned.get(f) <= 0){
                     fodderOwned.remove(f);
                 }
@@ -191,7 +198,8 @@ public class Player implements Serializable {
                 fodderOwned.remove(f);
             }
         } else {
-            System.out.println("Animal didn't like that food.");
+            System.out.println("-".repeat(20));
+            System.out.println(a.getName() + " didn't like that food.");
         }
     }
 
