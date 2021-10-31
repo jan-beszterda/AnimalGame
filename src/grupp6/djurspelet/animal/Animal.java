@@ -60,10 +60,10 @@ public abstract class Animal implements Serializable {
      * @param food food given to the animal to eat
      * @return true if the food is accepted by the animal.
      */
-    public boolean eat(Food food) {
+    public boolean eat(Food food, int amountOfFood) {
         for (Food f : acceptedFood) {
             if (f.equals(food)) {
-                this.increaseHealth();
+                this.increaseHealth(amountOfFood);
                 return true;
             }
         }
@@ -111,8 +111,8 @@ public abstract class Animal implements Serializable {
     /**
      * Increases the animal's health by 10.
      */
-    public void increaseHealth() {
-        health = health + 10;
+    public void increaseHealth(int amountOfFood) {
+        health = health + 10 * amountOfFood;
         if (health > 100) {
             health = 100;
         }

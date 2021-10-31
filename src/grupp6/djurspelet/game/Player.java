@@ -157,24 +157,36 @@ public class Player implements Serializable {
      */
     public void feedAnAnimal() {
         String[] options = new String[animalsOwned.size()];
+        int choice;
+
         for (int i = 0; i < animalsOwned.size(); i++) {
             options[i] = animalsOwned.get(i).toString();
         }
-        int choice = Dialog.showDialog("Chose the animal to feed:", options);
+        choice = Dialog.showDialog("Chose the animal to feed:", options);
         Animal a = animalsOwned.get(choice-1);
         options = new String[fodderOwned.keySet().size()];
+
         int i = 0;
         for (Food f : fodderOwned.keySet()) {
             options[i] = f.getName();
             i++;
         }
+
         choice = Dialog.showDialog("Chose the food to give:", options);
         Food f = fodderOwned.keySet().toArray(new Food[0])[choice-1];
-        if (a.eat(f)) {
+
+        System.out.println("How much food would you like to feed it? : ");
+        choice = Dialog.readIntInput(0, fodderOwned.get(f));
+
+        if (a.eat(f, choice)) {
             System.out.println("Animal is eating.");
             int amount = fodderOwned.get(f);
             if (amount > 1) {
-                fodderOwned.replace(f, amount-1);
+                fodderOwned.replace(f, amount-choice);
+
+                if (fodderOwned.get(f) <= 0){
+                    fodderOwned.remove(f);
+                }
             } else {
                 fodderOwned.remove(f);
             }
