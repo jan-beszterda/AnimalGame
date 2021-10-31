@@ -47,6 +47,6 @@ public class Dialog {
     }
 
     public static void clear() {
-        System.out.println("\n".repeat(20));
+        System.out.println("\n".repeat(3));
     }
 }

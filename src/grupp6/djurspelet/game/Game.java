@@ -113,9 +113,6 @@ public class Game implements Serializable {
                     if (answer == 2) {
                         break;
                     }
-                } else {
-                    System.out.println("You don't have any more animals to sell.");
-                    break;
                 }
             }
         } else {
