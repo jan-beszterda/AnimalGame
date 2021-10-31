@@ -278,6 +278,7 @@ public class Game implements Serializable {
             }
         }
         for (int i = 0; i < numberOfPlayers; i++) {
+            System.out.println("-".repeat(20));
             String name = Dialog.readStringInput("Player " + (i + 1) + ", what is your name?");
             Player player = new Player(name);
             playersList.add(player);
@@ -313,17 +314,20 @@ public class Game implements Serializable {
                     richestPlayers.add(player);
                 }
             }
-        }
-        if (richestPlayers.size() > 1) {
-            System.out.println("Game ended in a draw!");
-            System.out.println("The winners are: ");
-            for (Player winner : richestPlayers) {
-                System.out.println(winner.getName() + " money: " + winner.getMoney());
-            }
-        } else {
+         }
+         System.out.println("-".repeat(50));
+         System.out.println("ALL ROUNDS PLAYED! GAME ENDS!");
+         System.out.println("-".repeat(50));
+         if (richestPlayers.size() > 1) {
+             System.out.println("Game ended in a draw!");
+             System.out.println("The winners are: ");
+             for (Player winner : richestPlayers) {
+                 System.out.println(winner.getName() + " money: " + winner.getMoney());
+             }
+         } else {
             System.out.println("The player who won is: " + richestPlayers.get(0).getName()
                     + " with a total money amount of " + richestPlayers.get(0).getMoney());
-        }
+         }
     }
 }
 

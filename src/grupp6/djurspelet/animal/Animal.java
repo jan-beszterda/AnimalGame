@@ -67,7 +67,6 @@ public abstract class Animal implements Serializable {
                 return true;
             }
         }
-        System.out.println("I can't eat this!");
         return false;
     }
 
@@ -90,11 +89,13 @@ public abstract class Animal implements Serializable {
                 }
                 return offspring;
             } else {
-                System.out.println("No new animal this time.");
+                System.out.println("-".repeat(20));
+                System.out.println(this.getName() + " and " + animalToMateWith.getName() + " did not want to mate today.");
                 return null;
             }
         }
-        System.out.println("Those animals can't mate!");
+        System.out.println("-".repeat(20));
+        System.out.println("These animals cannot mate!");
         return null;
     }
 
