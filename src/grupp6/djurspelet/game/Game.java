@@ -17,6 +17,7 @@ public class Game implements Serializable {
     private int currentRoundNumber;
     private Store store = new Store();
     private int currentPlayerIndex = 0;
+    private String currentSaveFileName = null;
 
     public Game() {
         startGame();
@@ -149,15 +150,36 @@ public class Game implements Serializable {
     }
 
     private void saveGame() {
-        String inp = Dialog.readStringInput("What should the game be saved as?");
-        FileUtilities.saveGameToFile(inp, this);
-        System.out.println("Game has been saved!");
+        if (currentSaveFileName != null) {
+            int answer = Dialog.showDialog("Do you want to overwrite your previous save?",
+                    "No", "Yes");
+            switch (answer) {
+                case 1:
+                    String inp = Dialog.readStringInput("What should the game be saved as?");
+                    FileUtilities.saveGameToFile(inp, this);
+                    System.out.println("Game has been saved!");
+                    System.out.println("Quitting game...");
+                    System.exit(0);
+                case 2:
+                    FileUtilities.saveGameToFile(currentSaveFileName, this);
+                    System.out.println("Game has been saved!");
+                    System.out.println("Quitting game...");
+                    System.exit(0);
+            }
+        } else {
+            String inp = Dialog.readStringInput("What should the game be saved as?");
+            FileUtilities.saveGameToFile(inp, this);
+            System.out.println("Game has been saved!");
+            System.out.println("Quitting game...");
+            System.exit(0);
+        }
     }
 
     private void loadGame() {
         String inp = Dialog.readStringInput("What is the name of the save file?");
         try {
             Game game = FileUtilities.loadGameFromFile(inp);
+            currentSaveFileName = inp;
             this.playersList = game.playersList;
             this.currentPlayer = game.currentPlayer;
             this.currentRoundNumber = game.currentRoundNumber;
