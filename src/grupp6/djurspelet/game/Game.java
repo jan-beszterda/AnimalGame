@@ -34,7 +34,7 @@ public class Game implements Serializable {
      * Initial start method, showing the main options after game is started and moving the game forward depending on the
      * option chosen.
      */
-    public void startGame() {
+    private void startGame() {
         int answer = Dialog.showDialog("** ANIMAL GAME **", "Start New Game", "Load Game", "Quit Game");
         switch (answer) {
             case 1:
@@ -199,7 +199,7 @@ public class Game implements Serializable {
     /**
      * Method responsible for forwarding the turn to next player.
      */
-    public void moveTurn() {
+    private void moveTurn() {
         currentPlayerIndex++;
         if (currentPlayerIndex > playersList.size() - 1) {
             currentPlayerIndex = 0;
