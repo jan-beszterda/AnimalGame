@@ -79,9 +79,9 @@ public class Game implements Serializable {
         currentPlayer = playersList.get(0);
         currentRoundNumber = 1;
         Dialog.clear();
-        System.out.println("-".repeat(50));
+        System.out.println("-".repeat(80));
         System.out.println("ROUND " + currentRoundNumber + " BEGINS!");
-        System.out.println("-".repeat(50));
+        System.out.println("-".repeat(80));
         System.out.println(currentPlayer.getName() + " - your turn begins!");
         showPlayerStatus();
         playTurn();
@@ -209,9 +209,9 @@ public class Game implements Serializable {
                 System.exit(0);
             }
             Dialog.clear();
-            System.out.println("-".repeat(50));
+            System.out.println("-".repeat(80));
             System.out.println("ROUND " + currentRoundNumber + " BEGINS!");
-            System.out.println("-".repeat(50));
+            System.out.println("-".repeat(80));
         }
         currentPlayer = playersList.get(currentPlayerIndex);
         updatePlayersAnimals();
@@ -220,7 +220,7 @@ public class Game implements Serializable {
             moveTurn();
         } else {
             Dialog.clear();
-            System.out.println("-".repeat(50));
+            System.out.println("-".repeat(80));
             System.out.println(currentPlayer.getName() + " - your turn begins!");
             showPlayerStatus();
             playTurn();
