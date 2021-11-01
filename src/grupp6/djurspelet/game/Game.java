@@ -329,9 +329,10 @@ public class Game implements Serializable {
      * Method responsible for loading previously saved game.
      */
     private void loadGame() {
+        System.out.println("-".repeat(20));
         String inp = Dialog.readStringInput("What is the name of the save file?");
-        try {
-            Game game = FileUtilities.loadGameFromFile(inp);
+        Game game = FileUtilities.loadGameFromFile(inp);
+        if (game != null) {
             currentSaveFileName = inp;
             this.playersList = game.playersList;
             this.currentPlayer = game.currentPlayer;
@@ -339,15 +340,16 @@ public class Game implements Serializable {
             this.maxNumberOfRounds = game.maxNumberOfRounds;
             this.store = game.store;
             this.currentPlayerIndex = game.currentPlayerIndex;
+            System.out.println("-".repeat(20));
             System.out.println("Game file " + inp + " has been loaded!");
+            System.out.println("-".repeat(20));
+            Dialog.clear();
             System.out.println(currentPlayer.getName() + " - your turn begins!");
             showPlayerStatus();
             playTurn();
-        } catch (Exception e) {
-            System.out.println("Wrong file name!");
+        } else {
             startGame();
         }
-
     }
 
     /**
