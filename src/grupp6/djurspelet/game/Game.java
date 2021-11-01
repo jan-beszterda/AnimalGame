@@ -274,20 +274,26 @@ public class Game implements Serializable {
      * Method responsible for displaying status to the player when their turn begins.
      */
     private void showPlayerStatus() {
-        System.out.println("-".repeat(50));
+        System.out.println("-".repeat(80));
         System.out.println("Your animals:");
         for (Animal a : currentPlayer.getAnimalsOwned()) {
-            System.out.println(a.toString());
+            String info = a.toString();
+            if (a.getPreviousHealth() - a.getHealth() > 0) {
+                info += " (-" + (a.getPreviousHealth() - a.getHealth()) + "% from previous turn).";
+            } else {
+                info += ".";
+            }
+            System.out.println(info);
         }
-        System.out.println("-".repeat(50));
+        System.out.println("-".repeat(80));
         System.out.println("Your fodder:");
         Set<Map.Entry<Food, Integer>> entries = currentPlayer.getFodderOwned().entrySet();
         for (Map.Entry<Food, Integer> e : entries) {
             System.out.println(e.getKey().getClass().getSimpleName() + " - " + e.getValue().toString() + " kg.");
         }
-        System.out.println("-".repeat(50));
+        System.out.println("-".repeat(80));
         System.out.println("Your money: " + currentPlayer.getMoney());
-        System.out.println("-".repeat(50));
+        System.out.println("-".repeat(80));
     }
 
     /**

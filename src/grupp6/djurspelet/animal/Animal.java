@@ -25,6 +25,7 @@ public abstract class Animal implements Serializable {
     private int age = 0;
     private int maxAge;
     private int health = 100;
+    private int previousHealth;
     private Player owner;
     private int maxOffspringNumber;
     private boolean alive = true;
@@ -124,6 +125,7 @@ public abstract class Animal implements Serializable {
      */
     public void diminishHealth() {
         double randomNumber = (random.nextDouble() * 20) + 10;
+        previousHealth = health;
         health = health - (int) randomNumber;
         if (health <= 0) {
             die();
@@ -141,8 +143,9 @@ public abstract class Animal implements Serializable {
      * This method collects info about an animal and stores it into a string.
      * @return a string containing info about the animal.
      */
+    @Override
     public String toString() {
-        String animalInfo = (this.name + " a " + this.age + " years old " + this.gender + " " + this.getClass().getSimpleName() + " at " + this.health + "% health.");
+        String animalInfo = (this.name + " a " + this.age + " years old " + this.gender + " " + this.getClass().getSimpleName() + " at " + this.health + "% health");
         return animalInfo;
     }
 
@@ -176,5 +179,9 @@ public abstract class Animal implements Serializable {
 
     public int getHealth() {
         return health;
+    }
+
+    public int getPreviousHealth() {
+        return previousHealth;
     }
 }
