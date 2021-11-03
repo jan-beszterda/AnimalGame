@@ -5,9 +5,7 @@ import grupp6.djurspelet.food.Food;
 import grupp6.djurspelet.utilities.Dialog;
 import grupp6.djurspelet.utilities.FileUtilities;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Game class is responsible for the game logic and storing current game data about players and rounds.
@@ -377,31 +375,36 @@ public class Game implements Serializable {
      * Method responsible for finalising game after all rounds were played.
      */
     private void finalizeGame() {
-        ArrayList<Player> richestPlayers = new ArrayList<>();
-        richestPlayers.add(playersList.get(0));
-         for (Player player : playersList) {
-            player.sellAllAnimals(player.getAnimalsOwned(), store);
-
-            for (Player currentRichestPlayer : richestPlayers) {
-                if (player.getMoney() > currentRichestPlayer.getMoney() && !player.equals(currentRichestPlayer)) {
-                    richestPlayers.remove(currentRichestPlayer);
-                    richestPlayers.add(player);
-                }
+        System.out.println("-".repeat(50));
+        System.out.println("ALL ROUNDS PLAYED! GAME ENDS!");
+        System.out.println("-".repeat(50));
+        System.out.println("END RESULT:");
+        ArrayList<Player> sortedPlayers = new ArrayList<>();
+        for (Player player : playersList) {
+            player.sellAllAnimals(store);
+            System.out.println("\t" + player.getName() + " (money: " + player.getMoney() + ")");
+            sortedPlayers.add(player);
+        }
+        System.out.println("-".repeat(50));
+        sortedPlayers.sort(new Comparator<Player>() {
+            @Override
+            public int compare(Player p1, Player p2) {
+                return Integer.compare(p2.getMoney(), p1.getMoney());
             }
-         }
-         System.out.println("-".repeat(50));
-         System.out.println("ALL ROUNDS PLAYED! GAME ENDS!");
-         System.out.println("-".repeat(50));
-         if (richestPlayers.size() > 1) {
-             System.out.println("Game ended in a draw!");
-             System.out.println("The winners are: ");
-             for (Player winner : richestPlayers) {
-                 System.out.println(winner.getName() + " money: " + winner.getMoney());
-             }
-         } else {
-            System.out.println("The player who won is: " + richestPlayers.get(0).getName()
-                    + " with a total money amount of " + richestPlayers.get(0).getMoney());
-         }
+        });
+        for (int i = sortedPlayers.size()-1; i > 0; i--) {
+            if (sortedPlayers.get(i).getMoney() < sortedPlayers.get(0).getMoney()) {
+                sortedPlayers.remove(i);
+            }
+        }
+        if (sortedPlayers.size() > 1) {
+            System.out.println("Game ended in a draw! The winners are:");
+            for (Player winner : sortedPlayers) {
+                System.out.println("\t" + winner.getName());
+            }
+        } else {
+            System.out.println("The winner is " + sortedPlayers.get(0).getName());
+        }
     }
 }
 

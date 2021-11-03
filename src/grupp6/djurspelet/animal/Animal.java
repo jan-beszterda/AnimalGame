@@ -18,17 +18,18 @@ public abstract class Animal implements Serializable {
     enum Gender {
         MALE, FEMALE
     }
-    private ArrayList<Food> acceptedFood;
+
     private Random random = new Random();
     private String name;
     private Gender gender;
-    private int age = 0;
+    private int age;
     private int maxAge;
-    private int health = 100;
+    private int health;
     private int previousHealth;
-    private Player owner;
     private int maxOffspringNumber;
-    private boolean alive = true;
+    private boolean alive;
+    private ArrayList<Food> acceptedFood;
+    private Player owner;
 
     /**
      * Constructor of the animal object.
@@ -41,11 +42,14 @@ public abstract class Animal implements Serializable {
     public Animal(String name, int gender, int maxAge, int maxOffspringNumber, Food... acceptedFood) {
         this.name = name;
         this.gender = Gender.values()[gender];
+        this.age = 0;
         this.maxAge = maxAge;
+        this.health = 100;
         this.maxOffspringNumber = maxOffspringNumber;
-        this.owner = null;
+        this.alive = true;
         this.acceptedFood = new ArrayList<>();
         this.acceptedFood.addAll(Arrays.asList(acceptedFood));
+        this.owner = null;
     }
 
     /**
@@ -149,10 +153,6 @@ public abstract class Animal implements Serializable {
         return animalInfo;
     }
 
-    /**
-     * Checks if the animal is alive.
-     * @return value of the alive boolean field
-     */
     public boolean isAlive() {
         return alive;
     }
@@ -171,10 +171,6 @@ public abstract class Animal implements Serializable {
 
     public Gender getGender() {
         return this.gender;
-    }
-
-    public int getAge() {
-        return age;
     }
 
     public int getHealth() {

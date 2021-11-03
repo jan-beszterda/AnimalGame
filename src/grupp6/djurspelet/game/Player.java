@@ -119,12 +119,11 @@ public class Player implements Serializable {
 
     /**
      * The method that sells all animals the player owns.
-     * @param animals list of animals owned by player
      * @param store store that buys the animals
      */
-    public void sellAllAnimals(ArrayList<Animal> animals, Store store){
+    public void sellAllAnimals(Store store){
         int pay;
-        for (Animal animal : animals) {
+        for (Animal animal : animalsOwned) {
             pay = store.buyAnimal(animal);
             money += pay;
         }
@@ -178,7 +177,6 @@ public class Player implements Serializable {
         }
         choice = Dialog.showDialog("Chose the food to give:", options);
         Food f = fodderOwned.keySet().toArray(new Food[0])[choice-1];
-
         System.out.println("How much food would you like to feed it?");
         choice = Dialog.readIntInput(1, fodderOwned.get(f));
         int pHealth = a.getHealth();
@@ -186,12 +184,8 @@ public class Player implements Serializable {
             System.out.println("-".repeat(20));
             System.out.println(a.getName() + " is eating. Health increased by " + (a.getHealth() - pHealth) + "%. " +
                     "Current health: " + a.getHealth() + "%.");
-            int amount = fodderOwned.get(f);
-            if (amount > 1) {
-                fodderOwned.replace(f, amount-choice);
-                if (fodderOwned.get(f) <= 0){
-                    fodderOwned.remove(f);
-                }
+            if (fodderOwned.get(f) - choice > 0) {
+                fodderOwned.replace(f, fodderOwned.get(f)-choice);
             } else {
                 fodderOwned.remove(f);
             }

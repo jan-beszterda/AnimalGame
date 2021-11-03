@@ -24,7 +24,6 @@ public class Dog extends Animal{
      */
     @Override
     public Dog createChild(int randomGender) {
-        Dog dog = new Dog("", randomGender);
-        return dog;
+        return new Dog("", randomGender);
     }
 }

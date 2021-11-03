@@ -24,8 +24,7 @@ public class Pig extends Animal{
      */
     @Override
     public Pig createChild(int randomGender) {
-        Pig pig = new Pig("", randomGender);
-        return pig;
+        return new Pig("", randomGender);
     }
 }
 

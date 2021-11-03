@@ -27,6 +27,7 @@ public abstract class Food implements Serializable {
      * @param food food object to compare to this food object
      * @return true if same food object or same type of food.
      */
+    @Override
     public boolean equals(Object food){
         if (this == food) {
             return true;
