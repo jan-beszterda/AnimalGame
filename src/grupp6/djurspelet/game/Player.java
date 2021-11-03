@@ -184,7 +184,8 @@ public class Player implements Serializable {
         int pHealth = a.getHealth();
         if (a.eat(f, choice)) {
             System.out.println("-".repeat(20));
-            System.out.println(a.getName() + " is eating. Health increased by " + (a.getHealth() - pHealth));
+            System.out.println(a.getName() + " is eating. Health increased by " + (a.getHealth() - pHealth) + "%. " +
+                    "Current health: " + a.getHealth() + "%.");
             int amount = fodderOwned.get(f);
             if (amount > 1) {
                 fodderOwned.replace(f, amount-choice);
@@ -196,7 +197,7 @@ public class Player implements Serializable {
             }
         } else {
             System.out.println("-".repeat(20));
-            System.out.println(a.getName() + " didn't like that food.");
+            System.out.println(a.getName() + " didn't like that food. Health not increased.");
         }
     }
 
