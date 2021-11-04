@@ -1,4 +1,4 @@
-package grupp6.djurspelet.utilities;
+package group6.animalgame.utilities;
 
 import java.util.Scanner;
 

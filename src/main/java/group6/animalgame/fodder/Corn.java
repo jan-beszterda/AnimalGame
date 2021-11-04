@@ -1,15 +1,16 @@
-package grupp6.djurspelet.food;
+package group6.animalgame.fodder;
 
 /**
  * This is a subclass of the abstract food class.
+ *
  * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
  */
-public class Corn extends Food{
+public class Corn extends Food {
 
     /**
      * Constructor of corn class. Stores the name in constructor of food super class.
      */
-    public Corn(){
+    public Corn() {
         super("Corn");
     }
 }

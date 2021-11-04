@@ -1,14 +1,16 @@
-package grupp6.djurspelet.game;
+package group6.animalgame.logic;
 
-import grupp6.djurspelet.animal.Animal;
-import grupp6.djurspelet.food.Food;
-import grupp6.djurspelet.utilities.Dialog;
-import grupp6.djurspelet.utilities.FileUtilities;
+import group6.animalgame.animals.Animal;
+import group6.animalgame.fodder.Food;
+import group6.animalgame.utilities.Dialog;
+import group6.animalgame.utilities.FileUtilities;
+
 import java.io.Serializable;
 import java.util.*;
 
 /**
  * Game class is responsible for the game logic and storing current game data about players and rounds.
+ *
  * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
  */
 public class Game implements Serializable {
@@ -392,7 +394,7 @@ public class Game implements Serializable {
                 return Integer.compare(p2.getMoney(), p1.getMoney());
             }
         });
-        for (int i = sortedPlayers.size()-1; i > 0; i--) {
+        for (int i = sortedPlayers.size() - 1; i > 0; i--) {
             if (sortedPlayers.get(i).getMoney() < sortedPlayers.get(0).getMoney()) {
                 sortedPlayers.remove(i);
             }

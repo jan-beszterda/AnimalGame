@@ -1,6 +1,6 @@
-package grupp6.djurspelet.animal;
+package group6.animalgame.animals;
 
-import grupp6.djurspelet.food.*;
+import group6.animalgame.fodder.*;
 
 /**
  * This class is subclass of the animal class and contains data about pigs.

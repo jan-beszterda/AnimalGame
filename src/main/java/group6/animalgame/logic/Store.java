@@ -1,13 +1,15 @@
-package grupp6.djurspelet.game;
+package group6.animalgame.logic;
 
-import grupp6.djurspelet.animal.*;
-import grupp6.djurspelet.food.*;
+import group6.animalgame.animals.*;
+import group6.animalgame.fodder.*;
+
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 /**
  * Store class is responsible for selling animals and fodder to players in the game as well as buying animals from the
  * players.
+ *
  * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
  */
 public class Store implements Serializable {
@@ -41,6 +43,7 @@ public class Store implements Serializable {
 
     /**
      * Method to return a price of the product by its name.
+     *
      * @param productName name of the product to check for price
      * @return product's price
      */
@@ -61,8 +64,9 @@ public class Store implements Serializable {
 
     /**
      * Method responsible for selling an animal to the player.
+     *
      * @param choice animal type chosen by player
-     * @param name name to set to the animal purchased by the player
+     * @param name   name to set to the animal purchased by the player
      * @param gender gender of the animal purchased by the player
      * @return the animal bought by the player
      */
@@ -85,6 +89,7 @@ public class Store implements Serializable {
 
     /**
      * Method responsible for selling fodder to the player.
+     *
      * @param choice fodder type chosen by the player
      * @return fodder bought by the player
      */
@@ -103,6 +108,7 @@ public class Store implements Serializable {
 
     /**
      * Method responsible for buying an animal from the player.
+     *
      * @param animal animal that the player wants to sell
      * @return money amount the store buys the animal for
      */
@@ -120,6 +126,7 @@ public class Store implements Serializable {
 
     /**
      * Method gives the price of the cheapest animal in stock.
+     *
      * @return the price of the cheapest animal
      */
     public int getCheapestAnimal() {
@@ -134,6 +141,7 @@ public class Store implements Serializable {
 
     /**
      * Method gives the price of the cheapest fodder in stock.
+     *
      * @return the price of the cheapest fodder
      */
     public int getCheapestFodder() {

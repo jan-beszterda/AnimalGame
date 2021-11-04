@@ -1,6 +1,6 @@
-package grupp6.djurspelet.utilities;
+package group6.animalgame.utilities;
 
-import grupp6.djurspelet.game.Game;
+import group6.animalgame.logic.Game;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
