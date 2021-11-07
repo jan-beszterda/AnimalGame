@@ -95,13 +95,9 @@ public abstract class Animal implements Serializable {
                 }
                 return offspring;
             } else {
-                System.out.println("-".repeat(20));
-                System.out.println(this.getName() + " and " + animalToMateWith.getName() + " did not want to mate today.");
                 return null;
             }
         }
-        System.out.println("-".repeat(20));
-        System.out.println("These animals cannot mate!");
         return null;
     }
 

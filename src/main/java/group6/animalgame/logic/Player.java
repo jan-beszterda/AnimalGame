@@ -2,7 +2,7 @@ package group6.animalgame.logic;
 
 import group6.animalgame.animals.Animal;
 import group6.animalgame.fodder.Food;
-import group6.animalgame.utilities.Dialog;
+import group6.animalgame.utilities.Dialogs;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,69 +33,56 @@ public class Player implements Serializable {
         this.fodderOwned = new LinkedHashMap<>();
     }
 
-    /**
-     * This method allows player to buy animals from the store.
-     *
-     * @param store store that sells animals to the player
-     */
-    public void buyAnimal(Store store) {
-        String[] options = store.getAnimalStock().keySet().toArray(new String[0]);
-        for (int i = 0; i < store.getAnimalStock().keySet().size(); i++) {
-            String s = options[i] + " - price: " + store.getAnimalStock().get(options[i]).toString();
-            options[i] = s;
-        }
-        int choice = Dialog.showDialog("Animals in stock", options);
-        if (isMoneySufficient(store.getPrice(options[choice - 1].substring(0, options[choice - 1].indexOf("-")).trim()))) {
-            int gender = Dialog.showDialog("What gender should the animal have: ", "MALE", "FEMALE");
-            Animal a = store.sellAnimal(options[choice - 1].substring(0, options[choice - 1].indexOf("-")).trim(), "", gender - 1);
-            int price = store.getPrice(options[choice - 1].substring(0, options[choice - 1].indexOf("-")).trim());
+
+    public boolean buyAnimal(String animalType, Store store) {
+        if (isMoneySufficient(store.getPrice(animalType))) {
+            int gender = Dialogs.showChooseGenderDialog(animalType);
+            Animal a = store.sellAnimal(animalType, gender);
+            int price = store.getPrice(animalType);
             money -= price;
-            System.out.println("-".repeat(20));
-            String name = Dialog.readStringInput("What do you want to name this animal to?");
+            String name = Dialogs.showInputTextDialog("Please enter animal's name.", "Animal's name:");
             a.setName(name);
             a.setOwner(this);
             animalsOwned.add(a);
-            System.out.println("-".repeat(20));
-            System.out.println("You bought a " + a.getClass().getSimpleName() + " and paid " + price + ".");
+            return true;
         } else {
-            System.out.println("Not enough money to buy this!");
+            return false;
         }
     }
 
-    /**
-     * buyFodder method allows player to buy food from the store.
-     *
-     * @param store store that sells fodder to the player
-     */
-    public void buyFodder(Store store) {
-        String[] options = store.getFodderStock().keySet().toArray(new String[0]);
-        for (int i = 0; i < store.getFodderStock().keySet().size(); i++) {
-            String s = options[i] + " - price: " + store.getFodderStock().get(options[i]).toString() + "/kg";
-            options[i] = s;
-        }
-        int choice = Dialog.showDialog("Fodder in stock", options);
-        int amount = Dialog.showDialog("How much kg do you want to buy?");
-        if (isMoneySufficient(store.getPrice(options[choice - 1].substring(0, options[choice - 1].indexOf("-")).trim()) * amount)) {
-            Food f = store.sellFodder(options[choice - 1].substring(0, options[choice - 1].indexOf("-")).trim());
-            int price = (store.getPrice(options[choice - 1].substring(0, options[choice - 1].indexOf("-")).trim()) * amount);
+    public boolean buyFodder(String fodderType, int amountToBuy, Store store) {
+        if (isMoneySufficient(store.getPrice(fodderType) * amountToBuy)) {
+            Food f = store.sellFodder(fodderType);
+            int price = (store.getPrice(fodderType) * amountToBuy);
             money = money - price;
             boolean replaced = false;
             for (Food food : fodderOwned.keySet()) {
                 if (food.getName().equals(f.getName())) {
                     int currentAmount = fodderOwned.get(food);
-                    currentAmount += amount;
+                    currentAmount += amountToBuy;
                     fodderOwned.replace(food, currentAmount);
                     replaced = true;
                     break;
                 }
             }
             if (!replaced) {
-                fodderOwned.put(f, amount);
+                fodderOwned.put(f, amountToBuy);
             }
-            System.out.println("-".repeat(20));
-            System.out.println("You bought " + amount + " kg of " + f.getName() + " and paid " + price + ".");
+            return true;
         } else {
-            System.out.println("Not enough money to buy this!");
+            return false;
+        }
+    }
+
+    public int sellAnimal(Animal a, Store store) {
+        int pay = store.buyAnimal(a);
+        if (pay > 0) {
+            money += pay;
+            a.setOwner(null);
+            animalsOwned.remove(a);
+            return pay;
+        } else {
+            return -1;
         }
     }
 
@@ -109,7 +96,7 @@ public class Player implements Serializable {
         for (int i = 0; i < animalsOwned.size(); i++) {
             options[i] = animalsOwned.get(i).toString();
         }
-        int choice = Dialog.showDialog("Chose animal to sell:", options);
+        int choice = Dialogs.showDialog("Chose animal to sell:", options);
         Animal a = animalsOwned.get(choice - 1);
         int pay = store.buyAnimal(a);
         if (pay > 0) {
@@ -136,6 +123,29 @@ public class Player implements Serializable {
         }
     }
 
+    public void mateAnimals(Animal a1, Animal a2) {
+        Animal[] children = a1.mate(a2);
+        if (children != null && children.length != 0) {
+            String headerText = "Success!";
+            String contentText = name + ", you got " + children.length + " new " + a1.getClass().getSimpleName();
+            if (children.length > 1) {
+                contentText += "s!";
+            }
+            Dialogs.showAlert(headerText, contentText);
+            for (Animal child : children) {
+                String name = Dialogs.showInputTextDialog("Please enter this " + child.getClass().getSimpleName()
+                        + "'s (" + child.getGender() + ") name.", "Enter name:");
+                child.setName(name);
+                child.setOwner(this);
+                animalsOwned.add(child);
+            }
+        } else {
+            String headerText = "Bad news!";
+            String contentText = a1.getName() + " did not want to mate with " + a2.getName() + " this time.";
+            Dialogs.showAlert(headerText, contentText);
+        }
+    }
+
     /**
      * This method allows player to choose two animals to mate and stores animals offspring.
      */
@@ -144,9 +154,9 @@ public class Player implements Serializable {
         for (Animal a : animalsOwned) {
             options.add(a.toString());
         }
-        int choice = Dialog.showDialog("Chose animal to mate:", options.toArray(new String[0]));
+        int choice = Dialogs.showDialog("Chose animal to mate:", options.toArray(new String[0]));
         Animal a = animalsOwned.get(choice - 1);
-        choice = Dialog.showDialog("Chose other animal to mate:", options.toArray(new String[0]));
+        choice = Dialogs.showDialog("Chose other animal to mate:", options.toArray(new String[0]));
         Animal[] children = a.mate(animalsOwned.get(choice - 1));
         if (children != null && children.length != 0) {
             String s = "Success! " + name + " you got " + children.length + " new " + a.getClass().getSimpleName();
@@ -156,7 +166,7 @@ public class Player implements Serializable {
             System.out.println(s);
             for (Animal child : children) {
                 System.out.println("-".repeat(20));
-                String name = Dialog.readStringInput("What do you want to name this " + child.getGender() +
+                String name = Dialogs.readStringInput("What do you want to name this " + child.getGender() +
                         " " + child.getClass().getSimpleName() + " to?");
                 child.setName(name);
                 child.setOwner(this);
@@ -164,6 +174,21 @@ public class Player implements Serializable {
             }
         }
     }
+
+    public boolean feedAnAnimal(Animal a, Food f, int amountToFeed) {
+        int pHealth = a.getHealth();
+        if (a.eat(f, amountToFeed)) {
+            if (fodderOwned.get(f) - amountToFeed > 0) {
+                fodderOwned.replace(f, fodderOwned.get(f) - amountToFeed);
+            } else {
+                fodderOwned.remove(f);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     /**
      * feedAnimal method is responsible for giving chosen food to chosen animal.
@@ -174,7 +199,7 @@ public class Player implements Serializable {
         for (int i = 0; i < animalsOwned.size(); i++) {
             options[i] = animalsOwned.get(i).toString();
         }
-        choice = Dialog.showDialog("Chose the animal to feed:", options);
+        choice = Dialogs.showDialog("Chose the animal to feed:", options);
         Animal a = animalsOwned.get(choice - 1);
         options = new String[fodderOwned.keySet().size()];
         int i = 0;
@@ -182,10 +207,10 @@ public class Player implements Serializable {
             options[i] = f.getName() + " - " + fodderOwned.get(f) + " kg";
             i++;
         }
-        choice = Dialog.showDialog("Chose the food to give:", options);
+        choice = Dialogs.showDialog("Chose the food to give:", options);
         Food f = fodderOwned.keySet().toArray(new Food[0])[choice - 1];
         System.out.println("How much food would you like to feed it?");
-        choice = Dialog.readIntInput(1, fodderOwned.get(f));
+        choice = Dialogs.readIntInput(1, fodderOwned.get(f));
         int pHealth = a.getHealth();
         if (a.eat(f, choice)) {
             System.out.println("-".repeat(20));

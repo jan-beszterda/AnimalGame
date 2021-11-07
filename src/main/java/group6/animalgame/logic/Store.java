@@ -66,22 +66,21 @@ public class Store implements Serializable {
      * Method responsible for selling an animal to the player.
      *
      * @param choice animal type chosen by player
-     * @param name   name to set to the animal purchased by the player
      * @param gender gender of the animal purchased by the player
      * @return the animal bought by the player
      */
-    public Animal sellAnimal(String choice, String name, int gender) {
+    public Animal sellAnimal(String choice, int gender) {
         switch (choice) {
             case "Horse":
-                return new Horse(name, gender);
+                return new Horse("", gender);
             case "Cow":
-                return new Cow(name, gender);
+                return new Cow("", gender);
             case "Cat":
-                return new Cat(name, gender);
+                return new Cat("", gender);
             case "Dog":
-                return new Dog(name, gender);
+                return new Dog("", gender);
             case "Pig":
-                return new Pig(name, gender);
+                return new Pig("", gender);
             default:
                 return null;
         }

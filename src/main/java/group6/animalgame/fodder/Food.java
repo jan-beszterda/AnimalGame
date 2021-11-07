@@ -24,20 +24,24 @@ public abstract class Food implements Serializable {
         return name;
     }
 
-    /**
-     * This method compares two food types.
-     *
-     * @param food food object to compare to this food object
-     * @return true if same food object or same type of food.
-     */
+
     @Override
     public boolean equals(Object food) {
-        if (this == food) {
-            return true;
-        } else if (this.getClass() == food.getClass()) {
-            return true;
+        if (food != null) {
+            if (this == food) {
+                return true;
+            } else if (this.getClass() == food.getClass()) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

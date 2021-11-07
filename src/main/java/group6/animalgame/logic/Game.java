@@ -1,10 +1,14 @@
 package group6.animalgame.logic;
 
+import group6.animalgame.Main;
 import group6.animalgame.animals.Animal;
+import group6.animalgame.controllers.GameController;
 import group6.animalgame.fodder.Food;
-import group6.animalgame.utilities.Dialog;
+import group6.animalgame.utilities.Dialogs;
 import group6.animalgame.utilities.FileUtilities;
+import javafx.scene.Scene;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -23,207 +27,125 @@ public class Game implements Serializable {
     private int currentPlayerIndex = 0;
     private String currentSaveFileName = null;
 
+    private Main main;
+
     /**
      * Constructor of the Game object. Starts the game.
      */
-    public Game() {
+    public Game(Main main) {
+        this.main = main;
         startGame();
     }
+
+    /*public Game(Main main) throws IOException {
+        this.main = main;
+        startGame();
+        main.setScene("gameScene");
+    }
+*/
+    private void initialisePlayers() {
+        int numberOfPlayers = Dialogs.showNumberOfPlayersDialog();
+        for (int i = 0; i < numberOfPlayers; i++) {
+            String name = Dialogs.showInputTextDialog("Please enter player's name.", "Player's name:");
+            playersList.add(new Player(name));
+        }
+    }
+
+
 
     /**
      * Initial start method, showing the main options after game is started and moving the game forward depending on the
      * option chosen.
      */
     private void startGame() {
-        int answer = Dialog.showDialog("** ANIMAL GAME **", "Start New Game", "Load Game", "Quit Game");
-        switch (answer) {
-            case 1:
-                startNewGame();
-                break;
-            case 2:
-                loadGame();
-                break;
-            case 3:
-                quitGame();
-                break;
-        }
-    }
-
-    /**
-     * Method starting a new game, creating players and initialising the number of rounds to play.
-     */
-    private void startNewGame() {
-        int numberOfPlayers = 0;
-        while (numberOfPlayers < 2 || numberOfPlayers > 4) {
-            numberOfPlayers = Dialog.showDialog("How many players will play the game (2-4)?");
-            if (numberOfPlayers < 2) {
-                System.out.println("You need at least 2 players to play the game!");
-            } else if (numberOfPlayers > 4) {
-                System.out.println("Maximum 4 players can play the game!");
-            }
-        }
-        for (int i = 0; i < numberOfPlayers; i++) {
-            System.out.println("-".repeat(20));
-            String name = Dialog.readStringInput("Player " + (i + 1) + ", what is your name?");
-            Player player = new Player(name);
-            playersList.add(player);
-        }
-        while (maxNumberOfRounds < 5 || maxNumberOfRounds > 30) {
-            maxNumberOfRounds = Dialog.showDialog("How many rounds do you want to play (5-30)?");
-            if (maxNumberOfRounds < 5) {
-                System.out.println("Minimum number of rounds is 5!");
-            } else if (maxNumberOfRounds > 30) {
-                System.out.println("Maximum number of rounds is 30!");
-            }
-        }
+        initialisePlayers();
         currentPlayer = playersList.get(0);
         currentRoundNumber = 1;
-        Dialog.clear();
-        System.out.println("-".repeat(80));
-        System.out.println("ROUND " + currentRoundNumber + " BEGINS!");
-        System.out.println("-".repeat(80));
-        System.out.println(currentPlayer.getName() + " - your turn begins!");
-        showPlayerStatus();
-        playTurn();
     }
 
-    /**
-     * Method responsible for playing a turn in the game, allowing player to make a choice and acting upon that choice.
-     */
-    private void playTurn() {
-        String[] options = {"Buy an animal", "Buy fodder", "Feed an animal", "Mate two animals", "Sell an animal", "Quit game"};
-        int answer = Dialog.showDialog("Make your choice:", options);
-        switch (answer) {
-            case 1:
-                allowAnimalPurchase();
-                break;
-            case 2:
-                allowFodderPurchase();
-                break;
-            case 3:
-                if (!currentPlayer.getFodderOwned().isEmpty() && !currentPlayer.getAnimalsOwned().isEmpty()) {
-                    currentPlayer.feedAnAnimal();
-                } else {
-                    System.out.println("You have no animals to feed or no fodder to give!");
-                    playTurn();
-                }
-                break;
-            case 4:
-                if (currentPlayer.getAnimalsOwned().size() > 1) {
-                    currentPlayer.mateAnimals();
-                } else {
-                    System.out.println("You need at least two animals to mate!");
-                    playTurn();
-                }
-                break;
-            case 5:
-                allowAnimalSale();
-                break;
-            case 6:
-                quitGame();
-                break;
-
+    public boolean allowFeedAnimal() {
+        if (!currentPlayer.getFodderOwned().isEmpty() && !currentPlayer.getAnimalsOwned().isEmpty()) {
+            return true;
+        } else {
+            return false;
         }
-        moveTurn();
+    }
+
+    public boolean allowMateAnimals() {
+        if (currentPlayer.getAnimalsOwned().size() > 1) {
+            boolean success = false;
+            ArrayList<String> types = new ArrayList<>();
+            for (int i = 0; i < currentPlayer.getAnimalsOwned().size(); i++) {
+                types.add(currentPlayer.getAnimalsOwned().get(i).getClass().getSimpleName());
+            }
+            for (String t : types) {
+                int firstIndex = types.indexOf(t);
+                int lastIndex = types.lastIndexOf(t);
+                if(firstIndex != lastIndex) {
+                    Animal first = currentPlayer.getAnimalsOwned().get(firstIndex);
+                    Animal last = currentPlayer.getAnimalsOwned().get(lastIndex);
+                    if (first.getGender() != last.getGender()) {
+                        success = true;
+                    }
+                }
+            }
+            return success;
+        } else {
+            return false;
+        }
     }
 
     /**
      * Method responsible for processing player's choice to sell an animal.
      */
-    private void allowAnimalSale() {
-        int answer;
+    public boolean allowAnimalSale() {
         if (!currentPlayer.getAnimalsOwned().isEmpty()) {
-            while (!currentPlayer.getAnimalsOwned().isEmpty()) {
-                currentPlayer.sellAnimal(store);
-                if (!currentPlayer.getAnimalsOwned().isEmpty()) {
-                    answer = Dialog.showDialog("Do you want to sell another animal?", "Yes", "No");
-                    if (answer == 2) {
-                        break;
-                    }
-                }
-            }
+            return true;
         } else {
-            System.out.println("You have no animals to sell!");
-            playTurn();
+            return false;
         }
     }
 
     /**
      * Method responsible for processing player's choice to purchase fodder.
      */
-    private void allowFodderPurchase() {
-        int answer;
+    public boolean allowFodderPurchase() {
         if (currentPlayer.getMoney() >= store.getCheapestFodder()) {
-            while (currentPlayer.getMoney() >= store.getCheapestFodder()) {
-                currentPlayer.buyFodder(store);
-                if (currentPlayer.getMoney() >= store.getCheapestFodder()) {
-                    answer = Dialog.showDialog("Do you want to buy more fodder?", "Yes", "No");
-                    if (answer == 2) {
-                        break;
-                    }
-                } else {
-                    System.out.println("You don't have enough money to buy more fodder.");
-                    break;
-                }
-            }
+            return true;
         } else {
-            System.out.println("You don't have enough money to buy fodder.");
-            playTurn();
+            return false;
         }
     }
 
     /**
      * Method responsible for processing player's choice to purchase an animal.
      */
-    private void allowAnimalPurchase() {
-        int answer;
+    public boolean allowAnimalPurchase() {
         if (currentPlayer.getMoney() >= store.getCheapestAnimal()) {
-            while (currentPlayer.getMoney() >= store.getCheapestAnimal()) {
-                currentPlayer.buyAnimal(store);
-                if (currentPlayer.getMoney() >= store.getCheapestAnimal()) {
-                    answer = Dialog.showDialog("Do you want to buy another animal?", "Yes", "No");
-                    if (answer == 2) {
-                        break;
-                    }
-                } else {
-                    System.out.println("You don't have enough money to buy another animal.");
-                    break;
-                }
-            }
+            return true;
         } else {
-            System.out.println("You don't have enough money to buy an animal.");
-            playTurn();
+            return false;
         }
     }
 
     /**
      * Method responsible for forwarding the turn to next player.
      */
-    private void moveTurn() {
+    public void moveTurn() throws IOException {
         currentPlayerIndex++;
         if (currentPlayerIndex > playersList.size() - 1) {
             currentPlayerIndex = 0;
             currentRoundNumber++;
             if (currentRoundNumber > maxNumberOfRounds) {
                 finalizeGame();
-                System.exit(0);
+                main.setScene("endScene");
             }
-            Dialog.clear();
-            System.out.println("-".repeat(80));
-            System.out.println("ROUND " + currentRoundNumber + " BEGINS!");
-            System.out.println("-".repeat(80));
         }
         currentPlayer = playersList.get(currentPlayerIndex);
         updatePlayersAnimals();
         if (checkIfPlayerLost()) {
             removePlayer();
             moveTurn();
-        } else {
-            Dialog.clear();
-            System.out.println("-".repeat(80));
-            System.out.println(currentPlayer.getName() + " - your turn begins!");
-            showPlayerStatus();
-            playTurn();
         }
     }
 
@@ -242,12 +164,13 @@ public class Game implements Serializable {
             }
         }
         if (!toRemove.isEmpty()) {
+            StringBuilder info  = new StringBuilder();
             for (Animal a : toRemove) {
                 currentPlayer.getAnimalsOwned().remove(a);
                 a.setOwner(null);
-                System.out.println("-".repeat(50));
-                System.out.println(currentPlayer.getName() + "! Your " + a.getClass().getSimpleName() + " " + a.getName() + " died.");
+                info.append(a.getClass().getSimpleName()).append(" (").append(a.getName()).append(") died.\n");
             }
+            Dialogs.showAlert("Bad news " + currentPlayer.getName() + "!", info.toString());
         }
     }
 
@@ -265,17 +188,28 @@ public class Game implements Serializable {
      * Method responsible for removing eliminated player from the game.
      */
     private void removePlayer() {
-        System.out.println(currentPlayer.getName() + ", you have no money and no animals...");
-        System.out.println("You lost the game!");
+        String info = currentPlayer.getName() + ", you have no money and no animals. You lost the game!";
+        Dialogs.showAlert("Bad news " + currentPlayer.getName() + "!", info);
         playersList.remove(currentPlayer);
     }
 
     /**
      * Method responsible for displaying status to the player when their turn begins.
      */
-    private void showPlayerStatus() {
-        System.out.println("-".repeat(80));
-        System.out.println("Your animals:");
+    public String showPlayerStatus() {
+        StringBuilder text = new StringBuilder();
+        text.append("-".repeat(80));
+        text.append("\n");
+        text.append("ROUND").append(currentRoundNumber);
+        text.append("\n");
+        text.append("-".repeat(80));
+        text.append("\n");
+        text.append(currentPlayer.getName()).append(" - it's your turn now!");
+        text.append("\n");
+        text.append("-".repeat(80));
+        text.append("\n");
+        text.append("Your animals:");
+        text.append("\n");
         for (Animal a : currentPlayer.getAnimalsOwned()) {
             String info = a.toString();
             if (a.getPreviousHealth() - a.getHealth() > 0) {
@@ -283,17 +217,26 @@ public class Game implements Serializable {
             } else {
                 info += ".";
             }
-            System.out.println(info);
+            text.append(info);
+            text.append("\n");
         }
-        System.out.println("-".repeat(80));
-        System.out.println("Your fodder:");
+        text.append("\n");
+        text.append("-".repeat(80));
+        text.append("\n");
+        text.append("Your fodder:");
+        text.append("\n");
         Set<Map.Entry<Food, Integer>> entries = currentPlayer.getFodderOwned().entrySet();
         for (Map.Entry<Food, Integer> e : entries) {
-            System.out.println(e.getKey().getClass().getSimpleName() + " - " + e.getValue().toString() + " kg.");
+            text.append(e.getKey().getClass().getSimpleName()).append(" - ").append(e.getValue().toString()).append(" kg.");
+            text.append("\n");
         }
-        System.out.println("-".repeat(80));
-        System.out.println("Your money: " + currentPlayer.getMoney());
-        System.out.println("-".repeat(80));
+        text.append("-".repeat(80));
+        text.append("\n");
+        text.append("Your money: ").append(currentPlayer.getMoney());
+        text.append("\n");
+        text.append("-".repeat(80));
+        text.append("\n");
+        return text.toString();
     }
 
     /**
@@ -301,11 +244,11 @@ public class Game implements Serializable {
      */
     private void saveGame() {
         if (currentSaveFileName != null) {
-            int answer = Dialog.showDialog("Do you want to overwrite your previous save?",
+            int answer = Dialogs.showDialog("Do you want to overwrite your previous save?",
                     "No", "Yes");
             switch (answer) {
                 case 1:
-                    String inp = Dialog.readStringInput("What should the game be saved as?");
+                    String inp = Dialogs.readStringInput("What should the game be saved as?");
                     FileUtilities.saveGameToFile(inp, this);
                     System.out.println("Game has been saved!");
                     System.out.println("Quitting game...");
@@ -317,7 +260,7 @@ public class Game implements Serializable {
                     System.exit(0);
             }
         } else {
-            String inp = Dialog.readStringInput("What should the game be saved as?");
+            String inp = Dialogs.readStringInput("What should the game be saved as?");
             FileUtilities.saveGameToFile(inp, this);
             System.out.println("Game has been saved!");
             System.out.println("Quitting game...");
@@ -330,7 +273,7 @@ public class Game implements Serializable {
      */
     private void loadGame() {
         System.out.println("-".repeat(20));
-        String inp = Dialog.readStringInput("What is the name of the save file?");
+        String inp = Dialogs.readStringInput("What is the name of the save file?");
         Game game = FileUtilities.loadGameFromFile(inp);
         if (game != null) {
             currentSaveFileName = inp;
@@ -343,21 +286,22 @@ public class Game implements Serializable {
             System.out.println("-".repeat(20));
             System.out.println("Game file " + inp + " has been loaded!");
             System.out.println("-".repeat(20));
-            Dialog.clear();
+            Dialogs.clear();
             System.out.println(currentPlayer.getName() + " - your turn begins!");
             showPlayerStatus();
-            playTurn();
+            //playTurn();
         } else {
             startGame();
         }
     }
+
 
     /**
      * Method responsible for quitting current game.
      */
     private void quitGame() {
         if (!this.playersList.isEmpty()) {
-            int answer = Dialog.showDialog("Do you want to save your game before you quit?",
+            int answer = Dialogs.showDialog("Do you want to save your game before you quit?",
                     "No (Warning! Your progress will be lost.)", "Yes");
             switch (answer) {
                 case 1:
@@ -407,6 +351,18 @@ public class Game implements Serializable {
         } else {
             System.out.println("The winner is " + sortedPlayers.get(0).getName());
         }
+    }
+
+    public int getCurrentRoundNumber() {
+        return currentRoundNumber;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public Store getStore() {
+        return store;
     }
 }
 
