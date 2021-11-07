@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 
+import java.io.IOException;
+
 public class MateAnimalsController {
 
     Main main;
@@ -20,10 +22,16 @@ public class MateAnimalsController {
     Button confirmButton;
 
     @FXML
-    private void onConfirmButtonClick() {
+    private void onConfirmButtonClick() throws IOException {
         Animal a1 = firstAnimal.getSelectionModel().getSelectedItem();
         Animal a2 = secondAnimal.getSelectionModel().getSelectedItem();
         game.getCurrentPlayer().mateAnimals(a1, a2);
+        firstAnimal.getItems().clear();
+        secondAnimal.getItems().clear();
+        initialiseChoiceBoxes();
+        confirmButton.setDisable(true);
+        game.moveTurn();
+        //main.setScene("gameScene");
     }
 
     public void initializeValues(Main main) {
@@ -31,8 +39,7 @@ public class MateAnimalsController {
         if (game == null) {
             this.game = (Game) confirmButton.getScene().getWindow().getUserData();
         }
-        firstAnimal.getItems().addAll(game.getCurrentPlayer().getAnimalsOwned());
-        secondAnimal.getItems().addAll(game.getCurrentPlayer().getAnimalsOwned());
+        initialiseChoiceBoxes();
         confirmButton.setDisable(true);
         firstAnimal.setOnAction(actionEvent -> {
             checkButtonDisabled();
@@ -40,6 +47,13 @@ public class MateAnimalsController {
         secondAnimal.setOnAction(actionEvent -> {
             checkButtonDisabled();
         });
+    }
+
+    private void initialiseChoiceBoxes() {
+        firstAnimal.getItems().addAll(game.getCurrentPlayer().getAnimalsOwned());
+        firstAnimal.getSelectionModel().clearSelection();
+        secondAnimal.getItems().addAll(game.getCurrentPlayer().getAnimalsOwned());
+        secondAnimal.getSelectionModel().clearSelection();
     }
 
     private void checkButtonDisabled() {

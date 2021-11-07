@@ -47,11 +47,13 @@ public class BuyAnimalsController {
         } else {
             buyAnimalResult.setText("You cannot buy this!");
         }
+        animals.selectToggle(horse);
     }
 
     @FXML
     private void onEndButtonClick() throws IOException {
-        main.setScene("gameScene");
+        game.moveTurn();
+        //main.setScene("gameScene");
     }
 
     public void initializeValues(Main main) {
@@ -64,5 +66,6 @@ public class BuyAnimalsController {
         dog.setUserData("Dog");
         cat.setUserData("Cat");
         pig.setUserData("Pig");
+        animals.selectToggle(horse);
     }
 }

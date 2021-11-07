@@ -42,11 +42,14 @@ public class BuyFodderController {
         } else {
             buyFodderResult.setText("You cannot buy this!");
         }
+        amount.getValueFactory().setValue(1);
+        fodder.selectToggle(meat);
     }
 
     @FXML
     private void onEndButtonClick() throws IOException {
-        main.setScene("gameScene");
+        game.moveTurn();
+        //main.setScene("gameScene");
     }
 
 
@@ -59,5 +62,6 @@ public class BuyFodderController {
         grass.setUserData("Grass");
         corn.setUserData("Corn");
         fodder.selectToggle(meat);
+        amount.getValueFactory().setValue(1);
     }
 }

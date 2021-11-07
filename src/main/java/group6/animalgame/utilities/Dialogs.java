@@ -21,9 +21,9 @@ public class Dialogs {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    public static int showNumberOfPlayersDialog() {
+    public static int showInputNumberDialog(String headerText, String labelText, int min, int max, int defaultValue, int step) {
         Dialog<Integer> dialog = new Dialog<>();
-        dialog.setHeaderText("Input number of players that will play the game!");
+        dialog.setHeaderText(headerText);
         dialog.initStyle(StageStyle.UNDECORATED);
 
         GridPane grid = new GridPane();
@@ -37,9 +37,9 @@ public class Dialogs {
         col2.setHalignment(HPos.LEFT);
         grid.getColumnConstraints().addAll(col1, col2);
 
-        Label label = new Label("Number of players:");
+        Label label = new Label(labelText);
         label.setFont(new Font("Arial", 20));
-        Spinner<Integer> integerSpinner = new Spinner<>(2, 4, 2, 1);
+        Spinner<Integer> integerSpinner = new Spinner<>(min, max, defaultValue, step);
         ButtonType okButtonType = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
 
         grid.add(label, 0, 0);
@@ -61,7 +61,7 @@ public class Dialogs {
         if (result.isPresent()) {
             return result.get();
         } else {
-            return showNumberOfPlayersDialog();
+            return showInputNumberDialog(headerText, labelText, min, max, defaultValue, step);
         }
     }
 

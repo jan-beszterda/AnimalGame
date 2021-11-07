@@ -2,11 +2,9 @@ package group6.animalgame.logic;
 
 import group6.animalgame.Main;
 import group6.animalgame.animals.Animal;
-import group6.animalgame.controllers.GameController;
 import group6.animalgame.fodder.Food;
 import group6.animalgame.utilities.Dialogs;
 import group6.animalgame.utilities.FileUtilities;
-import javafx.scene.Scene;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -44,11 +42,17 @@ public class Game implements Serializable {
     }
 */
     private void initialisePlayers() {
-        int numberOfPlayers = Dialogs.showNumberOfPlayersDialog();
+        int numberOfPlayers = Dialogs.showInputNumberDialog("Input number of players that will play the game!",
+                "Number of players:", 2, 4, 2, 1);
         for (int i = 0; i < numberOfPlayers; i++) {
             String name = Dialogs.showInputTextDialog("Please enter player's name.", "Player's name:");
             playersList.add(new Player(name));
         }
+    }
+
+    private void initialiseRounds() {
+        this.maxNumberOfRounds = Dialogs.showInputNumberDialog("Input number of rounds to play in the game!",
+                "Number of rounds:", 5, 30, 5, 1);
     }
 
 
@@ -60,6 +64,7 @@ public class Game implements Serializable {
     private void startGame() {
         initialisePlayers();
         currentPlayer = playersList.get(0);
+        initialiseRounds();
         currentRoundNumber = 1;
     }
 
@@ -137,8 +142,8 @@ public class Game implements Serializable {
             currentPlayerIndex = 0;
             currentRoundNumber++;
             if (currentRoundNumber > maxNumberOfRounds) {
-                finalizeGame();
-                main.setScene("endScene");
+                main.setScene("endGameScene");
+                return;
             }
         }
         currentPlayer = playersList.get(currentPlayerIndex);
@@ -147,6 +152,7 @@ public class Game implements Serializable {
             removePlayer();
             moveTurn();
         }
+        main.setScene("gameScene");
     }
 
     /**
@@ -320,37 +326,19 @@ public class Game implements Serializable {
     /**
      * Method responsible for finalising game after all rounds were played.
      */
-    private void finalizeGame() {
-        System.out.println("-".repeat(50));
-        System.out.println("ALL ROUNDS PLAYED! GAME ENDS!");
-        System.out.println("-".repeat(50));
-        System.out.println("END RESULT:");
+    public ArrayList<Player> finalizeGame() {
         ArrayList<Player> sortedPlayers = new ArrayList<>();
         for (Player player : playersList) {
             player.sellAllAnimals(store);
-            System.out.println("\t" + player.getName() + " (money: " + player.getMoney() + ")");
             sortedPlayers.add(player);
         }
-        System.out.println("-".repeat(50));
         sortedPlayers.sort(new Comparator<Player>() {
             @Override
             public int compare(Player p1, Player p2) {
                 return Integer.compare(p2.getMoney(), p1.getMoney());
             }
         });
-        for (int i = sortedPlayers.size() - 1; i > 0; i--) {
-            if (sortedPlayers.get(i).getMoney() < sortedPlayers.get(0).getMoney()) {
-                sortedPlayers.remove(i);
-            }
-        }
-        if (sortedPlayers.size() > 1) {
-            System.out.println("Game ended in a draw! The winners are:");
-            for (Player winner : sortedPlayers) {
-                System.out.println("\t" + winner.getName());
-            }
-        } else {
-            System.out.println("The winner is " + sortedPlayers.get(0).getName());
-        }
+        return sortedPlayers;
     }
 
     public int getCurrentRoundNumber() {

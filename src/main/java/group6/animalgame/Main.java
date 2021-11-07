@@ -2,11 +2,16 @@ package group6.animalgame;
 
 import group6.animalgame.controllers.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Main class responsible for starting the game.
@@ -42,53 +47,26 @@ public class Main extends Application {
 
         stage.setTitle("Animal Game!");
         stage.setScene(initialScene);
+        stage.setOnCloseRequest(windowEvent -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initStyle(StageStyle.UNDECORATED);
+            alert.setTitle("Warning!");
+            alert.setHeaderText("Warning! You're going to loose your game progress if you close the game now.");
+            alert.setContentText("Confirm closing?");
+            if (!stage.getScene().equals(initialScene) && !stage.getScene().equals(endGameScene)) {
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    Platform.exit();
+                } else {
+                    windowEvent.consume();
+                }
+            }
+        });
         stage.show();
-    }
-
-    private void loadScenes() throws IOException {
-
-
-        /*fxmlLoader = new FXMLLoader(Main.class.getResource("game-view.fxml"));
-        gameScene = new Scene(fxmlLoader.load());
-        gameController = fxmlLoader.getController();
-        gameController.initializeValues(this);*/
-
-        /*fxmlLoader = new FXMLLoader(Main.class.getResource("buy-animals-view.fxml"));
-        buyAnimalsScene = new Scene(fxmlLoader.load());
-        buyAnimalsController = fxmlLoader.getController();
-        buyAnimalsController.initializeValues(this);*/
-
-        /*fxmlLoader = new FXMLLoader(Main.class.getResource("buy-fodder-view.fxml"));
-        buyFodderScene = new Scene(fxmlLoader.load());
-        buyFodderController = fxmlLoader.getController();
-        buyFodderController.initializeValues(this);*/
-
-        /*fxmlLoader = new FXMLLoader(Main.class.getResource("feed-animal-view.fxml"));
-        feedAnimalScene = new Scene(fxmlLoader.load());
-        feedAnimalController = fxmlLoader.getController();
-        feedAnimalController.initializeValues(this);*/
-
-        /*fxmlLoader = new FXMLLoader(Main.class.getResource("mate-animals-view.fxml"));
-        mateAnimalsScene = new Scene(fxmlLoader.load());
-        mateAnimalsController = fxmlLoader.getController();
-        mateAnimalsController.initializeValues(this);*/
-
-        /*fxmlLoader = new FXMLLoader(Main.class.getResource("sell-animals-view.fxml"));
-        sellAnimalsScene = new Scene(fxmlLoader.load());
-        sellAnimalsController = fxmlLoader.getController();
-        sellAnimalsController.initializeValues(this);*/
-
-        fxmlLoader = new FXMLLoader(Main.class.getResource("end-game-view.fxml"));
-        endGameScene = new Scene(fxmlLoader.load());
-        endGameController = fxmlLoader.getController();
-        endGameController.initializeValues(this);
     }
 
     public void setScene(String sceneName) throws IOException {
         switch (sceneName) {
-            case "initialScene":
-                mainWindow.setScene(initialScene);
-                break;
             case "gameScene":
                 fxmlLoader = new FXMLLoader(Main.class.getResource("game-view.fxml"));
                 gameScene = new Scene(fxmlLoader.load());
@@ -132,7 +110,11 @@ public class Main extends Application {
                 sellAnimalsController.initializeValues(this);
                 break;
             case "endGameScene":
+                fxmlLoader = new FXMLLoader(Main.class.getResource("end-game-view.fxml"));
+                endGameScene = new Scene(fxmlLoader.load());
+                endGameController = fxmlLoader.getController();
                 mainWindow.setScene(endGameScene);
+                endGameController.initializeValues(this);
                 break;
         }
         mainWindow.show();

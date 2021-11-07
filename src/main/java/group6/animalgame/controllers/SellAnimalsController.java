@@ -26,7 +26,7 @@ public class SellAnimalsController {
     Button endButton;
 
     @FXML
-    private void onSellButtonClick() throws InterruptedException {
+    private void onSellButtonClick() {
         Animal a = animal.getSelectionModel().getSelectedItem();
         int pay = game.getCurrentPlayer().sellAnimal(a, game.getStore());
         if (pay != -1) {
@@ -39,13 +39,16 @@ public class SellAnimalsController {
         } else {
             animalSellResult.setText("You cannot sell this!");
             animalSellResult.setDisable(true);
+            animal.getItems().clear();
+            initialiseAnimalChoice();
+            sellButton.setDisable(true);
         }
     }
 
     @FXML
     private void onEndButtonClick() throws IOException {
-        main.setScene("gameScene");
         game.moveTurn();
+        //main.setScene("gameScene");
     }
 
     public void initializeValues(Main main) {

@@ -4,7 +4,7 @@ import group6.animalgame.Main;
 import group6.animalgame.animals.Animal;
 import group6.animalgame.fodder.Food;
 import group6.animalgame.logic.Game;
-import javafx.collections.ObservableList;
+import group6.animalgame.utilities.Dialogs;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -22,33 +22,32 @@ public class FeedAnimalController {
     @FXML
     Spinner<Integer> amount;
     @FXML
-    TextField feedAnimalResult;
-    @FXML
     Button confirmButton;
-    @FXML
-    Button endButton;
     @FXML
     Label fodderAmountLabel;
 
     @FXML
-    private void onConfirmButtonClick() {
+    private void onConfirmButtonClick() throws IOException {
         Animal a = animal.getSelectionModel().getSelectedItem();
         Food f = fodder.getSelectionModel().getSelectedItem();
         int amountToFeed = amount.getValue();
         int pHealth = a.getHealth();
         boolean success = game.getCurrentPlayer().feedAnAnimal(a, f, amountToFeed);
         if (success) {
-            feedAnimalResult.setText(a.getName() + " is eating. Health increased by " + (a.getHealth()-pHealth) + "%." +
-                    " Current health " + a.getHealth() + "%.");
+            String info = a.getName() + " is eating. Health increased by " + (a.getHealth()-pHealth) + "%." +
+                    " Current health " + a.getHealth() + "%.";
+            Dialogs.showAlert("Success!", info);
         } else {
-            feedAnimalResult.setText(a.getName() + " didn't like this. Health not increased.");
+            String info = a.getName() + " didn't like this. Health not increased.";
+            Dialogs.showAlert("Bad news!", info);
         }
-    }
-
-    @FXML
-    private void onEndButtonClick() throws IOException {
-
-        main.setScene("gameScene");
+        animal.getItems().clear();
+        fodder.getItems().clear();
+        initialiseChoiceBoxes();
+        fodderAmountLabel.setText("");
+        confirmButton.setDisable(true);
+        game.moveTurn();
+        //main.setScene("gameScene");
     }
 
     public void initializeValues(Main main) {
@@ -56,16 +55,33 @@ public class FeedAnimalController {
         if (game == null) {
             this.game = (Game) confirmButton.getScene().getWindow().getUserData();
         }
-        animal.getItems().addAll(game.getCurrentPlayer().getAnimalsOwned());
-        fodder.getItems().addAll(game.getCurrentPlayer().getFodderOwned().keySet());
+        initialiseChoiceBoxes();
+        confirmButton.setDisable(true);
         fodder.setOnAction(actionEvent -> {
             Food f = fodder.getSelectionModel().getSelectedItem();
-            int max = game.getCurrentPlayer().getFodderOwned().get(f);
-            SpinnerValueFactory.IntegerSpinnerValueFactory intFactory =
-                    (SpinnerValueFactory.IntegerSpinnerValueFactory) amount.getValueFactory();
-            intFactory.setMax(max);
-            fodderAmountLabel.setText("(max: " + max + ")");
+            if (f != null) {
+                int max = game.getCurrentPlayer().getFodderOwned().get(f);
+                SpinnerValueFactory.IntegerSpinnerValueFactory intFactory =
+                        (SpinnerValueFactory.IntegerSpinnerValueFactory) amount.getValueFactory();
+                intFactory.setMax(max);
+                fodderAmountLabel.setText("(max: " + max + ")");
+            }
+            checkButtonDisabled();
         });
+        animal.setOnAction(actionEvent -> {
+            checkButtonDisabled();
+        });
+    }
 
+    private void checkButtonDisabled() {
+        if (animal.getSelectionModel().getSelectedItem() != null && fodder.getSelectionModel().getSelectedItem() != null) {
+            confirmButton.setDisable(false);
+        }
+    }
+    private void initialiseChoiceBoxes() {
+        animal.getItems().addAll(game.getCurrentPlayer().getAnimalsOwned());
+        animal.getSelectionModel().clearSelection();
+        fodder.getItems().addAll(game.getCurrentPlayer().getFodderOwned().keySet());
+        fodder.getSelectionModel().clearSelection();
     }
 }
