@@ -2,21 +2,21 @@ package group6.animalgame.controllers;
 
 import group6.animalgame.Main;
 import group6.animalgame.logic.Game;
+import group6.animalgame.utilities.FileUtilities;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 public class GameController {
 
-    Main main;
-    Game game;
-    FileChooser fileChooser = new FileChooser();
+    private Main main;
+    private Game game;
+    private FileChooser fileChooser = new FileChooser();
 
     @FXML
     Button buyAnimalsButton;
@@ -71,7 +71,11 @@ public class GameController {
 
     @FXML
     protected void onQuitGameButtonClick() {
-        System.exit(0);
+        File selectedFile = fileChooser.showSaveDialog(quitGameButton.getScene().getWindow());
+        if (selectedFile != null) {
+            FileUtilities.saveGameToFile(selectedFile, game);
+            Platform.exit();
+        }
     }
 
     public void initializeValues(Main main) {
@@ -79,6 +83,8 @@ public class GameController {
         if (game == null) {
             this.game = (Game) buyAnimalsButton.getScene().getWindow().getUserData();
         }
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Save files", "*.ser"));
         textArea.setText(game.showPlayerStatus());
         checkDisableButtons();
     }

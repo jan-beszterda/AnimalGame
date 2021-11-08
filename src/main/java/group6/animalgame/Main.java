@@ -11,13 +11,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Optional;
 
 /**
  * Main class responsible for starting the game.
  * @author Damir Kahvic, Malin Ovenmark, Jan Beszterda, Love Hillblom
  */
-public class Main extends Application {
+public class Main extends Application{
 
     private Stage mainWindow;
     private Scene initialScene, gameScene, buyAnimalsScene, buyFodderScene, feedAnimalScene, mateAnimalsScene,
@@ -114,7 +115,7 @@ public class Main extends Application {
                 endGameScene = new Scene(fxmlLoader.load());
                 endGameController = fxmlLoader.getController();
                 mainWindow.setScene(endGameScene);
-                endGameController.initializeValues(this);
+                endGameController.initializeValues();
                 break;
         }
         mainWindow.show();

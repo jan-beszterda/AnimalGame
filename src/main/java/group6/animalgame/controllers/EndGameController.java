@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 public class EndGameController {
 
-    private Main main;
     private Game game;
 
     @FXML
@@ -51,8 +50,7 @@ public class EndGameController {
         return result.toString();
     }
 
-    public void initializeValues(Main main) {
-        this.main = main;
+    public void initializeValues() {
         if (game == null) {
             this.game = (Game) okButton.getScene().getWindow().getUserData();
         }

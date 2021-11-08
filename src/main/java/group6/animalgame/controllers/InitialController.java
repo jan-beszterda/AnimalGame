@@ -2,6 +2,8 @@ package group6.animalgame.controllers;
 
 import group6.animalgame.Main;
 import group6.animalgame.logic.Game;
+import group6.animalgame.utilities.FileUtilities;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -33,17 +35,24 @@ public class InitialController {
     }
 
     @FXML
-    protected void onLoadGameButtonClick() {
-        System.out.println("Load game button clicked!");
+    protected void onLoadGameButtonClick() throws IOException {
         File selectedFile = fileChooser.showOpenDialog(loadGameButton.getScene().getWindow());
+        Game game = FileUtilities.loadGameFromFile(selectedFile);
+        if (game != null) {
+            game.setMain(main);
+            loadGameButton.getScene().getWindow().setUserData(game);
+            main.setScene("gameScene");
+        }
     }
 
     @FXML
     protected void onQuitGameButtonClick() {
-        System.exit(0);
+        Platform.exit();
     }
 
     public void initializeValues(Main main) {
         this.main = main;
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Save files", "*.ser"));
     }
 }

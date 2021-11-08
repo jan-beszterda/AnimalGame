@@ -25,7 +25,7 @@ public class Game implements Serializable {
     private int currentPlayerIndex = 0;
     private String currentSaveFileName = null;
 
-    private Main main;
+    private transient Main main;
 
     /**
      * Constructor of the Game object. Starts the game.
@@ -248,7 +248,7 @@ public class Game implements Serializable {
     /**
      * Method responsible for saving current game.
      */
-    private void saveGame() {
+    /*private void saveGame() {
         if (currentSaveFileName != null) {
             int answer = Dialogs.showDialog("Do you want to overwrite your previous save?",
                     "No", "Yes");
@@ -272,12 +272,12 @@ public class Game implements Serializable {
             System.out.println("Quitting game...");
             System.exit(0);
         }
-    }
+    }*/
 
     /**
      * Method responsible for loading previously saved game.
      */
-    private void loadGame() {
+    /*private void loadGame() {
         System.out.println("-".repeat(20));
         String inp = Dialogs.readStringInput("What is the name of the save file?");
         Game game = FileUtilities.loadGameFromFile(inp);
@@ -299,13 +299,13 @@ public class Game implements Serializable {
         } else {
             startGame();
         }
-    }
+    }*/
 
 
     /**
      * Method responsible for quitting current game.
      */
-    private void quitGame() {
+    /*private void quitGame() {
         if (!this.playersList.isEmpty()) {
             int answer = Dialogs.showDialog("Do you want to save your game before you quit?",
                     "No (Warning! Your progress will be lost.)", "Yes");
@@ -321,7 +321,7 @@ public class Game implements Serializable {
         }
         System.out.println("Quitting game...");
         System.exit(0);
-    }
+    }*/
 
     /**
      * Method responsible for finalising game after all rounds were played.
@@ -351,6 +351,10 @@ public class Game implements Serializable {
 
     public Store getStore() {
         return store;
+    }
+
+    public void setMain(Main main) {
+        this.main = main;
     }
 }
 

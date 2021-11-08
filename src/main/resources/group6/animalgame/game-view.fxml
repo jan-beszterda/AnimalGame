@@ -64,7 +64,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="sellAnimalsButton" mnemonicParsing="false" onAction="#onSellAnimalsButtonClick" prefHeight="86.0" prefWidth="100.0" text="Sell animals" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
+      <Button fx:id="sellAnimalsButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onSellAnimalsButtonClick" prefHeight="86.0" prefWidth="100.0" text="Sell animals" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
          <font>
             <Font name="Arial" size="18.0" />
          </font>
@@ -72,7 +72,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="quitGameButton" mnemonicParsing="false" onAction="#onQuitGameButtonClick" prefHeight="86.0" prefWidth="100.0" text="Quit" wrapText="true" GridPane.columnIndex="5" GridPane.rowIndex="2">
+      <Button fx:id="quitGameButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onQuitGameButtonClick" prefHeight="86.0" prefWidth="100.0" text="Save &amp; quit" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <font>
             <Font name="Arial" size="18.0" />
          </font>
@@ -80,13 +80,16 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin>
       </Button>
-      <TextArea fx:id="textArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.rowIndex="0">
+      <TextArea fx:id="textArea" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.rowIndex="0">
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
+         <font>
+            <Font name="Arial" size="18.0" />
+         </font>
       </TextArea>
    </children>
 </GridPane>
