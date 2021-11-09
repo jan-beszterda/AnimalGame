@@ -14,7 +14,7 @@ public class Cat extends Animal{
      * @param gender gender for the new cat
      */
     public Cat(String name, int gender) {
-        super(name, gender, 12, 12, new Meat());
+        super(name, gender, 6, 6, new Meat());
     }
 
     /**

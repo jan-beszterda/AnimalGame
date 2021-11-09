@@ -14,7 +14,7 @@ public class Pig extends Animal{
      * @param gender gender for the new pig
      */
     public Pig(String name, int gender) {
-        super(name, gender, 20, 10, new Corn());
+        super(name, gender, 10, 5, new Corn());
     }
 
     /**

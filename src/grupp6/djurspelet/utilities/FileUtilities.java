@@ -45,7 +45,7 @@ public class FileUtilities{
             game = (Game) objectinputstream.readObject();
             objectinputstream .close();
         } catch (Exception e) {
-            System.out.println("Something went wrong when trying to load the game from file!");
+            System.out.println("No such file!");
         }
         return game;
     }
